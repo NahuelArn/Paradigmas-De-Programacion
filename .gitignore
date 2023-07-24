@@ -1,2 +1,4 @@
 1-Programacion-Imperativa/Practicas-Resueltas/Tp1-Ordenacion/*.exe
 1-Programacion-Imperativa/Practicas-Resueltas/Tp1-Ordenacion/*.o
+*.exe
+*.o
