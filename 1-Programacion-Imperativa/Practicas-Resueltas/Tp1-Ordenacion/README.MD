@@ -71,7 +71,7 @@ begin
       b = i - 1;
       while b > 0 and (v[b] > elemAct) do  //si el anterior es mas grande que el segundo 
         begin
-          v[b+1] := v[b]; //lo que habia en el segundo donde lo tengo? se perdio pal carajo
+          v[b+1] := v[b]; 
           b = b - 1;
         end;
         v[b+1] = elemAct
