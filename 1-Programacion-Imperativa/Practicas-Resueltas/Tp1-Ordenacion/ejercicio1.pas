@@ -36,13 +36,13 @@ type
 
   vVentas = array[1..maxVentas]of venta; //empieza en 1, porq al ingresar el 0 no voy a evaluarlo
 
-procedure inicializarV(var v: vVentas);
-var
-  i: integer;
-begin
-  for i:= 1 to maxVentas do
-      v[i].cantVent:= 0;
-end;
+// procedure inicializarV(var v: vVentas);
+// var
+//   i: integer;
+// begin
+//   for i:= 1 to maxVentas do
+//       v[i].cantVent:= 0;
+// end;
 
 //lee los 2 campos, filtra el 0
 procedure leerVenta(var v: venta);
@@ -54,8 +54,10 @@ begin
   if(codRandom <> 0)then
     begin
       v.codProducto:= codRandom;  // y aca te ahorrarias de hacer esto, ya q el condicional te lo valido q sea <> 0
+      repeat
       Writeln('Ingrese la cantidad vendida ');
       readln(v.cantVent);
+      until (v.cantVent <= 99) and (v.cantVent > -1);  //si entra en el loop es porq estan introduciendo valores mas altos o mas bajos q -1 o 99
     end;
 end;
 
@@ -153,7 +155,7 @@ begin
     dimL:= dimL-1;
 end;
 
-procedure eliminarEntreRangos(var v: vVentas; dimL,posTop,posBot: integer);
+procedure eliminarEntreRangos(var v: vVentas; var dimL: integer; posTop,posBot: integer);
 
 begin
   posBot:= posBot+1;
@@ -190,7 +192,8 @@ begin
   While i < dimL do
     begin
       i:= i+1;
-      agregarAtras(L,Ult,v[i]);
+      if(v[i].codProducto mod 2 = 0)then
+        agregarAtras(L,Ult,v[i]);
     end;
 end;
 
@@ -216,7 +219,7 @@ var
   L: lista;
 begin
   randomize;
-  inicializarV(v);
+  // inicializarV(v);
   cargarVentas(v,dimL);
   //termine de leer
   imprimirVector(v,dimL);  //[b]
