@@ -118,19 +118,39 @@ begin
       readln(p.puntajePromedioOtorgado);
     end;  
 end;
+//en este caso no sirve Ult, ya que son 8 listas, necesitaria 8 Ults para mantener un puntero al ultimo
+// procedure agregarAtras(var L,Ult: lista; p: pelicula);
+// var
+//   nue: lista;
+// begin
+//   new(nue);
+//   nue^.dato:= p;
+//   nue^.sig:= nil;
+//   if(L = niL)then
+//     L:= nue
+//   else
+//     Ult^.sig:= nue;
+//   Ult:= nue;  
+// end;
 
-procedure agregarAtras(var L,Ult: lista; p: pelicula);
+procedure agregarAtrasIneficiente(var L: lista; p: pelicula);
 var
-  nue: lista;
+  nue,ant,act: lista;
 begin
   new(nue);
   nue^.dato:= p;
-  nue^.sig:= nil;
-  if(L = niL)then
+  ant:= L;
+  act:= L;
+  While (act <> nil) do
+    begin
+      ant:= act;
+      act:= act^.sig;
+    end;
+  if(ant = act)then
     L:= nue
   else
-    Ult^.sig:= nue;
-  Ult:= nue;  
+    ant^.sig:= nue;
+  nue^.sig:= act;
 end;
 
 procedure cargarPelis(var vP: vPeliculas);
@@ -142,7 +162,7 @@ begin
   leerPeli(p);
   While(p.codPelicula <> -1)do
     begin
-      agregarAtras(vP[p.codGenero],Ult,p);
+      agregarAtrasIneficiente(vP[p.codGenero],Ult,p);
       leerPeli(p);
     end;  
 end;
@@ -158,6 +178,13 @@ begin
     end;
 end;
 
+procedure sacarMaximo(L: lista; var maxProm: real; var p: nuevaEstructura);
+begin
+  maxProm:= L^.dato.puntajePromedioOtorgado;
+  p.codPelicula := L^.dato.codPelicula;
+  P.puntajePromedioOtorgado:= L^.dato.puntajePromedioOtorgado;
+end;
+
 procedure generarNuevoVectorMejorPromedioXCategoria(var vN: vNuevaEstructura; vP: vPeliculas);
 var
   maxProm: real;
@@ -171,9 +198,10 @@ begin
         begin
           if (vP[i]^.dato.puntajePromedioOtorgado > maxProm)then
             begin
-              maxProm:= vP[i]^.dato.puntajePromedioOtorgado;
-              p.codPelicula:= vP[i]^.dato.codPelicula;
-              p.puntajePromedioOtorgado:= vP[i]^.dato.puntajePromedioOtorgado;
+              sacarMaximo(vP[i], maxProm,p);
+              // maxProm:= vP[i]^.dato.puntajePromedioOtorgado;
+              // p.codPelicula:= vP[i]^.dato.codPelicula;
+              // p.puntajePromedioOtorgado:= vP[i]^.dato.puntajePromedioOtorgado;
             end;
           vP[i]:= vP[i]^.sig;
         end;
