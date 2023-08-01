@@ -194,7 +194,7 @@ begin
   for i:= 1 to dimF8 do
     begin
       maxProm:= -999;
-      While (vP[i] <> nil)do
+      While (vP[i] <> nil)do //dentro de una categoria
         begin
           if (vP[i]^.dato.puntajePromedioOtorgado > maxProm)then
             begin
@@ -202,8 +202,8 @@ begin
               // maxProm:= vP[i]^.dato.puntajePromedioOtorgado;
               // p.codPelicula:= vP[i]^.dato.codPelicula;
               // p.puntajePromedioOtorgado:= vP[i]^.dato.puntajePromedioOtorgado;
+              vP[i]:= vP[i]^.sig;
             end;
-          vP[i]:= vP[i]^.sig;
         end;
       //cuando salga la varible p, va contener el dato con mayor promedio
       vN[i]:= p;
