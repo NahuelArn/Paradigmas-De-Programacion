@@ -109,6 +109,8 @@ begin
     end;
 end;
 
+{f. Implemente un módulo recursivo que reciba la lista generada en d. e imprima los valores de 
+la lista en el mismo orden que están almacenados.}
 procedure imprimirListaNormal(L: lista);
 begin
   if(L <> nil)then
@@ -118,6 +120,8 @@ begin
     end;
 end;
 
+{g. Implemente un módulo recursivo que reciba la lista generada en d. e imprima los valores de 
+la lista en orden inverso al que están almacenados.}
 //Lifo
 procedure imprimirListaInverso(L: lista);
 begin
