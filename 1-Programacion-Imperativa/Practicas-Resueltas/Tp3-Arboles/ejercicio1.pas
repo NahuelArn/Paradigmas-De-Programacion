@@ -228,6 +228,29 @@ begin
     end;
 end;
 
+{viii. Informe el promedio de edad de los socios. Debe invocar a un módulo recursivo que 
+retorne dicho promedio. }
+function promedio(suma,cont: integer): real;
+begin
+  promedio:= suma/cont;
+end;
+
+procedure sumaAndCont(a: arbol;var suma,cont: integer;var prom: real); //retorna la suma de los socios y la cantidad de socios
+begin
+  if(a = nil)then
+    begin
+      prom:= promedio(suma,cont);
+      // Writeln('el promedio de los socios es: ',promedio(suma,cont));
+    end
+  else
+    begin
+      cont:= cont + 1;
+      suma:= suma + a^.dato.edad;
+      sumaAndCont(a^.hi,suma,cont);
+      sumaAndCont(a^.hd,suma,cont);
+    end;
+end;
+
 var
   a: arbol; 
   s: socio;
@@ -237,6 +260,7 @@ var
   aux: Boolean;
   estado: Boolean;
   name: string;
+  cont: integer;
 begin
   randomize;
   inicializarArbol(a);
@@ -273,4 +297,7 @@ begin
     Writeln('el socio: ',name,' se encuentra en la estructura')
   else
     Writeln('Error VI');
+  //
+  cont:= 0;
+  Writeln('hay :',cuantosSociosHay(a,cont).' socios');
 end.
