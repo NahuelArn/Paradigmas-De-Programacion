@@ -12,7 +12,7 @@ propiedad y el precio total.
 de propiedad, cantidad de metros cuadrados y precio del metro cuadrado. La lectura finaliza
 cuando se ingresa el precio del metro cuadrado -1.
 
-b) Implementar un módulo que reciba la estructura generada en a), un número de zona y un tipo de
+b) Implementar un módulo que reciba la estructura generada en a), un número de zona y un tipo de  // en esta parte tenes que generar una nueva lista con estos datos
 propiedad y retorne los códigos de las propiedades de la zona recibida y del tipo recibido. }
 
 program ejercicio2_2023;
@@ -31,11 +31,16 @@ type
     precioMts2: real;
   end;
   
-  {propiedad = record
+  {propiedad = record // quedarme con esto
     codPropiedad: integer;
     tipoPropiedad: integer;
     precioTotal: real;  //cantMt2*precioMt2;
   end;}
+
+  estructuraAretornar = record  // 
+    codPropiedad: integer;
+    tipoPropiedad: integer;
+  end;
 
   lista = ^nodo;
 

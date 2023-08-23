@@ -1,4 +1,5 @@
-{1.- Implementar un programa que procese la información de los alumnos de la Facultad de
+{
+  1.- Implementar un programa que procese la información de los alumnos de la Facultad de
 Informática.
 a) Implementar un módulo que lea y retorne, en una estructura adecuada, la información de
 todos los alumnos. De cada alumno se lee su apellido, número de alumno, año de ingreso,
@@ -40,7 +41,7 @@ type
 procedure inicializarLista(var L: lista);
 begin
   L:= nil;  
-end;
+end; 
 
 procedure leerDataAlumno(var a: alumno);
 begin
