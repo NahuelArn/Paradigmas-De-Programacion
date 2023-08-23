@@ -1,10 +1,8 @@
-<h1 align="center"> PROGRAMACION ORIENTADA IMPERATIVA </h1>
+<h1 align="center"> PROGRAMACION IMPERATIVA </h1>
 
 <p align="center">Algoritmos que se repiten</p>
 
-<h1 align="center"> Imperativo </h1>
 
- 
 <h1 align="center"> Ordenacion-Seleccion </h1>
 
 ```pas 
