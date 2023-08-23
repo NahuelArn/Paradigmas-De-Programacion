@@ -37,11 +37,6 @@ type
     precioTotal: real;  //cantMt2*precioMt2;
   end;}
 
-  estructuraAretornar = record  // 
-    codPropiedad: integer;
-    tipoPropiedad: integer;
-  end;
-
   lista = ^nodo;
 
   nodo = record
@@ -50,6 +45,18 @@ type
   end;
     
   vPropiedades = array[rango5]of lista;
+
+  estructuraAretornar = record  // 
+    codPropiedad: integer;
+    tipoPropiedad: integer;
+  end;
+
+  lista2 = ^nodo2;
+
+  nodo2 = record
+    dato: estructuraAretornar;
+    sig: lista2;
+  end;
 
 procedure inicializarLista(var L: lista);
 begin
@@ -111,9 +118,21 @@ begin
     end;
 end;
 
-//el tema de retonar esta raro// preguntar
-procedure buscarEnZona(L: lista; tipoProp:integer);
 
+//el tema de retonar esta raro// preguntar
+procedure agregarAdelante(var L: lista2; nE: estructuraAretornar);
+var
+  nue: lista2;
+begin
+  new(nue);  
+  nue^.dato:= nE;
+  nue^.sig:= L;
+  L:= nue;
+end;
+
+procedure buscarEnZona(L: lista; tipoProp:integer; var L2: lista2);
+var
+  nE: estructuraAretornar;
 begin
   While(L <> nil)do //ya estamos en X zona
     begin
@@ -121,7 +140,10 @@ begin
         begin
           While(L <> nil) and (L^.dato.tipoDePropiedad = tipoProp)do
             begin
-              Writeln('Codigos: ',L^.dato.codPropiedad);
+              // Writeln('Codigos: ',L^.dato.codPropiedad);
+              nE.codPropiedad:= L^.dato.codPropiedad;
+              nE.tipoPropiedad:= L^.dato.tipoDePropiedad;
+              agregarAdelante(L2,nE);
               L:= L^.sig;
             end;
         end
@@ -130,16 +152,18 @@ begin
     end;
 end;
 
-procedure filtrarPropiedad(v: vPropiedades; numZona: rango5; tipoProp: integer);
+
+procedure filtrarPropiedad(v: vPropiedades; numZona: rango5; tipoProp: integer;var L2: lista2);
 
 begin
-  buscarEnZona(v[numZona],tipoProp);
+  buscarEnZona(v[numZona],tipoProp,L2);
 end;
 
 var
   vProp: vPropiedades;
   numZona: rango5;
   tipoPropiedad: integer;
+  L2: lista2;
 begin
   randomize;
   inicializarListaALL(vProp);
@@ -147,9 +171,10 @@ begin
 
 {b) Implementar un módulo que reciba la estructura generada en a), un número de zona y un tipo de
 propiedad y retorne los códigos de las propiedades de la zona recibida y del tipo recibido.}
+  L2:= nil;
   Writeln('Ingrese un numero de zona: ');
   readln(numZona);
   Writeln('Ingrese un tipo de propiedad: ');
   readln(tipoPropiedad);
-  filtrarPropiedad(vProp,numZona,tipoPropiedad);
+  filtrarPropiedad(vProp,numZona,tipoPropiedad,L2);
 end.
