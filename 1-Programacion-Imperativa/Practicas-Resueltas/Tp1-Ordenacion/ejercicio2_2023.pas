@@ -23,19 +23,19 @@ type
 
   rango5 = 1..dimF5;
 
-  propiedad = record
-    zona: rango5;
+  // propiedad = record
+  //   zona: rango5;
+  //   codPropiedad: integer;
+  //   tipoDePropiedad: integer;
+  //   cantMts2: integer;
+  //   precioMts2: real;
+  // end;
+  
+  propiedad = record // quedarme con esto
     codPropiedad: integer;
     tipoDePropiedad: integer;
-    cantMts2: integer;
-    precioMts2: real;
-  end;
-  
-  {propiedad = record // quedarme con esto
-    codPropiedad: integer;
-    tipoPropiedad: integer;
     precioTotal: real;  //cantMt2*precioMt2;
-  end;}
+  end;
 
   lista = ^nodo;
 
@@ -71,7 +71,24 @@ begin
     inicializarLista(vProp[i]);
 end;
 
-procedure leerPropiedad(var p: propiedad);
+procedure leerPropiedad(var p: propiedad; var zona: rango5;var precioMts2: real);
+var
+  cantMts2: real;
+begin
+  Writeln('Ingrese la zona: ');
+  zona:= random(5)+1; //genera un numero de 1 a 5
+  Writeln('Ingrese el codigo de la propiedad: ');
+  p.codPropiedad:= random(200);//numeros random de 0 a 200
+  Writeln('Ingrese el tipo de propiedad: '); //debe ser un tipo categorias // 1:amueblado, 2: sin muebles etc etc
+  p.tipoDePropiedad:= random(6);
+  Writeln('Ingrese la cantidad de mts2 ');
+  cantMts2:= random(15);
+  Writeln('Ingrese el precio del mtr2 ');
+  precioMts2:= random(5000)-1;
+  p.precioTotal:= cantMts2*precioMts2;
+end;
+
+{procedure leerPropiedad(var p: propiedad);
 begin
   Writeln('Ingrese la zona: ');
   p.zona:= random(5)+1; //genera un numero de 1 a 5
@@ -83,7 +100,7 @@ begin
   p.cantMts2:= random(15);
   Writeln('Ingrese el precio del mtr2 ');
   p.precioMts2:= random(5000)-1;
-end;
+end;}
 
 procedure insertarOrdenado(var l: lista; p: propiedad);
 var
@@ -109,12 +126,14 @@ end;
 procedure cargarPropiedades(var vProp: vPropiedades);
 var
   p: propiedad;
+  z: rango5;  //ZONA
+  precioMt2: real;
 begin
-  leerPropiedad(p);
-  While(p.precioMts2 <> -1)do
+  leerPropiedad(p,z,precioMt2);
+  While(precioMt2 <> -1)do
     begin
-      insertarOrdenado(vProp[p.zona],p);
-      leerPropiedad(p);
+      insertarOrdenado(vProp[z],p);
+      leerPropiedad(p,z,precioMt2);
     end;
 end;
 
@@ -172,9 +191,14 @@ begin
 {b) Implementar un módulo que reciba la estructura generada en a), un número de zona y un tipo de
 propiedad y retorne los códigos de las propiedades de la zona recibida y del tipo recibido.}
   L2:= nil;
+  Writeln();
+  Writeln('CORTO RANDOM');
+  Writeln();
+  
   Writeln('Ingrese un numero de zona: ');
   readln(numZona);
   Writeln('Ingrese un tipo de propiedad: ');
   readln(tipoPropiedad);
   filtrarPropiedad(vProp,numZona,tipoPropiedad,L2);
+  //en este punto tenes una lista nueva, con el filtro q pedia
 end.
