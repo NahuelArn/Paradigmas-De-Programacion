@@ -56,7 +56,9 @@ end;
 <h1 align="center"> Recursion</h1>
 
 <h1 align="center"> Sacar un el digito maximo de un numero</h1>
+
 ```pas
+
 function estaEnLaLista(L: lista; valorBuscado: integer): boolean;
 begin
 	if(L = nil) then
@@ -76,6 +78,7 @@ if(estaEnLaLista(L,buscado))then
 ```
 
 <h1 align="center"> Sacar un el digito maximo de un numero</h1>
+
 ```pas
 
 program sarasaRecursion;
@@ -103,6 +106,7 @@ begin
 end.
 
 ```
+
 <h1 align="center"> Carga de Arboles </h1>
 
 ```pas
