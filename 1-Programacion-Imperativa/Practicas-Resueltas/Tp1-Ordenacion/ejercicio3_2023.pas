@@ -372,3 +372,129 @@ begin
 	L2^.dato.cantUnidadesSolicitadas;		//tengo acceso a productos
 end.
 }
+
+
+{Franco version}
+
+{program tres;
+type
+	tabla=record
+		precioUnitario:real;
+		stock:integer;
+	end;
+	Vtabla=array [1..1000] of tabla;
+	productos=record
+		CodProducto:integer;
+		Cantidad:integer;
+		PrecioXUnidad:real;
+	end;
+	ListaProductos=^nodo;
+	nodo=record
+		elem:productos;
+		sig:ListaProductos;
+	end;
+	Ticket=record
+		CodVenta:integer;
+		Detalle:ListaProductos;
+		MontoTotal:real;
+	end;
+	ListaTicket=^nodo2;
+	nodo2=record
+		elem:Ticket;
+		sig:ListaTicket;
+	end;
+procedure leerRegistroProducto(var r:productos);
+begin
+	readln(r.CodProducto);
+	readln(r.Cantidad);
+	r.PrecioXUnidad:=0;//Se tiene que leer del arreglo;
+end;
+procedure InicializarListaProductos(var l:ListaProductos);
+begin
+	l:=nil;
+end;
+
+procedure InicializarListaTicket(var l:ListaTicket);
+begin
+	l:=nil;
+end;
+
+procedure agregarAdelanteProducto (var pI:ListaProductos;elem:Productos);
+var
+	nue:ListaProductos;
+begin
+	New(nue);
+	nue^.elem:=elem;
+	nue^.sig:=pI;
+	pI:=nue;
+end;
+procedure agregarAdelanteTicket (var pI:ListaTicket;elem:Ticket);
+var
+	nue:ListaTicket;
+begin
+	New(nue);
+	nue^.elem:=elem;
+	nue^.sig:=pI;
+	pI:=nue;
+end;
+procedure CargarVentas(var LT:ListaTicket;v:Vtabla);
+var
+	RP:Productos;
+	AuxLT:Ticket;//Esta Variable es necesaria para llenar el elemento que luego se agregara adelante en la ListaTicket
+	CodVenta:integer;
+	preciofinal:real;
+begin
+	readln(CodVenta);
+	while (CodVenta<>-1) do begin
+		AuxLT.CodVenta:=CodVenta;
+		leerRegistroProducto(RP);
+		InicializarListaProductos(AuxLT.Detalle);//inicializo la Lista de los productos en nill
+		preciofinal:=0;
+		while (RP.Cantidad > 0) do begin
+			RP.PrecioxUnidad:=v[RP.CodProducto].precioUnitario;//lleno el registro de los productos para empezar a hacer la lista de productos
+			if RP.Cantidad >= v[RP.CodProducto].stock then begin //Si la cantidad que le pido es mayor o igual al stock directamente le doy todo el stock.
+				RP.Cantidad:=v[RP.CodProducto].stock ; //Entonces la Cantidad Vendida es el stock
+				v[RP.CodProducto].stock := 0 ;
+			end
+			else  //Sino significa que le puedo dar la cantidad que se leyo y tengo que reducir el stock.  
+				v[RP.CodProducto].stock:=v[RP.CodProducto].stock - RP.Cantidad;  //por ende la Cantidad Vendida es directamente la cantidad que se leyo
+			
+			preciofinal:=preciofinal + (RP.Cantidad*RP.PrecioXunidad);//contador de montototal para el ticket
+			
+			agregarAdelanteProducto(AuxLT.Detalle,RP);//Y le mando el registro RP que en este punto el producto ya tendria su Codigo de producto , precio unitario
+												 //y cantidad que se vendio teniendo en cuenta si alcanza o no el stock.
+			LeerRegistroProducto(RP);
+		end;
+		AuxLT.MontoTotal:=preciofinal;
+		agregarAdelanteTicket(LT,AuxLT);//Le mando a la lista de tickets , un nuevo ticket
+		readln(CodVenta);
+	end;
+end;
+procedure RecorrerTikets (pI:ListaTicket;CodProd:integer;var CantVendida:integer);
+var
+	ListaProducto:ListaProductos;
+begin
+	while pI<>nil do begin
+		ListaProducto:=pI^.elem.Detalle;
+		while ListaProducto <> nil do begin
+			if ListaProducto^.elem.CodProducto = CodProd then 
+				CantVendida:=CantVendida+ListaProducto^.elem.Cantidad;
+			ListaProducto:=ListaProducto^.sig;
+		end;
+		pI:=pI^.sig;
+	end;
+end;
+var
+	ListaT:ListaTicket;
+	v:Vtabla;
+	CodigoDeProducto,CantidadVendida:integer;
+begin
+	ListaT:=nil;
+	//CargarVectorTabla(v);//se dispone
+	InicializarListaTicket(ListaT);
+	CargarVentas(ListaT,v);
+	readln(CodigoDeProducto);
+	CantidadVendida:=0;
+	RecorrerTikets(ListaT,CodigoDeProducto,CantidadVendida);
+	writeln('Se vendio una cantidad de : ',CantidadVendida, ' Del producto con codigo : ',CodigoDeProducto);
+end.}
