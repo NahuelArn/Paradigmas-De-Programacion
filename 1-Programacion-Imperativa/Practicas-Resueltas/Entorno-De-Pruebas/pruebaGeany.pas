@@ -1,73 +1,171 @@
+program ejercicio3_2023;
 
-program probando;
-
+const
+	dimFmil = 1000;
 type
+	rango1000 = 1..dimFmil;
+	
+	tabla = record
+		precios: real;
+		stock: integer;
+	end;
+	
+	vTabla = array[rango1000]of tabla;
+	
+	producto = record  
+		codigo: integer; //es lo q match con el array
+		cantUnidadesSolicitadas: integer;  //si me ingresan 0, o me quedo en 0 en la categoria que estoy pidiendo,termino de leer productos
+	end;
 
 	lista = ^nodo;
 	
 	nodo = record
-		dato: integer;
+		dato: producto;
 		sig: lista;
 	end;
 
-procedure agregarAdelante(var L: lista; n: integer);
+	venta = record
+		codVenta: integer;
+		productosVendidos: lista;
+	end;
+
+
+	ticked = record	//-1
+		codVenta : venta;
+		{codProducto: integer; //supongo q es el cod q matchea con la tabla //campo q no usaria
+		cant: integer;
+		precio: real;	//campo q no usaria}
+		montoTotalVenta: real;
+	end;
+	
+	lista2 = ^nodo2;
+	
+	nodo2 = record
+		dato: ticked;
+		sig: lista2;
+	end;
+
+procedure inicializarTickedListas(var L2: lista2);
+begin
+	L2:= nil;	
+end;
+
+procedure cargarTabla(var v: vTabla);
+var
+	i: integer;
+begin
+	for i:= 1 to dimFmil do
+		begin
+			v[i].precios:= random(101);
+			v[i].stock:= random(31); //
+		end;
+end;
+
+
+procedure agregarAtras(var L1,Ult: lista; p: producto);
 var
 	nue: lista;
 begin
 	new(nue);
-	nue^.dato:= n;
-	nue^.sig:= L;
-	L:= nue;
-end;
-
-procedure cargarLista(var L: lista);
-var
-	num: integer;
-begin
-	Writeln('Ingrese un numero: ');
-	num:= random(11);
-	while(num <> 0) do
-		begin
-			agregarAdelante(L,num);
-			Writeln('Ingrese un numero: ');
-			num:= random(11);
-		end;
-end;
-
-procedure imprimirLista(L: lista);
-begin
-	While(L<> nil)do
-		begin
-			Writeln('a : ',L^.dato);
-			L:= L^.sig;
-		end;
-end;
-
-function estaEnLaLista(L: lista; valorBuscado: integer): boolean;
-begin
-	if(L = nil) then
-		estaEnLaLista:= false
+	nue^.dato:= p;
+	nue^.sig:= nil;
+	if(L1 = nil)then
+		L1:= nue
 	else
-		if(L^.dato = valorBuscado)then
-			estaEnLaLista:= true
-		else
-			estaEnLaLista:= estaEnLaLista(L^.sig,valorBuscado)
+		Ult^.sig:= nue;
+	Ult:= nue;
+end;
+
+//venta Lista
+//esto asume que el stock inicial de todos los campos es  > a 0
+//si introducis una categoria que se acaba de quedar en 0 el stock, tomo que ya no tenes mas productos que leer
+//lo mismo que si me pedis 0 unidades de un producto
+
+//al ir a un super, vas y llenas productos al carrito, si vas y buscas un producto y lo ultimo que quedaba te lo llevas (stock),
+//no volves a buscar el mismo producto si ya sabes que no tiene stock y si vas se asume que ya no tenias mas productos que querias comprar(Uno no va a buscar algo que sabe que se acaba de acabar)
+//.. Si vas y decis no quiero comprar nada, tu cantidad de unidadesSolicitades va ser 0, ya que no queres comprar nada
+//no quiero comprar nada mas. Vas a la caja y te generan tu ticked de todos los productos
+procedure leerProducto(var productosLista: lista; var vectorTabla: vTabla;var montoTotalDeVenta: real);
+var
+	Ult: lista;
+begin
+	
+	productosLista^.dato.codigo:= random(100)-1; //genera un numero random de -1 a 100  ( CODIGO Q LE PEGA AL ARRAY )
+	
+	productosLista^.dato.cantUnidadesSolicitadas:= random(11)-1;  //cantidad de productos q le voy a pedir al array
+	// si tengo stock Y la cantidad de unidades solicitadas sea <> de 0 
+	While (vectorTabla[productosLista^.dato.codigo].stock <> 0) and (productosLista^.dato.cantUnidadesSolicitadas <> 0) do
+		begin	
+			//verifico que tenga suficiente stock
+			if(vectorTabla[productosLista^.dato.codigo].stock >= productosLista^.dato.cantUnidadesSolicitadas)then
+				begin
+					agregarAtras(productosLista,Ult,productosLista^.dato);
+					//le pego al array, descontando el stock
+					vectorTabla[productosLista^.dato.codigo].stock:= vectorTabla[productosLista^.dato.codigo].stock - productosLista^.dato.cantUnidadesSolicitadas;
+					//ya verifique esta compra de producto se va hacer
+					montoTotalDeVenta:= montoTotalDeVenta + (vectorTabla[productosLista^.dato.codigo].precios * productosLista^.dato.cantUnidadesSolicitadas);
+					if(vectorTabla[productosLista^.dato.codigo].stock = 0)then
+						Writeln('Flaquito te acabas de quedar sin stock del producto q me pediste, pedi otros productos o termino con tu compra');
+				end;
+			productosLista^.dato.codigo:= random(100)-1; //genera un numero random de -1 a 100  ( CODIGO Q LE PEGA AL ARRAY )
+			productosLista^.dato.cantUnidadesSolicitadas:= random(11);  //cantidad de productos q le voy a pedir al array
+		end;
+end;
+
+// Agrego un nuevo ticked, a mi lista de tickeds
+procedure agregarAdelante(var L2: lista2; tick: ticked);	
+var
+	nue: lista2;
+begin
+	new(nue);
+	nue^.dato:= tick;
+	nue^.sig:= L2;
+	L2:= nue;
+end;
+
+//carga de tickeds
+procedure cargarCompras(var L2: lista2; var vectorTabla: vTabla);
+var
+	montoTotalDeVenta: real;
+begin
+	Writeln('FLAG 2');
+	
+	L2^.dato.codVenta.codVenta:= random(20)-1;
+	Writeln('sarasaaa');
+	Writeln('FLAG 3');
+	While(L2^.dato.codVenta.codVenta <> -1)do
+		begin
+			
+			Writeln('FLAG 4');
+			montoTotalDeVenta:= 0; //ticked nuevo, montoTotal nuevo
+			//le mando una instacia de la lista
+			L2^.dato.codVenta.productosVendidos:= nil;	//inicializo la Lista de ventas
+			//le mando la lista ventas
+			
+			leerProducto(L2^.dato.codVenta.productosVendidos,vectorTabla,montoTotalDeVenta);
+			//si estoy aca, ya lei todas los productos de este ticked, salto al proximo ticked
+
+			{L2^.dato.codVenta:= L2^.dato.codVenta; //toy haciendo lo mismo, arriba manejo directamente desde la direccion actual //esta de mas}
+			{vent.codVenta:= L2^.dato.codVenta.codVenta;	//cargo el codigo que se genero de la venta de todos los productos
+			vent.productosVendidos:= L2^.dato.codVenta.productosVendidos; //le paso el puntero principal de los productos}
+			L2^.dato.montoTotalVenta:= montoTotalDeVenta;
+			agregarAdelante(L2,L2^.dato);
+			L2^.dato.codVenta.codVenta:= random(20)-1;
+		end;
 end;
 
 var
-	L: lista;
-	buscado: integer;
+	vectorTabla: vTabla;
+	{L1: lista;	//lista1 = productos = }
+	L2: lista2;	//lista2 = ticked = 
+
 begin
 	randomize;
-	L:= nil;
-	cargarLista(L);
-	Writeln('Ingrese un numero a buscar ');
-	readln(buscado);
-	
-	imprimirLista(L);
-	
-	if(estaEnLaLista(L,buscado))then
-		Writeln('valor encontrado ' )
-	else
-		Writeln('no esta en la lista');
+	cargarTabla(vectorTabla); //se dispone
+	inicializarTickedListas(L2);
+	cargarCompras(L2, vectorTabla);
+	Writeln('FLAG 1');
+	//---------------------------
+	// L2:= L1^.dato.codVenta;	//aca ya estoy parado en productos
+	// L2^.dato.cantUnidadesSolicitadas;		//tengo acceso a productos
 end.

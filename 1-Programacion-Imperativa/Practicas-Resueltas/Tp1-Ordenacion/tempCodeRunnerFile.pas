@@ -1,2 +1,1 @@
-
-  ant:= l;
+vectorTabla[productosLista^.dato.codigo].stock

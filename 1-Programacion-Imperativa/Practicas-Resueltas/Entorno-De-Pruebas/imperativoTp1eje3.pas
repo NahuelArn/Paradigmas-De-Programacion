@@ -16,9 +16,9 @@ c) Implementar un módulo que reciba la estructura generada en el inciso a) y un
 producto y retorne la cantidad de unidades vendidas de ese código de producto.}
 
 
-{error durante tiempo de ejecucion, devlp, reestructurar}
 
-program ejercicio3_2023;
+
+program imperativoTp1eje3;
 
 const
 	dimFmil = 1000;
@@ -45,16 +45,13 @@ type
 	end;
 
 	venta = record
-		codVenta: integer;
+		coddVenta: integer;
 		productosVendidos: lista;
 	end;
 
 
 	ticked = record	//-1
 		codVenta : venta;
-		{codProducto: integer; //supongo q es el cod q matchea con la tabla //campo q no usaria
-		cant: integer;
-		precio: real;	//campo q no usaria}
 		montoTotalVenta: real;
 	end;
 	
@@ -80,32 +77,7 @@ begin
 			v[i].stock:= random(31); //
 		end;
 end;
-{//productos
-procedure leerProducto(produc: lista; var vectorTabla: vTabla);
-var
-begin
-	produc^.dato.codigo:= random(101); //genera un numero random de 0 a 100 //( CODIGO QUE LE PEGA AL ARRAY );
 
-	produc^.dato.cantUnidadesSolicitadas:= random(11); //cantidad de productos q le voy a pedir al array
-
-	While(vectorTabla[produc^.dato.codigo].stock > 0 and produc^.dato.cantUnidadesSolicitadas <> 0)do
-		begin
-			
-		end;
-
-	
-	
-	if(vectorTabla[produc^.dato.codigo].stock > 0)then
-		begin
-			produc^.dato.cantUnidadesSolicitadas:= random(11); //cantidad de productos q le voy a pedir al array
-
-		end
-	else
-		Writeln('Sin stock ');
-		produc.cantUnidadesSolicitadas:= 0; //saldria de productos
-
-	produc.cantUnidadesSolicitadas:= random(11); //cantidad de productos q le voy a pedir al array
-end;}
 
 procedure agregarAtras(var L1,Ult: lista; p: producto);
 var
@@ -121,15 +93,7 @@ begin
 	Ult:= nue;
 end;
 
-//venta Lista
-//esto asume que el stock inicial de todos los campos es  > a 0
-//si introducis una categoria que se acaba de quedar en 0 el stock, tomo que ya no tenes mas productos que leer
-//lo mismo que si me pedis 0 unidades de un producto
 
-//al ir a un super, vas y llenas productos al carrito, si vas y buscas un producto y lo ultimo que quedaba te lo llevas (stock),
-//no volves a buscar el mismo producto si ya sabes que no tiene stock y si vas se asume que ya no tenias mas productos que querias comprar(Uno no va a buscar algo que sabe que se acaba de acabar)
-//.. Si vas y decis no quiero comprar nada, tu cantidad de unidadesSolicitades va ser 0, ya que no queres comprar nada
-//no quiero comprar nada mas. Vas a la caja y te generan tu ticked de todos los productos
 procedure leerProducto(var productosLista: lista; var vectorTabla: vTabla;var montoTotalDeVenta: real);
 var
 	Ult: lista;
@@ -174,12 +138,14 @@ var
 	montoTotalDeVenta: real;
 begin
 	Writeln('FLAG 2');
-	
-	L2^.dato.codVenta.codVenta:= random(20)-1;
+
+	L2^.dato.codVenta.coddVenta:= random(20)-1;
 	Writeln('sarasaaa');
 	Writeln('FLAG 3');
-	While(L2^.dato.codVenta.codVenta <> -1)do
+	
+	While(L2^.dato.codVenta.coddVenta <> -1)do
 		begin
+			
 			Writeln('FLAG 4');
 			montoTotalDeVenta:= 0; //ticked nuevo, montoTotal nuevo
 			//le mando una instacia de la lista
@@ -187,14 +153,10 @@ begin
 			//le mando la lista ventas
 			
 			leerProducto(L2^.dato.codVenta.productosVendidos,vectorTabla,montoTotalDeVenta);
-			//si estoy aca, ya lei todas los productos de este ticked, salto al proximo ticked
 
-			{L2^.dato.codVenta:= L2^.dato.codVenta; //toy haciendo lo mismo, arriba manejo directamente desde la direccion actual //esta de mas}
-			{vent.codVenta:= L2^.dato.codVenta.codVenta;	//cargo el codigo que se genero de la venta de todos los productos
-			vent.productosVendidos:= L2^.dato.codVenta.productosVendidos; //le paso el puntero principal de los productos}
 			L2^.dato.montoTotalVenta:= montoTotalDeVenta;
 			agregarAdelante(L2,L2^.dato);
-			L2^.dato.codVenta.codVenta:= random(20)-1;
+			L2^.dato.codVenta.coddVenta:= random(20)-1;
 		end;
 end;
 
@@ -207,41 +169,10 @@ begin
 	randomize;
 	cargarTabla(vectorTabla); //se dispone
 	inicializarTickedListas(L2);
-	cargarCompras(L2, vectorTabla);
 	Writeln('FLAG 1');
-	//---------------------------
-	// L2:= L1^.dato.codVenta;	//aca ya estoy parado en productos
-	// L2^.dato.cantUnidadesSolicitadas;		//tengo acceso a productos
+	cargarCompras(L2, vectorTabla);
+	Writeln('FLAG 5');
 end.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 {program ejercicio3_2023;
@@ -302,7 +233,7 @@ begin
 	produc^.dato.codigo:= random(101); //genera un numero random de 0 a 100 //( CODIGO QUE LE PEGA AL ARRAY );
 
 	produc^.dato.cantUnidadesSolicitadas:= random(11); //cantidad de productos q le voy a pedir al array
-	
+
 	While(vectorTabla[produc^.dato.codigo].stock > 0 and produc^.dato.cantUnidadesSolicitadas <> 0)do
 		begin
 			
@@ -370,5 +301,4 @@ begin
 	//---------------------------
 	L2:= L1^.dato.codVenta;	//aca ya estoy parado en productos
 	L2^.dato.cantUnidadesSolicitadas;		//tengo acceso a productos
-end.
-}
+end.}
