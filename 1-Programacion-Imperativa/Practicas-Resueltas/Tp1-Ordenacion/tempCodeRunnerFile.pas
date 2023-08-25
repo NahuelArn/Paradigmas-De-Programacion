@@ -1,0 +1,1 @@
+vectorTabla[productosLista^.dato.codigo].stock
