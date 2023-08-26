@@ -109,7 +109,30 @@ end;
      ```
 </details>
 
+<h1 align="center"> AgregarAtrasIneficiente </h1>
 
+<p align="center">Se usa cuando tenes un vector de listas y te pide que queden ordenadas por orden de llegada, el otro algoritmo no te sirve, el Ult se pierde en cada Iteracion</p>
 
+```pas 
 
+procedure agregarAtrasIneficiente(var L: lista; p: pelicula);
+var
+  nue,ant,act: lista;
+begin
+  new(nue);
+  nue^.dato:= p;
+  ant:= L;
+  act:= L;
+  While (act <> nil) do
+    begin
+      ant:= act;
+      act:= act^.sig;
+    end;
+  if(ant = act)then
+    L:= nue
+  else
+    ant^.sig:= nue;
+  nue^.sig:= act;
+end;
 
+```
