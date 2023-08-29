@@ -246,9 +246,19 @@ begin
     begin
       cont:= cont + 1;
       suma:= suma + a^.dato.edad;
-      sumaAndCont(a^.hi,suma,cont);
-      sumaAndCont(a^.hd,suma,cont);
+      sumaAndCont(a^.hi,suma,cont,prom);
+      sumaAndCont(a^.hd,suma,cont,prom);
     end;
+end;
+
+{ix. Informe, a partir de dos valores que se leen, la cantidad de socios en el árbol cuyo 
+número de socio se encuentra entre los dos valores ingresados. Debe invocar a un módulo 
+recursivo que reciba los dos valores leídos y retorne dicha cantidad.}
+
+procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
+begin
+  
+
 end;
 
 var
@@ -260,7 +270,9 @@ var
   aux: Boolean;
   estado: Boolean;
   name: string;
-  cont: integer;
+  cont: integer;  //cont lo voy reutilizando para cada llamado a un modulo
+  suma: integer;
+  prom: real;
 begin
   randomize;
   inicializarArbol(a);
@@ -277,6 +289,7 @@ begin
 
   //busca y retonar al socio con mayor edad/ tengo que recorrer todo el arbol
   maxEdad:= -999;
+  numSocio:= 0;
   Writeln('El numero de socio con mayor edad es: ',informarNumSocioMayorEdad(a,maxEdad,numSocio));
 
   //
@@ -289,7 +302,7 @@ begin
   else
     Writeln('Ocurrio algun error');
   
-
+//
   Writeln('Ingrese el nombre del socio a buscar: ');
   readln(name);
   estado:= false;
@@ -297,7 +310,13 @@ begin
     Writeln('el socio: ',name,' se encuentra en la estructura')
   else
     Writeln('Error VI');
-  //
+  
   cont:= 0;
-  Writeln('hay :',cuantosSociosHay(a,cont).' socios');
+  Writeln('hay :',cuantosSociosHay(a,cont),' socios');
+
+  //
+  suma:= 0;
+  cont:= 0;
+  sumaAndCont(a,suma,cont,prom);
+  Writeln('El promedio de los socios es: ',prom);
 end.
