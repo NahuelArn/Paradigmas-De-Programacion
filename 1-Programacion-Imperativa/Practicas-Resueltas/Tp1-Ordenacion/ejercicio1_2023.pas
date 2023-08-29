@@ -250,10 +250,10 @@ begin
   imprimirVector(v,dimL); //f
   inicializarLista(L);
    
-  generarEstructura(L,v,dimL);
+  generarEstructura(L,v,dimL);  //g
 
   Writeln(); Writeln();
   Writeln('sarasa 0');
   Writeln(); Writeln();
-  imprimirEstructura(L);
+  imprimirEstructura(L);  //h
 end.
