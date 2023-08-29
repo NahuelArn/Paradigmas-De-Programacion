@@ -17,7 +17,7 @@ h. Un módulo que muestre la información obtenida en el punto g)}
 
 program ejercicio1_2023;
 
-const
+
 
 type
   venta = record
@@ -51,6 +51,6 @@ end;
 var
   v: vectorVentas;
 begin 
-  cargarVectorVentas();
+  cargarVectorVentas(v);
   
 end.
