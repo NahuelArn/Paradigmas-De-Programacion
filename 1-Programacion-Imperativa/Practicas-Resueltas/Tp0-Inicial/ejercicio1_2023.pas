@@ -159,7 +159,6 @@ puede diseñarse una solución modularizada que requiera la menor cantidad de ca
 
 {Punto C}
 
-
 {
   1.- Implementar un programa que procese la información de los alumnos de la Facultad de
 Informática.
@@ -290,31 +289,31 @@ begin
 	Writeln('1: para informar promedio con aplazos(nota < 4)');
 	Writeln('2: para informar promedio sin aplazos(nota >= 4)');
 	eleccion:= random(3)+1;
-			While(L <> nil)do
+	While(L <> nil)do
+		begin
+			suma:= 0;
+			cant:= 0;
+			auxL:= L^.dato.notas;
+			While(auxL <> nil) do
 				begin
-					suma:= 0;
-					cant:= 0;
-					auxL:= L^.dato.notas;
-					While(auxL <> nil) do
+					if(eleccion = 1)then
 						begin
-							if(eleccion = 1)then
+							suma:= suma + auxL^.dato;
+							cant:= cant+1;
+						end
+					else
+						begin
+							if(auxL^.dato >= 4)then
 								begin
 									suma:= suma + auxL^.dato;
 									cant:= cant+1;
-								end
-							else
-								begin
-									if(auxL^.dato >= 4)then
-										begin
-											suma:= suma + auxL^.dato;
-											cant:= cant+1;
-										end;
 								end;
-							auxL:= auxL^.sig;
 						end;
-						Writeln('El promedio del alumno: ',L^.dato.apellido,' es: ',suma/cant:2:2);
-						L:= L^.sig;
-				end
+				  auxL:= auxL^.sig;
+				end;
+				Writeln('El promedio del alumno: ',L^.dato.apellido,' es: ',suma/cant:2:2);
+				L:= L^.sig;
+		end;
 end;
 	
 var 
