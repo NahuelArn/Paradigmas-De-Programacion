@@ -194,7 +194,7 @@ begin
     end;
 end;
 
-{xi. Informe los números de socio pares en orden decreciente.}
+
 procedure imprimirPosOrder(a: arbol);
 begin
   if(a <> nil)then
