@@ -94,6 +94,7 @@ end.
 ```
 
 <h2 align="center">moduloDebugListaRecursion</h2>
+
 ```pas
 program moduloDebugListaRecursion;
 
