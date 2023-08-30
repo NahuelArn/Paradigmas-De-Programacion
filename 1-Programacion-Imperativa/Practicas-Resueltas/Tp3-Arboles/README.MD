@@ -160,3 +160,48 @@ begin
   Writeln('Promedio: ',prom:2:2);
 end.
 ```
+
+<h1 align="center"> metodos de impresion en Arboles </h1>
+
+```pas
+procedure imprimirPreOrden(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      Writeln('PreOrden: full izquierda, full Derecha(extremos)',a^.dato);
+      imprimirPreOrden(a^.hi);
+      imprimirPreOrden(a^.hd);
+    end;
+end;
+
+procedure imprimirInOrder(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirInOrder(a^.hi);
+      Writeln('In Order: de menor a mayor',a^.dato);
+      imprimirInOrder(a^.hd);
+    end;
+end;
+//espejo
+procedure imprimirInOrder(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirInOrder(a^.hd);
+      Writeln('In Order: de mayor a menor',a^.dato);
+      imprimirInOrder(a^.hi);
+    end;
+end;
+
+{xi. Informe los números de socio pares en orden decreciente.}
+procedure imprimirPosOrder(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirPosOrder(a^.hi);
+      imprimirPosOrder(a^.hd);
+      Writeln('PosOrder: full derecha, full izquierda(extremos)',a^.dato);
+    end;
+end;
+```

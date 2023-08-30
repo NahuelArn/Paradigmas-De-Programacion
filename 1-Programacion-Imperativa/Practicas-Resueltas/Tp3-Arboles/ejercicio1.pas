@@ -303,6 +303,7 @@ recursivo que reciba los dos valores leídos y retorne dicha cantidad.}
 // end;
 
 //nombre del padre e hijo espir
+//funciona GOOOD chequeado
 procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
 begin
   // if(a^.dato.numSocio = derecha)then //termina cuando llego al limite superior
@@ -313,13 +314,43 @@ begin
           cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
           cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
           // if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then
-          if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then
-            cantCumplen:= cantCumplen+1;
+          // if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then
+          cantCumplen:= cantCumplen+1;
           //en teoria cuando este aca, voy a estar parado en la pos q queria         
         end;
     end;
 end;
 
+{x. Informe los números de socio en orden creciente.  }
+procedure imprimirPreOrden(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      Writeln('PreOrden: full izquierda, full Derecha',a^.dato);
+      imprimirInOrder(a^.hi);
+      imprimirInOrder(a^.hd);
+    end;
+end;
+
+procedure imprimirInOrder(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirInOrder(a^.hi);
+      Writeln('In Order: de menor a mayor',a^.dato);
+      imprimirInOrder(a^.hd);
+    end;
+end;
+{xi. Informe los números de socio pares en orden decreciente.}
+procedure imprimirPosOrder(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirPosOrder(a^.hi);
+      imprimirPosOrder(a^.hd);
+      Writeln('PosOrder: full derecha, full izquierda',a^.dato);
+    end;
+end;
 
 var
   a: arbol; 
@@ -333,6 +364,7 @@ var
   cont: integer;  //cont lo voy reutilizando para cada llamado a un modulo
   suma: integer;
   prom: real;
+  cantCumplen,izquierda,derecha: integer;
 begin
   randomize;
   inicializarArbol(a);
@@ -380,6 +412,13 @@ begin
   sumaAndCont(a,suma,cont,prom);
   Writeln('El promedio de los socios es: ',prom);
   //
-  
+  Writeln('ingrese a: ');
+	readln(izquierda);
+	Writeln('Ingrese b: ');
+	readln(derecha);
+  cantCumplen:= 0;
+  cuantosEntreRango(a,izquierda,derecha,cantCumplen);
+  Writeln('cantidad q cumplen: ',cantCumplen);
+  //
   
 end.
