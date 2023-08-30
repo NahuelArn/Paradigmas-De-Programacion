@@ -130,10 +130,11 @@ la cantidad total de unidades vendidas de ese producto.
 * ii: tengo que buscar en el arbol y si lo encuentro al codigo retorno su cantTotal
 * }
 
-procedure informarCantUniVendidas(a0: arbolVenta; codBuscado: integer; var cantVendida0: integer);
+procedure informarCantUniVendidas(a0: arbolVenta; codBuscado: integer; var cantVendida0: integer; var iterador: integer);
 begin
 	if(a0 <> nil)then
 		begin
+			iterador:= iterador+1;
 			if(a0^.dato.codProducto = codBuscado)then
         begin
           cantVendida0:= cantVendida0 + a0^.dato.cantVendida;
@@ -142,11 +143,12 @@ begin
 			else
 				begin
 					if(codBuscado < a0^.dato.codProducto)then
-						informarCantUniVendidas(a0^.hi,codBuscado,cantVendida0)
+						informarCantUniVendidas(a0^.hi,codBuscado,cantVendida0,iterador)
 					else
-						informarCantUniVendidas(a0^.hd,codBuscado,cantVendida0);
+						informarCantUniVendidas(a0^.hd,codBuscado,cantVendida0,iterador);
 				end;
 		end;
+		Writeln('cantidad de veces q itero',iterador);
 end;
 
 procedure informarCantUniVendidaSinOcurrencias(a1: arbolMismoCod;codBuscado1: integer;var cantVendida1: integer);
@@ -171,6 +173,7 @@ var
 	a1: arbolMismoCod;
 	codBuscado0,cantVendida0: integer;
   cantVendida1: integer;
+	iterador: integer;
 begin	
   randomize;
 	inicializarArboles(a0,a1);
@@ -178,7 +181,8 @@ begin
 	Writeln('Ingrese un codigo buscado');
 	codBuscado0:= random(11);
   cantVendida0:= 0;
-	informarCantUniVendidas(a0,codBuscado0,cantVendida0);
+	iterador:=0;
+	informarCantUniVendidas(a0,codBuscado0,cantVendida0,iterador);
 	Writeln('La cantidad vendida es: ',cantVendida0, ' usando el arbol con varias ocurrencias');
 	// reutilizo las variable codBuscado
   cantVendida1:= 0;
