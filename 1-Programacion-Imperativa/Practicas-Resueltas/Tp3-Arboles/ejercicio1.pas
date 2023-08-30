@@ -322,15 +322,6 @@ begin
 end;
 
 {x. Informe los números de socio en orden creciente.  }
-procedure imprimirPreOrden(a: arbol);
-begin
-  if(a <> nil)then
-    begin
-      Writeln('PreOrden: full izquierda, full Derecha',a^.dato);
-      imprimirInOrder(a^.hi);
-      imprimirInOrder(a^.hd);
-    end;
-end;
 
 procedure imprimirInOrder(a: arbol);
 begin
@@ -342,13 +333,14 @@ begin
     end;
 end;
 {xi. Informe los números de socio pares en orden decreciente.}
-procedure imprimirPosOrder(a: arbol);
+procedure imprimirInOrder2(a: arbol);
 begin
   if(a <> nil)then
     begin
-      imprimirPosOrder(a^.hi);
-      imprimirPosOrder(a^.hd);
-      Writeln('PosOrder: full derecha, full izquierda',a^.dato);
+      imprimirInOrder2(a^.hd);
+      if(a^.dato mod 2= 0)then
+        Writeln('In Order: de mayor a menor',a^.dato);
+      imprimirInOrder2(a^.hi);
     end;
 end;
 
@@ -420,5 +412,7 @@ begin
   cuantosEntreRango(a,izquierda,derecha,cantCumplen);
   Writeln('cantidad q cumplen: ',cantCumplen);
   //
-  
+  imprimirInOrder(a);
+  //
+  imprimirInOrder2(a);
 end.
