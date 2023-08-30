@@ -255,11 +255,71 @@ end;
 número de socio se encuentra entre los dos valores ingresados. Debe invocar a un módulo 
 recursivo que reciba los dos valores leídos y retorne dicha cantidad.}
 
+// procedure buscarEnArbol();
+// //nombre del padre e hijo espir
+// procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
+// begin
+//   // if(a^.dato.numSocio = derecha)then //termina cuando llego al limite superior
+//   if(a <> nil)then
+//     begin     
+//       cantCumplen:= 0;
+//     end
+//   else
+//     begin
+//       if( a^.dato.numSocio < izquierda )then  //el actual no es menor al limite inferior
+//         begin
+//           cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+//           cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+//           //en teoria cuando este aca, voy a estar parado en la pos q queria
+//           if(a^.dato.numSocio < derecha)then
+//             begin
+//               cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+//               cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+//             end;         
+//         end;
+//     end;
+// end;
+
+// //nombre del padre e hijo espir
+// procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
+// begin
+//   // if(a^.dato.numSocio = derecha)then //termina cuando llego al limite superior
+//   if(a <> nil)then
+//     begin     
+//       if( a^.dato.numSocio < izquierda )then  //el actual no es menor al limite inferior
+//         begin
+//           cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+//           cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+//           cantCumplen:= cantCumplen+1;
+//           //en teoria cuando este aca, voy a estar parado en la pos q queria
+//           if(a^.dato.numSocio < derecha)then
+//             begin
+//               cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+//               cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+//               cantCumplen:= cantCumplen+1;
+//             end;         
+//         end;
+//     end;
+// end;
+
+//nombre del padre e hijo espir
 procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
 begin
-  
-
+  // if(a^.dato.numSocio = derecha)then //termina cuando llego al limite superior
+  if(a <> nil)then
+    begin     
+      if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then  //el actual no es menor al limite inferior
+        begin
+          cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+          cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+          // if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then
+          if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then
+            cantCumplen:= cantCumplen+1;
+          //en teoria cuando este aca, voy a estar parado en la pos q queria         
+        end;
+    end;
 end;
+
 
 var
   a: arbol; 
@@ -319,4 +379,7 @@ begin
   cont:= 0;
   sumaAndCont(a,suma,cont,prom);
   Writeln('El promedio de los socios es: ',prom);
+  //
+  
+  
 end.

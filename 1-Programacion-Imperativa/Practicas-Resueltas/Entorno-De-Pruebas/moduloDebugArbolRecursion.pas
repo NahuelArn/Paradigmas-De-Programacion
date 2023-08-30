@@ -1,5 +1,4 @@
-
-program ejercicio1_2023;
+program moduloDebugArbolRecursion;
 
 type
 	arbol = ^nodo;
