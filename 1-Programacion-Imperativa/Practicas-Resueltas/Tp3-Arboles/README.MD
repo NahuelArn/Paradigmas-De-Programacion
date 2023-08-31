@@ -209,6 +209,7 @@ end;
 <h1 align="center"> Recursion aplicada a Arboles, procedimiento/funcion </h1>
 
 ```pas
+
 program moduloDebugArbolRecursion;
 
 type
@@ -328,5 +329,6 @@ begin
 	montoTotal:= 0;
 	Writeln('funcion de igual monto',montoTotalDeclienteFunc(L,a,montoTotal));
 end.
+
 ```
 

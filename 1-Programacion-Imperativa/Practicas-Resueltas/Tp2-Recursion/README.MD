@@ -25,6 +25,7 @@ if(estaEnLaLista(L,buscado))then
 ```
 
 <h1 align="center"> Sacar un el digito maximo de un numero</h1>
+
 ```pas
 
 program sarasaRecursion;
@@ -53,3 +54,43 @@ end.
 
 ```
 
+<h1 align="center"> busqueda binaria recursiva / busqueda dicotomica</h1>
+
+```pas
+
+procedure buscarNumero(numAbuscar: integer; v1: vPrimero; ini,mitad,fin: integer;var encontrado: Boolean;);
+begin
+  if ((ini <= fin) And (encontrado <> true)) Do
+    Begin
+      mitad := (ini+fin) Div 2;
+      If (v1[mitad] =numAbuscar) Then
+        encontrado := true
+      Else If (numAbuscar < v1[mitad])Then
+             fin := mitad-1
+      Else If (numAbuscar> v1[mitad])Then
+             ini := mitad+1;
+      buscarNumero(numAbuscar,v1,ini,mitad,fin,encontrado);
+    End
+  else
+    encontrado := encontrado;
+end;
+
+
+Function buscarNumero(numAbuscar: integer; v1: vPrimero; ini,mitad,fin: integer;encontrado: Boolean): Boolean;  
+Begin
+  if ((ini <= fin) And (encontrado <> true)) Do
+    Begin
+      mitad := (ini+fin) Div 2;
+      If (v1[mitad] =numAbuscar) Then
+        encontrado := true
+      Else If (numAbuscar < v1[mitad])Then
+             fin := mitad-1
+      Else If (numAbuscar> v1[mitad])Then
+             ini := mitad+1;
+      buscarNumero:= buscarNumero(numAbuscar,v1,ini,mitad,fin,encontrado);
+    End
+  else
+    buscarNumero := encontrado;
+End;
+
+```
