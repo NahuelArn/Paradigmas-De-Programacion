@@ -329,6 +329,4 @@ begin
 	montoTotal:= 0;
 	Writeln('funcion de igual monto',montoTotalDeclienteFunc(L,a,montoTotal));
 end.
-
-
 ```
