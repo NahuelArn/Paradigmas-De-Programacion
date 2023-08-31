@@ -259,9 +259,6 @@ begin
 		end;
 end;
 
-
-
-
 procedure imprimirArbolInOrder(a: arbol);
 begin
 	if(a <> nil)then
@@ -275,6 +272,8 @@ begin
 		end;
 end;
 
+//--------
+
 //puede ser q este seria la unica manera de sumar el total usando un procedimiento? con el  <>
 procedure montoTotalDecliente(a0: arbol; codBuscado: integer; var monto: integer);
 begin
@@ -287,10 +286,10 @@ begin
 		end;
 end;
 
-//--------
+
 function montoTotalDeclienteFunc(a0: arbol; codBuscado,monto: integer): integer;
 begin
-	if(a0 = nil)then
+	if(a0 = nil)then  //va iterar todas las veces q se encuentre el mismo cod'
 		montoTotalDeclienteFunc	:= monto
 	else
 		begin
@@ -330,3 +329,4 @@ begin
 	Writeln('funcion de igual monto',montoTotalDeclienteFunc(L,a,montoTotal));
 end.
 ```
+
