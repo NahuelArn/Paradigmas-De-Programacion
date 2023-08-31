@@ -332,3 +332,179 @@ end.
 
 ```
 
+<h1 align="center"> eliminar nodo en un Arbol /sin Repetidos </h1>
+
+```pas
+
+procedure Borrar(x: elem; var a: arbol; var ok: boolean);
+var
+	aux: arbol;
+begin
+	if (a = nil) then
+		ok := false
+	else 
+		begin
+			if (x < a^.dato) then	// BUSCO EN EL SUBARBOL IZQUIERDO
+				Borrar (x, a^.HI, ok)
+			else
+				begin
+					If (x > a^.dato) then	// BUSCO EN EL SUBARBOL DERECHO
+						Borrar (x, a^.HD, ok)
+					else 
+						begin
+							ok := true;
+							if (a^.HI = nil) then 
+								begin				// SOLO HIJO A DERECHA
+									aux := a;
+									a := a^.HD;
+									dispose(aux)
+								end
+							else
+								if (a^.HD = nil) then 
+									begin		// SOLO HIJO A IZQUIERDA
+										aux := a;
+										a := a^.HI;
+										dispose(aux)
+									end
+								else 
+									begin		// DOS HIJOS. REEMPLAZO CON EL MENOR DE LA DERECHA
+										aux := Minimo(a^.HD);
+										a^.dato = aux^.dato;
+										Borrar(a^.dato, a^.HD, ok);
+									end
+						end
+				end;
+end;
+
+```
+
+* <details>
+  <summary> 1) Implementacion eliminar nodo Arbol / sin ocurrencias </summary>
+        
+  ```pas
+      program moduloDebugArbolRecursion;
+
+      type
+          arbol = ^nodo;
+
+          nodo = record
+              dato: integer;
+              hi: arbol;
+              hd: arbol;
+          end;
+
+      procedure inicializarLista(var L: arbol);
+      begin
+          L:= nil;
+      end;
+
+      procedure cargarArbol(var a: arbol; n: integer);
+      begin
+          if (a = nil) then
+          begin
+              new(a);
+              a^.dato:= n;
+              a^.hi:= nil;
+              a^.hd:= nil;
+          end
+          else
+          begin
+              if (n < a^.dato) then
+                  cargarArbol(a^.hi, n)
+              else
+                  if (n > a^.dato) then
+                      cargarArbol(a^.hd, n);
+          end;
+      end;
+
+      function minimo(a: arbol): arbol;
+      begin
+          if (a <> nil) then
+          begin
+              if (a^.hi = nil) then
+                  minimo := a
+              else
+                  minimo := minimo(a^.hi);
+          end
+          else
+              minimo := nil;
+      end;
+
+      procedure Borrar(x: integer; var a: arbol; var ok: boolean);
+      var
+          aux: arbol;
+      begin
+          if (a = nil) then
+              ok := false
+          else
+          begin
+              if (x < a^.dato) then
+                  Borrar(x, a^.hi, ok)
+              else
+                  if (x > a^.dato) then
+                      Borrar(x, a^.hd, ok)
+                  else
+                  begin
+                      ok := true;
+                      if (a^.hi = nil) then
+                      begin
+                          aux := a;
+                          a := a^.hd;
+                          dispose(aux);
+                      end
+                      else
+                          if (a^.hd = nil) then
+                          begin
+                              aux := a;
+                              a := a^.hi;
+                              dispose(aux);
+                          end
+                          else
+                          begin
+                              aux := minimo(a^.hd);
+                              a^.dato := aux^.dato;
+                              Borrar(aux^.dato, a^.hd, ok);
+                          end;
+                  end;
+          end;
+      end;
+
+      procedure imprimirArbolInOrder(a: arbol);
+      begin
+          if (a <> nil) then
+          begin
+              imprimirArbolInOrder(a^.hi);
+              Write('In order: ', a^.dato, ' ');
+              imprimirArbolInOrder(a^.hd);
+          end;
+      end;
+
+      var
+          L: arbol;
+          num: integer;
+          a: integer;
+          ok: boolean;
+      begin
+          randomize;
+          inicializarLista(L);
+          Writeln('Ingresa un numero');
+          readln(num);
+          while (num <> 0) do
+          begin
+              cargarArbol(L, num);
+              Writeln('Ingresa un numero');
+              readln(num);
+          end;
+          imprimirArbolInOrder(L);
+          Writeln('Valor a eliminar: ');
+          readln(a);
+          Borrar(a, L, ok);
+          if (ok) then
+              Writeln('Se pudo eliminar el nodo');
+          imprimirArbolInOrder(L);
+      end.
+
+      ```
+</details>
+
+
