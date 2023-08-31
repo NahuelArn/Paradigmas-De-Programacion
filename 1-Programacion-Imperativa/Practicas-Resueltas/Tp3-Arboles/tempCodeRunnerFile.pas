@@ -1,1 +1,0 @@
-Writeln('El numero de socio mas grande es: ',numSocioMasGrande(a,numSocioMax));
