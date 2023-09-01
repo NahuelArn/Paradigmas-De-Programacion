@@ -141,28 +141,72 @@ begin
 		end;
 end;
 
-procedure generarMerge(vM: vMeses; Lnueva: lista);
+
 
 {---------------------------------------}
-procedure merge(var l :lista_nueva;v:vector) ;
+// Merge de mas de dos listas usando un vector. Guarda el ultimo minimo en cada comparación
+// (si existe un dato del mismo tipo) y lo guarda en una lista.
+
+procedure minimo(var v: vMeses; var min: prestamo);
 var
-	ult : lista_nueva;
-	min, actual : venta_nueva;
+	i, pos: integer;
 begin
-	minimo(v,min);	
-	while (min.codigo <> 9999) do	
-	begin
-		actual.cant := 0;	
-		actual.codigo := min.codigo;	
-		while (min.codigo <> 9999) and (min.codigo = actual.codigo) do begin
-			actual.cant:= actual.cant + min.cant;	
-			minimo(v,min);	
+	min.isbn := 9999;		//  "9999" - valor muy alto para encontrar el minimo posible
+	pos := -1;			// Flag por si no encontré
+  for i := 1 to dimF12 do	{ Recorro el vector de listas }
+    begin
+      { Si la lista no esta vacia y Si encuentro un dato menor o igual al minimo, actualizo el minimo}
+      if (v[i] <> nil) and (v[i]^.dato.isbn <= min.isbn) then 
+        begin
+          pos := i;							// Guardo el indice actual
+          min := v[i]^.dato;		// Actualizo el minimo actual
+        end;
+      if (pos <> -1) then	{Si encontré un minimo}
+        v[pos] := v[pos]^.sig;				// Paso al siguiente elemento de la lista
+    end;
+   Writeln('SARASA 1');
+end;
+
+procedure agregarAtras(var L, ult:lista ; p:prestamo);
+var
+	nue:lista;
+begin
+	new(nue);
+	nue^.dato:= p;
+	nue^.sig:= nil;
+	if (L = nil) then
+		L:= nue
+	else
+		ult^.sig:= nue;
+	ult:= nue;
+	Writeln('SARASA 3');
+end;
+
+procedure generarMerge(vM: vMeses; var  Lnueva: lista);
+var
+	min: prestamo;
+  ult: lista;
+begin
+	inicializarLista(Lnueva);
+	minimo(vM, min);						// Busco un dato minimo entre todas las listas
+	Writeln('SARASA 2');
+	while (min.isbn <> 9999) do  // Si encontré un minimo | Si es 9999 se terminaron las listas
+    begin	
+      agregarAtras(Lnueva, ult,min);	// Agrego el nuevo dato minimo a la estructura de datos
+      minimo(vM, min);					// Vuelvo a buscar un nuevo dato minimo entre las listas
 		end;
-		AgregarAlFinal2(l,ult,actual);	
-	end;
 end;
 
 {---------------------------------------}
+
+procedure imprimirListaNueva(L: lista);
+begin
+  while (L <> nil) do
+    begin
+      imprimirIsbNumsocio(L^.dato);
+      L:= L^.sig;
+    end;  
+end;
 
 var
 	vM: vMeses;
@@ -173,5 +217,7 @@ begin
 	cargarPrestamos(vM);
 	i:= 0;
 	mostrarVentaMeses(vM,i);
-	generarMerge(vM,Lnueva);
+	Writeln('SARASA 0');
+	generarMerge(vM,Lnueva);  //Lnueva se crea inicializa dentro del merge
+  imprimirListaNueva(Lnueva);
 end.
