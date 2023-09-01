@@ -23,7 +23,7 @@ CON El punto C, se me hace q es full vectores
 
   a: arbol de listas
   b: lista;
-
+//1:21
 }
 program TurnoETema1_140923;
 
