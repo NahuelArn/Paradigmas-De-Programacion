@@ -21,6 +21,7 @@ d) Contenga un módulo que reciba el árbol generado en a) y una patente y devue
 * C : Imprimir LIsta normal y tienen que imprimirser ordenadado por anho de fabricacion
 * D : 
 * }
+
 program dsFinal;
 const
 	iniAnho = 1;
@@ -259,7 +260,7 @@ end.
 
 
 
-{VARIACION}
+{VARIACION AYRTON}
 
 program p2;
 {2.- Una agencia dedicada a la venta de autos ha organizado su stock y, dispone en papel de la información de los autos en venta.
