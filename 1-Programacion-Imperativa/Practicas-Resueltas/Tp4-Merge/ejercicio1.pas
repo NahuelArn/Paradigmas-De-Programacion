@@ -161,10 +161,9 @@ begin
           pos := i;							// Guardo el indice actual
           min := v[i]^.dato;		// Actualizo el minimo actual
         end;
-      if (pos <> -1) then	{Si encontré un minimo}
-        v[pos] := v[pos]^.sig;				// Paso al siguiente elemento de la lista
     end;
-   Writeln('SARASA 1');
+   if (pos <> -1) then	{Si encontré un minimo}
+     v[pos] := v[pos]^.sig;				// Paso al siguiente elemento de la lista
 end;
 
 procedure agregarAtras(var L, ult:lista ; p:prestamo);
