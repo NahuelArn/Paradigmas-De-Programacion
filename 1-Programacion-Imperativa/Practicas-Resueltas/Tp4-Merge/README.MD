@@ -1,5 +1,3 @@
-
-
 <h1 align="center"> Program ejemplo de carga </h1>
 
 <p align="center">Algoritmos que se repiten</p>
