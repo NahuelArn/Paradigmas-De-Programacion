@@ -1,0 +1,6 @@
+# Archivo .editorconfig para mantener el formato de identacion
+# Indentación de 4 espacios
+[*]
+indent_style = space
+indent_size = 2
+tab_width = 2
