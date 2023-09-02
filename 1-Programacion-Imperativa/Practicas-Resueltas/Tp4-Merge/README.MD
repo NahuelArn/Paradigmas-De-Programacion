@@ -4,6 +4,7 @@
 
 <p align="center">Algoritmos que se repiten</p>
 
+
 ```pas
 
 program merge;
