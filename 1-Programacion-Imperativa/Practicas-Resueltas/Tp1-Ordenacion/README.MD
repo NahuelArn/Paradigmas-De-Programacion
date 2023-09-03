@@ -109,7 +109,86 @@ end;
      ```
 </details>
 
+<h1 align="center"> AgregarAtrasIneficiente </h1>
 
+<p align="center">Se usa cuando tenes un vector de listas y te pide que queden ordenadas por orden de llegada, el otro algoritmo no te sirve, el Ult se pierde en cada Iteracion</p>
 
+```pas 
 
+procedure agregarAtrasIneficiente(var L: lista; p: pelicula);
+var
+  nue,ant,act: lista;
+begin
+  new(nue);
+  nue^.dato:= p;
+  ant:= L;
+  act:= L;
+  While (act <> nil) do
+    begin
+      ant:= act;
+      act:= act^.sig;
+    end;
+  if(ant = act)then
+    L:= nue
+  else
+    ant^.sig:= nue;
+  nue^.sig:= act;
+end;
 
+```
+
+<h1 align="center"> ordenarVector Insercion Implementacion </h1>
+
+```pas
+program a ;
+const
+    PosIni = 0 ; 
+    dimF = 10;
+type 
+    v = array [0..dimF] of integer; 
+procedure cargarV (var vec : v); 
+var
+    i : integer;
+begin
+    Randomize;
+    for i:= PosIni to dimF do 
+        vec[i]:= random(10); 
+end; 
+
+procedure imprimirV (vec : v); 
+var
+    i : integer;
+begin
+    for i:= PosIni to dimF do 
+        writeln ('pos: ',i, ' ',vec[i]);
+end; 
+
+Procedure ordenarVectorInsercion(var vec: v; dimL: integer); 
+var
+    pos : integer;
+    elemAct,i,b: integer;
+begin
+    pos:= PosIni;
+  for i := (posIni+1) to (dimL-1) do
+    begin
+      elemAct := vec[i];
+      pos := i - 1;
+      while( (Pos > (PosIni-1) )and (vec[pos] > elemAct)) do  //si el anterior es mas grande que el segundo 
+        begin
+          vec[pos+1] := vec[pos]; 
+          pos := pos - 1;
+        end;
+        vec[pos+1] := elemAct;
+    end;
+end;
+
+var
+ vec : v ; 
+begin
+  cargarV(vec); 
+  imprimirV(vec);
+  ordenarVectorInsercion(vec,11); 
+  writeln;
+  imprimirV(vec); 
+end.
+```

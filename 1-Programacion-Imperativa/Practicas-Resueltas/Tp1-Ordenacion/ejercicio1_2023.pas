@@ -1,77 +1,167 @@
-{
-  1.- Implementar un programa que procese la información de los alumnos de la Facultad de
-Informática.
-a) Implementar un módulo que lea y retorne, en una estructura adecuada, la información de
-todos los alumnos. De cada alumno se lee su apellido, número de alumno, año de ingreso,
-cantidad de materias aprobadas (a lo sumo 36) y nota obtenida (sin contar los aplazos) en cada
-una de las materias aprobadas. La lectura finaliza cuando se ingresa el número de alumno
-11111, el cual debe procesarse.
-b) Implementar un módulo que reciba la estructura generada en el inciso a) y retorne número
-de alumno y promedio de cada alumno.
-c) Analizar: ¿qué cambios requieren los puntos a y b, si no se sabe de antemano la cantidad de
-materias aprobadas de cada alumno, y si además se desean registrar los aplazos? ¿cómo
-puede diseñarse una solución modularizada que requiera la menor cantidad de cambios?
-}
+{Se desea procesar la información de las ventas de productos de un comercio (como máximo
+50).
+Implementar un programa que invoque los siguientes módulos:
+a. Un módulo que retorne la información de las ventas en un vector. De cada venta se conoce el
+día de la venta, código del producto (entre 1 y 15) y cantidad vendida (como máximo 99
+unidades). El código debe generarse automáticamente (random) y la cantidad se debe leer. El
+ingreso de las ventas finaliza con el día de venta 0 (no se procesa).
+b. Un módulo que muestre el contenido del vector resultante del punto a).
+c. Un módulo que ordene el vector de ventas por código.
+d. Un módulo que muestre el contenido del vector resultante del punto c).
+e. Un módulo que elimine, del vector ordenado, las ventas con código de producto entre dos
+valores que se ingresan como parámetros.
+f. Un módulo que muestre el contenido del vector resultante del punto e).
+g. Un módulo que retorne la información (ordenada por código de producto de menor a
+mayor) de cada código par de producto junto a la cantidad total de productos vendidos.
+h. Un módulo que muestre la información obtenida en el punto g)}
 
 program ejercicio1_2023;
 
 const
-  dimF36 = 36;
-
+  dimF31 = 31;
+  dimF50 = 50;
 type
-
-  vNotas = array[1..dimF36]of integer;
-  str20 = string[20];
-
-  alumno = record
-    apellido: str20;
-    numAlumno: integer;
-    anhoIngreso: integer;
-    cantMatAprobadas: integer;
-    notas: vNotas;
+  rango15 = 1..15;
+  rango31 = 1..31;
+  rango99 = 1..99;
+  
+  venta = record
+    dia: rango31;
+    codProducto: rango15;
+    cantVendida: rango99;
   end;
 
-  lista = ^nodo;
-
-  nodo = record
-    dato: alumno;
-    sig: lista;
+  vectorVentas = array[1..dimF50]of venta;
+  
+  //----------------------------------------
+ // codPar = record
+ //   dia: rango31;
+ //   codProducto: rango15;
+ //   cantVendida: rango99;
+ // end;
+  
+  listaCodPar  = ^nodoCodPar;
+  
+  nodoCodPar = record
+   // dato: codPar;
+    dato: venta;
+    sig: listacodPar ;
   end;
-
-procedure inicializarLista(var L: lista);
+  
+  estructuraAretornar = record
+    ventaMismoCodigo: listacodPar ;
+    totalProductosVendidos: integer;
+  end;
+  
+  listaAretornar = ^nodoAretornar;
+  
+  nodoAretornar = record
+    dato: estructuraAretornar;
+    sig: listaAretornar;
+  end;
+  
+  //----------------------------------------
+  
+procedure leerVenta(var v: venta);
 begin
-  L:= nil;  
-end; 
-
-procedure leerDataAlumno(var a: alumno);
-begin
-  Writeln('Ingrese el apellido ');
-  readln(a.apellido); //ver como generar strings random
-  Writeln('Ingrese el numero de alumno: ');
-  a.numAlumno:= random(1112); //random de 0 a 1111
-  Writeln('Ingrese el anho de ingreso ');
-  a.anhoIngreso:= random(2024); 
-  Writeln('Ingrese la cantidad de materias aprobadas ');
-  a.cantMatAprobadas:= random(37); //0..36
+  Writeln('dia: ' );
+  v.dia:= random(31)+1;  //corte con 0, no se procesa
+  Writeln('codProducto: ');
+  v.codProducto:= random(16)+1;
+  Writeln('cant vendida: ');
+  v.cantVendida:= random(100)+1;
 end;
 
-procedure cargarNotas(var v: vNotas; dimL: integer);
-var 
-  i: integer;
+procedure cargarVectorVentas(var v: vectorVentas; var dimL: integer);
+var
+  vent: venta;
 begin
-  for i:= 1 to dimL do
+  dimL:= 0;
+  leerVenta(vent);
+  While (dimL < dimF50) and (vent.dia <> 0)do
     begin
-      Writeln('Ingrese la nota ',i);
-      readln(v[i]);
+      dimL:= dimL+1;
+      v[dimL]:= vent;
+      leerVenta(vent);
     end;
 end;
 
-procedure agregarAtras(var L,ult: lista; a: alumno);
+procedure informarCampos(v: venta);
+begin
+  Writeln('dia: ',v.dia);
+  Writeln('codProducto: ',v.codProducto);
+  Writeln('cant vendida: ',v.cantVendida);
+end;
+
+procedure imprimirVector(v: vectorVentas; dimL: integer);
 var
-  nue: lista;
+  i: integer;
+begin
+  if(dimL = 0)then
+    Writeln('Lista vacia')
+  else
+    begin
+      for i:= 1 to dimL do
+        begin
+          informarCampos(v[i]);
+        end;
+    end;
+end;
+
+//criterio de orden: codigo de producto
+procedure ordenarSeleccion(var v: vectorVentas; dimL: integer);
+var
+  a,b,i: integer;
+  min: venta;
+begin
+  for i:= 1 to dimL-1 do
+    begin
+      a:= i;
+      for b:= i+1 to dimL do
+        begin
+          if(v[b].codProducto < v[a].codProducto)then
+            a:= b;
+          min:= v[a]; //agarro el minimo
+          v[a]:= v[i]; //swap intercambop
+          v[i]:= min; // tiro el minimo al principio
+        end;
+    end;
+end;
+
+//no se evalua que la pos, q sea > 0 and pos <= dimL         
+procedure eliminarV(var v: vectorVentas; var dimL: integer; izquierda: integer);
+var
+  i: integer;
+begin
+  for i := izquierda to dimL-1 do
+    begin
+      v[i]:= v[i+1];
+    end;
+  dimL:= dimL-1;
+end;
+
+procedure eliminarEntreRangos(var v: vectorVentas; var dimL: integer; izquierda,derecha: integer);
+begin
+  izquierda:= izquierda+1;
+  derecha:= derecha+1;
+  While(izquierda < dimL)do
+    begin
+      eliminarV(v,dimL,izquierda);
+      izquierda:= izquierda+1;
+    end;
+end;
+
+procedure inicializarLista(var L:listaAretornar);
+begin
+  L:= nil;
+end;
+
+procedure agregarAtras(var L,Ult: listaCodPar; v: venta);
+var
+  nue: listaCodPar;
 begin
   new(nue);
-  nue^.dato:= a;
+  nue^.dato:= v;
   nue^.sig:= nil;
   if(L = nil)then
     L:= nue
@@ -80,63 +170,90 @@ begin
   Ult:= nue;
 end;
 
-procedure leerAlumno(var a: alumno);
-begin
-  leerDataAlumno(a);
-  cargarNotas(a.notas,a.cantMatAprobadas);
-end;
-
-procedure cargarAlumnos(var L: lista);
+procedure agregarAtras2(var L,Ult: listaAretornar; v: estructuraAretornar);
 var
-  a: alumno;
-  Ult: lista;
+  nue: listaAretornar;
 begin
-  repeat
-    leerAlumno(a);
-    agregarAtras(L,Ult,a);
-  until  (a.numAlumno = 1111); 
+  new(nue);
+  nue^.dato:= v;
+  nue^.sig:= nil;
+  if(L = nil)then
+    L:= nue
+  else
+    Ult^.sig:= nue;
+  Ult:= nue;
 end;
 
-function promedio(cant: integer; vector: vNotas): real;  //puede tener 0 materias aprobadas, caso de error
-var 
+ 
+procedure generarEstructura(var L: listaAretornar;v: vectorVentas; dimL: integer);
+var
   i: integer;
-  suma: integer;
+  codActual: integer;
+  ventasMismoProducto: estructuraAretornar ;  //registro con lista
+  auxConTotalVentas: integer;
+  Ult: listaCodPar;
+  Ult2: listaAretornar;
 begin
-  suma:= 0;
-  for i:= 1 to cant do
+  i:= 1;
+  While (i < dimL)do
     begin
-      suma:= suma + vector[i];
+      // i:= i+1;
+      codActual:= v[i].codProducto;
+      auxConTotalVentas:= 0;
+      if(codActual mod 2 = 0)then
+        begin
+          ventasMismoProducto.ventaMismoCodigo:= nil;
+          While(i < dimL) and (codActual = v[i].codProducto)do
+            begin
+              auxConTotalVentas:= auxConTotalVentas+ v[i].cantVendida;
+              agregarAtras(ventasMismoProducto.ventaMismoCodigo,Ult,v[i]);
+              i:= i+1;
+            end;
+          //salgo de cargar el mismo codigo
+          ventasMismoProducto.totalProductosVendidos:= auxConTotalVentas;
+          agregarAtras2(L,Ult2,ventasMismoProducto)
+        end
+      else
+        i:= i+1;
     end;
-  promedio:= suma/cant;
 end;
 
-procedure procesarData(L: lista);
+procedure imprimirEstructura(L: listaAretornar);
 begin
   While(L <> nil)do
     begin
-      Writeln('Numero de alumno: ',L^.dato.numAlumno);
-      Writeln('Promedio del alumno: ',promedio(L^.dato.cantMatAprobadas,L^.dato.notas));
+      Writeln('Cant vendida total: ',L^.dato.totalProductosVendidos);
       L:= L^.sig;
     end;
 end;
 
-var 
-  L: lista;
-begin
-  randomize;
+var
+  v: vectorVentas;
+  dimL: integer;
+  izquierda,derecha: integer;
+  L: listaAretornar ;
+begin 
+  cargarVectorVentas(v,dimL); //a
+  
+ 
+  
+  imprimirVector(v,dimL);  //b
+  
+  ordenarSeleccion(v,dimL);  //c
+  
+  imprimirVector(v,dimL); //d
+  Writeln('Ingresa el valor del rango izquierdo ');
+  readln(izquierda);
+  Writeln('Ingrese el valor del rango derecho ');
+  readln(derecha);
+  eliminarEntreRangos(v,dimL,derecha,izquierda);  //e
+  imprimirVector(v,dimL); //f
   inicializarLista(L);
-  cargarAlumnos(L);
-  {b) Implementar un módulo que reciba la estructura generada en el inciso a) y retorne número
-    de alumno y promedio de cada alumno.}
-    //el retorne lo interpreto como que imprima, en este caso, ya que no puedo retonar cada data al program principal, puedo retonar una lista nueva con esos datos
-    //pero no creo q me pida eso
-  procesarData(L);
+   
+  generarEstructura(L,v,dimL);  //g
 
-  {c) Analizar: ¿qué cambios requieren los puntos a y b, si no se sabe de antemano la cantidad de
-materias aprobadas de cada alumno, y si además se desean registrar los aplazos? ¿cómo
-puede diseñarse una solución modularizada que requiera la menor cantidad de cambios?}
-{
-  -no entiendo muy bien la pregunta pero (preguntar)
-  -tendria que hacer una lista y que dentro q tenga otra lista. Ahora si me dice q sigo teniendo mi vector de rando max 36, leo hasta q no llegue al limite
-}
+  Writeln(); Writeln();
+  Writeln('sarasa 0');
+  Writeln(); Writeln();
+  imprimirEstructura(L);  //h
 end.

@@ -1,0 +1,22 @@
+Imperativo 
+ 
+Ejercicio 1. Implementar un programa que procese la información de los participantes a un concurso 
+de preguntas y respuestas. De cada participante se lee el código de participante, código de ciudad de 
+origen y edad. El ingreso de los participantes finaliza cuando se lee el código -1. Implementar un programa que: a) Genere un ABB a partir de la información leída, ordenado por código de participante. b) Contenga un módulo que reciba el árbol generado en a) y un código de ciudad y retorne una lista 
+con los participantes de esa ciudad. c)  Invoque  al  módulo  de  b)  y  luego  muestre  el  contenido  de  la  lista  resultante  utilizando  un  módulo 
+recursivo. d)  Muestre  la  cantidad  de  participantes  cuyos  códigos  están  comprendidos  entre  dos  valores 
+determinados.  Para  ello  implementar  un módulo que  reciba el árbol generado en a)  y  dos  valores  y 
+devuelva la cantidad pedida. e) Informe la edad promedio de los participantes del concurso. 
+ 
+Ejercicio 2. Una familia de 4 integrantes llevan registro de sus gastos (tipo de gasto y monto 
+gastado). Se pide: a) Generar una estructura que almacene los gastos de los integrantes de la familia, agrupados según 
+el  integrante.  Por  cada  integrante,  se  leen  gastos  hasta  tipo  de  gasto  ‘zzz’.  Los  gastos  de  cada 
+integrante deben ordenarse por tipo de gasto.  b) Imprimir la estructura generada en a. c) A partir de la estructura generada en a, realice un merge para obtener los montos totales gastados 
+por cada tipo de gasto. Genere un ABB con monto total y tipo de gasto, ordenado por monto total. d) A partir del ABB, busque e imprima el tipo de gasto con mayor monto total.   
+
+Ejercicio 3. Una perfumería dispone en papel de la información de las ventas de sus productos. De 
+cada  venta  conoce:  código  de  producto,  tipo  de  producto,  fecha,  cantidad  de  unidades  vendida  y 
+monto. Se pide realizar un programa que: a)  A  partir  de  la  información  de  ventas  ingresadas  por  teclado,  genere  un  ABB  que  almacene  para 
+cada  código  de  producto:  su  tipo,  la  cantidad  total  de  unidades  vendidas  y  el  monto  total  vendido 
+(entre  todas  las  ventas  realizadas).  El  ABB  debe  ordenarse  por  código  de  producto.  El  ingreso  de 
+información finaliza cuando se lee cantidad vendida 0. b) Luego de generado el ABB, informar (implementar un módulo para cada inciso):    i -  El tipo de los productos cuyo código está comprendido entre los valores 1500 y 2200.   ii – La cantidad de productos con monto total vendido comprendido entre 10000 y 50000.

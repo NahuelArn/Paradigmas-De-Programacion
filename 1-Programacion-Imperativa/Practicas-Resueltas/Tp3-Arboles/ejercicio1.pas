@@ -246,8 +246,101 @@ begin
     begin
       cont:= cont + 1;
       suma:= suma + a^.dato.edad;
-      sumaAndCont(a^.hi,suma,cont);
-      sumaAndCont(a^.hd,suma,cont);
+      sumaAndCont(a^.hi,suma,cont,prom);
+      sumaAndCont(a^.hd,suma,cont,prom);
+    end;
+end;
+
+{ix. Informe, a partir de dos valores que se leen, la cantidad de socios en el árbol cuyo 
+número de socio se encuentra entre los dos valores ingresados. Debe invocar a un módulo 
+recursivo que reciba los dos valores leídos y retorne dicha cantidad.}
+
+// procedure buscarEnArbol();
+// //nombre del padre e hijo espir
+// procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
+// begin
+//   // if(a^.dato.numSocio = derecha)then //termina cuando llego al limite superior
+//   if(a <> nil)then
+//     begin     
+//       cantCumplen:= 0;
+//     end
+//   else
+//     begin
+//       if( a^.dato.numSocio < izquierda )then  //el actual no es menor al limite inferior
+//         begin
+//           cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+//           cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+//           //en teoria cuando este aca, voy a estar parado en la pos q queria
+//           if(a^.dato.numSocio < derecha)then
+//             begin
+//               cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+//               cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+//             end;         
+//         end;
+//     end;
+// end;
+
+// //nombre del padre e hijo espir
+// procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
+// begin
+//   // if(a^.dato.numSocio = derecha)then //termina cuando llego al limite superior
+//   if(a <> nil)then
+//     begin     
+//       if( a^.dato.numSocio < izquierda )then  //el actual no es menor al limite inferior
+//         begin
+//           cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+//           cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+//           cantCumplen:= cantCumplen+1;
+//           //en teoria cuando este aca, voy a estar parado en la pos q queria
+//           if(a^.dato.numSocio < derecha)then
+//             begin
+//               cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+//               cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+//               cantCumplen:= cantCumplen+1;
+//             end;         
+//         end;
+//     end;
+// end;
+
+//nombre del padre e hijo espir
+//funciona GOOOD chequeado
+procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
+begin
+  // if(a^.dato.numSocio = derecha)then //termina cuando llego al limite superior
+  if(a <> nil)then
+    begin     
+      if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then  //el actual no es menor al limite inferior
+        begin
+          cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
+          cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
+          // if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then
+          // if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then
+          cantCumplen:= cantCumplen+1;
+          //en teoria cuando este aca, voy a estar parado en la pos q queria         
+        end;
+    end;
+end;
+
+{x. Informe los números de socio en orden creciente.  }
+
+procedure imprimirInOrder(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirInOrder(a^.hi);
+      Writeln('In Order: de menor a mayor',a^.dato);
+      imprimirInOrder(a^.hd);
+    end;
+end;
+{xi. Informe los números de socio pares en orden decreciente.}
+procedure imprimirInOrder2(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirInOrder2(a^.hd);
+      if(a^.dato mod 2= 0)then
+        Writeln('In Order: de mayor a menor',a^.dato);
+      imprimirInOrder2(a^.hi);
     end;
 end;
 
@@ -260,7 +353,10 @@ var
   aux: Boolean;
   estado: Boolean;
   name: string;
-  cont: integer;
+  cont: integer;  //cont lo voy reutilizando para cada llamado a un modulo
+  suma: integer;
+  prom: real;
+  cantCumplen,izquierda,derecha: integer;
 begin
   randomize;
   inicializarArbol(a);
@@ -277,6 +373,7 @@ begin
 
   //busca y retonar al socio con mayor edad/ tengo que recorrer todo el arbol
   maxEdad:= -999;
+  numSocio:= 0;
   Writeln('El numero de socio con mayor edad es: ',informarNumSocioMayorEdad(a,maxEdad,numSocio));
 
   //
@@ -289,7 +386,7 @@ begin
   else
     Writeln('Ocurrio algun error');
   
-
+//
   Writeln('Ingrese el nombre del socio a buscar: ');
   readln(name);
   estado:= false;
@@ -297,7 +394,25 @@ begin
     Writeln('el socio: ',name,' se encuentra en la estructura')
   else
     Writeln('Error VI');
-  //
+  
   cont:= 0;
-  Writeln('hay :',cuantosSociosHay(a,cont).' socios');
+  Writeln('hay :',cuantosSociosHay(a,cont),' socios');
+
+  //
+  suma:= 0;
+  cont:= 0;
+  sumaAndCont(a,suma,cont,prom);
+  Writeln('El promedio de los socios es: ',prom);
+  //
+  Writeln('ingrese a: ');
+	readln(izquierda);
+	Writeln('Ingrese b: ');
+	readln(derecha);
+  cantCumplen:= 0;
+  cuantosEntreRango(a,izquierda,derecha,cantCumplen);
+  Writeln('cantidad q cumplen: ',cantCumplen);
+  //
+  imprimirInOrder(a);
+  //
+  imprimirInOrder2(a);
 end.
