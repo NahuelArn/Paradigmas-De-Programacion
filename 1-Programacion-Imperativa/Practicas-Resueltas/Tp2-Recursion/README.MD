@@ -5,6 +5,20 @@
 ```pas
   function estaEnLaLista(L: lista; valorBuscado: integer): boolean;
   begin
+    if(L = nil)then
+      estaEnLaLista:= false
+    else
+      begin
+        if(L^.dato = valorBuscado)then
+          estaEnLaLista:= true;
+        else
+          estaEnLaLista:= estaEnLaLista(L^.sig,valorBuscado);
+      end;
+  end;
+
+```
+<!-- function estaEnLaLista(L: lista; valorBuscado: integer): boolean;
+  begin
     if(L = nil) then
       estaEnLaLista:= false
     else
@@ -17,9 +31,8 @@
   if(estaEnLaLista(L,buscado))then
       Writeln('valor encontrado ' )
     else
-      Writeln('no esta en la lista');
+      Writeln('no esta en la lista'); -->
 
-```
 
 <h1 align="center"> Sacar un el digito maximo de un numero</h1>
 
