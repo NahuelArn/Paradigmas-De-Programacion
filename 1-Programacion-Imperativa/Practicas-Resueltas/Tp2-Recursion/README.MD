@@ -2,9 +2,6 @@
 
 <p align="center">Modulo validador para ver si se encuentra un numero en la lista</p>
 
-
-
-
 ```pas
 function estaEnLaLista(L: lista; valorBuscado: integer): boolean;
 begin
@@ -31,7 +28,7 @@ if(estaEnLaLista(L,buscado))then
 program sarasaRecursion;
 
 procedure digitoMaximo(n: integer; var max: integer);
-var 
+var
   dig: integer;
 begin
   dig:= n mod 10;
@@ -56,6 +53,186 @@ end.
 
 <h1 align="center"> busqueda binaria recursiva / busqueda dicotomica</h1>
 
+<p>2 variaciones de la busqueda binaria algo parecidos pero recursivos</p>
+
+```pas
+
+procedure busquedaDicotomicaRecursiva (v: vector ; ini: integer ; fin: integer ; valorBuscado: integer ; var pos: integer;var encontrado:Boolean);
+var
+	mid: integer;
+begin
+	if (ini > fin) then
+		pos:= -1
+	else
+    begin
+      mid:= (ini + fin) div 2;
+      if (valorBuscado = v[mid]) then
+        begin
+          pos:= mid;
+          encontrado:= true;
+        end
+      else
+        if (valorBuscado < v[mid]) then
+          busquedaDicotomicaRecursiva(v, ini, (mid - 1), valorBuscado, pos,encontrado)
+        else
+          busquedaDicotomicaRecursiva(v, (mid + 1), fin, valorBuscado, pos,encontrado)
+    end;
+end;
+
+
+procedure buscarNumero(numAbuscar: integer; v1: vector; ini,mitad,fin: integer;var encontrado: Boolean);
+
+begin
+  if ((ini <= fin) And (encontrado <> true)) then
+    Begin
+      mitad := (ini+fin) Div 2;
+      If (v1[mitad] = numAbuscar) Then
+        encontrado := true
+      Else
+        begin
+          If (numAbuscar < v1[mitad])Then
+            fin := mitad-1
+          Else
+            If (numAbuscar > v1[mitad])Then
+              ini := mitad+1;
+        end;
+      buscarNumero(numAbuscar,v1,ini,mitad,fin,encontrado);
+    End
+  else
+    encontrado:= encontrado;
+end;
+```
+
+* <details>
+  <summary> 1) Codigo Prueba de los 2 Algoritmos </summary>
+        
+  ```pas
+       
+  program Hello;
+  type
+
+    vector = array[1..10]of integer;
+
+  procedure cargarVector(var v: vector);
+  var
+    i: integer;
+  begin
+    for i:= 1 to 10 do  
+      v[i]:= random(10);
+  end;
+
+  procedure imprimirVector(var v: vector);
+  var
+    i: integer;
+  begin
+    for i:= 1 to 10 do
+      Writeln('estamos en la iteracion: ',i,' y tiene este valor: ',v[i]);
+  end;
+
+  procedure busquedaDicotomicaRecursiva (v: vector ; ini: integer ; fin: integer ; valorBuscado: integer ; var pos: integer;var encontrado:Boolean);
+  var
+    mid: integer;
+  begin
+    if (ini > fin) then
+      pos:= -1
+    else
+      begin
+        mid:= (ini + fin) div 2;
+        if (valorBuscado = v[mid]) then
+          begin
+            pos:= mid;
+            encontrado:= true;
+          end
+        else
+          if (valorBuscado < v[mid]) then
+            busquedaDicotomicaRecursiva(v, ini, (mid - 1), valorBuscado, pos,encontrado)
+          else
+            busquedaDicotomicaRecursiva(v, (mid + 1), fin, valorBuscado, pos,encontrado)
+      end;
+  end;
+
+
+  procedure ordenarPorSeleccion(var v: vector; dimL: integer);
+  var
+    a,b,i,min: integer;
+  begin
+    for i:= 1 to dimL-1 do
+      begin
+        a:= i;
+        for b:= i+1 to dimL-1 do
+          begin
+            if(v[b] < v[a])then
+              a:= b;
+          end;
+          min:= v[a];
+          v[a]:= v[i];
+          v[i]:= min;
+      end;  
+  end;
+
+
+  procedure buscarNumero(numAbuscar: integer; v1: vector; ini,mitad,fin: integer;var encontrado: Boolean);
+
+  begin
+    if ((ini <= fin) And (encontrado <> true)) then
+      Begin
+        mitad := (ini+fin) Div 2;
+        If (v1[mitad] = numAbuscar) Then
+          encontrado := true
+        Else 
+          begin
+            If (numAbuscar < v1[mitad])Then
+              fin := mitad-1
+            Else 
+              If (numAbuscar > v1[mitad])Then
+                ini := mitad+1;
+          end;
+        buscarNumero(numAbuscar,v1,ini,mitad,fin,encontrado);
+      End
+    else
+      encontrado:= encontrado;
+  end;
+
+  var
+    v: vector;
+    valorB,ini,pos,fin: integer;
+    encontrado: Boolean;
+    dimL: integer;
+    mitad: integer;
+  begin
+    randomize;
+    cargarVector(v);
+    dimL:= 10;
+    ordenarPorSeleccion(v,dimL);
+    imprimirVector(v);
+    Writeln('Ingrese un valor ha buscar ');
+    readln(valorB);
+    encontrado:= false;
+    busquedaDicotomicaRecursiva(v,1,10,valorB,pos,encontrado);
+    if(encontrado)then
+      Writeln('Se encontro el numero: ',pos)
+    else  
+      Writeln('error: ',pos);
+
+    Writeln('El HABIA hecho yo ');
+    Writeln();Writeln();
+    encontrado:= false;
+    buscarNumero(valorB,v,1,mitad,10,encontrado);
+    Writeln();Writeln();
+    if(encontrado)then
+      Writeln('Se encontro el numero: ')
+    else  
+      Writeln('error: ');
+  end.
+
+
+     ```
+</details>
+
+
+<!--
+<h1 align="center"> busqueda binaria recursiva / busqueda dicotomica</h1>
+
 ```pas
 
 procedure buscarNumero(numAbuscar: integer; v1: vPrimero; ini,mitad,fin: integer;var encontrado: Boolean;);
@@ -65,10 +242,10 @@ begin
       mitad := (ini+fin) Div 2;
       If (v1[mitad] =numAbuscar) Then
         encontrado := true
-      Else 
+      Else
         If (numAbuscar < v1[mitad])Then
           fin := mitad-1
-        Else 
+        Else
           If (numAbuscar> v1[mitad])Then
            ini := mitad+1;
       buscarNumero(numAbuscar,v1,ini,mitad,fin,encontrado);
@@ -85,10 +262,10 @@ begin
       mitad := (ini+fin) Div 2;
       If (v1[mitad] =numAbuscar) Then
         encontrado := true
-      Else 
+      Else
         If (numAbuscar < v1[mitad])Then
           fin := mitad-1
-        Else 
+        Else
           If (numAbuscar> v1[mitad])Then
            ini := mitad+1;
       buscarNumero(numAbuscar,v1,ini,mitad,fin,encontrado);
@@ -98,3 +275,4 @@ begin
 end;
 
 ```
+-->
