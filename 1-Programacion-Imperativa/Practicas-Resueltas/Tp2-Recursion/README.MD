@@ -57,50 +57,50 @@ end.
 
 ```pas
 
-procedure busquedaDicotomicaRecursiva (v: vector ; ini: integer ; fin: integer ; valorBuscado: integer ; var pos: integer;var encontrado:Boolean);
-var
-	mid: integer;
-begin
-	if (ini > fin) then
-		pos:= -1
-	else
-    begin
-      mid:= (ini + fin) div 2;
-      if (valorBuscado = v[mid]) then
-        begin
-          pos:= mid;
-          encontrado:= true;
-        end
-      else
-        if (valorBuscado < v[mid]) then
-          busquedaDicotomicaRecursiva(v, ini, (mid - 1), valorBuscado, pos,encontrado)
+  procedure busquedaDicotomicaRecursiva (v: vector ; ini: integer ; fin: integer ; valorBuscado: integer ; var pos: integer;var encontrado:Boolean);
+  var
+    mid: integer;
+  begin
+    if (ini > fin) then
+      pos:= -1
+    else
+      begin
+        mid:= (ini + fin) div 2;
+        if (valorBuscado = v[mid]) then
+          begin
+            pos:= mid;
+            encontrado:= true;
+          end
         else
-          busquedaDicotomicaRecursiva(v, (mid + 1), fin, valorBuscado, pos,encontrado)
-    end;
-end;
+          if (valorBuscado < v[mid]) then
+            busquedaDicotomicaRecursiva(v, ini, (mid - 1), valorBuscado, pos,encontrado)
+          else
+            busquedaDicotomicaRecursiva(v, (mid + 1), fin, valorBuscado, pos,encontrado)
+      end;
+  end;
 
 
-procedure buscarNumero(numAbuscar: integer; v1: vector; ini,mitad,fin: integer;var encontrado: Boolean);
+  procedure buscarNumero(numAbuscar: integer; v1: vector; ini,mitad,fin: integer;var encontrado: Boolean);
 
-begin
-  if ((ini <= fin) And (encontrado <> true)) then
-    Begin
-      mitad := (ini+fin) Div 2;
-      If (v1[mitad] = numAbuscar) Then
-        encontrado := true
-      Else
-        begin
-          If (numAbuscar < v1[mitad])Then
-            fin := mitad-1
-          Else
-            If (numAbuscar > v1[mitad])Then
-              ini := mitad+1;
-        end;
-      buscarNumero(numAbuscar,v1,ini,mitad,fin,encontrado);
-    End
-  else
-    encontrado:= encontrado;
-end;
+  begin
+    if ((ini <= fin) And (encontrado <> true)) then
+      Begin
+        mitad := (ini+fin) Div 2;
+        If (v1[mitad] = numAbuscar) Then
+          encontrado := true
+        Else
+          begin
+            If (numAbuscar < v1[mitad])Then
+              fin := mitad-1
+            Else
+              If (numAbuscar > v1[mitad])Then
+                ini := mitad+1;
+          end;
+        buscarNumero(numAbuscar,v1,ini,mitad,fin,encontrado);
+      End
+    else
+      encontrado:= encontrado;
+  end;
 
 ```
 
