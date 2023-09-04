@@ -107,6 +107,19 @@ y mes del préstamo y cantidad de días prestados. Implementar un programa con:
 		hd: arbol1;
 	end;
 	
+	
+	nuevaEstructuraF = record
+		isbn: integer;
+		cantPrestamos: integer;
+	end;
+	
+	listaNuevaParaElF = ^nodoF;
+	
+	nodoF = record
+		dato: nuevaEstructuraF;
+		sig: listaNuevaParaElF;
+	end;
+	
 procedure inicializarPuntero(var a0: arbol0; var a1: arbol1);
 begin
 	a0:= nil;
@@ -272,13 +285,13 @@ módulo debe retornar la cantidad de préstamos realizados a dicho socio.
 //en teoria tengo una lista contenida en otra entonces esta funcion va buscar en la lista y retonar la cant q aparesca
 function cantPrestamosArbollista(L: listaii; numSocio: integer): integer;
 begin
-	if(a0 = nil)then
+	if(L = nil)then
 		cantPrestamosArbollista:= 0
 	else
 		begin
 			if(L^.dato.numSocio = numSocio)then
 				begin
-					cantPrestamosArbollista:= cantPrestamosArbol1(L^.sig,numSocio)+1;
+					cantPrestamosArbollista:= cantPrestamosArbollista(L^.sig,numSocio)+1;
 				end
 			else
 				begin
@@ -287,14 +300,16 @@ begin
 				end;
 		end;
 end;
-//buscar en arboles
-function cantPrestamosArbol1(a1: arbol0; numSocio: integer): integer;
+//buscar en arboles // EN teoria deberia retornar y sumar todo con la pila cuando haga el backtracking
+function cantPrestamosArbol1(a1: arbol1; numSocio: integer): integer;
 begin
 	if(a1 = nil)then
 		cantPrestamosArbol1:= 0
 	else
-		begin
-			cantPrestamosArbol1:= cantPrestamosArbol1(a1,numSocio);
+		begin		
+			cantPrestamosArbol1:= cantPrestamosArbol1(a1^.hi,numSocio);
+			cantPrestamosArbol1:= cantPrestamosArbol1(a1^.hd,numSocio);
+			cantPrestamosArbol1 :=  cantPrestamosArbollista(a1^.dato, numSocio);
 		end;
 end;
 
@@ -302,7 +317,46 @@ end;
 f. Un módulo que reciba la estructura generada en i. y retorne una nueva estructura
 ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de veces
 que se prestó.}
+//aprovecho el orden
+procedure agregarAtrasIneficiente2(var L:listaNuevaParaElF; p:nuevaEstructuraF);
+var
+	ant,act: listaNuevaParaElF;
+	nue: listaNuevaParaElF;
+begin
+	new(nue);
+	nue^.dato:= p;
+	ant:= L;
+	act:= L;
+	While(act <> nil)do
+		begin
+			ant:= act;
+			act:= act^.sig;
+		end;
+	if(ant = act)then
+		L:= nue
+	else
+		ant^.sig:= nue;
+	nue^.sig:= act;
+end;
 
+procedure filtrarData(p: prestamo;var rn: nuevaEstructuraF);
+begin
+	rn.isbn:= p.isbn;
+	rn.cantPrestamos:= rn.cantPrestamos + p.cantDiasPrestados;
+end;
+
+procedure generarNuevaEstructuraDesdeArbol0(a0: arbol0; var lista2F:listaNuevaParaElF );
+var
+	rn: nuevaEstructuraF;
+begin
+	if(a0 <> nil)then
+		begin
+			generarNuevaEstructuraDesdeArbol0(a0^.hi,lista2F);
+			filtrarData(a0^.dato,rn);
+			agregarAtrasIneficiente2(lista2F,rn);
+			generarNuevaEstructuraDesdeArbol0(a0^.hd,lista2F);
+		end;
+end;
 
 {g. Un módulo que reciba la estructura generada en ii. y retorne una nueva estructura
 ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de veces
@@ -321,6 +375,8 @@ comprendidos entre los dos valores recibidos (incluidos)}
 
 var
 	a1: arbol1;{<--este es de listas} a0: arbol0;	{<--- este normalito}
+	numSocioBuscado: integer;
+	lista2F: listaNuevaParaElF;
 begin
 	randomize;
 	inicializarPuntero(a0,a1);
@@ -331,5 +387,12 @@ begin
 	//
 	Writeln('Ingrese un numero de socio ');
 	readln(numSocioBuscado);
-	Writeln('La cantidad D',cantPrestamosArbol0(a0,numSocioBuscado));
+	Writeln('La cantidad D: ',cantPrestamosArbol0(a0,numSocioBuscado));
+	
+	//reutilizo la variable numSocio
+	Writeln('la canditidad E: ',cantPrestamosArbol1(a1,numSocioBuscado));
+	
+	//
+	lista2F:= nil;
+	generarNuevaEstructuraDesdeArbol0(a0,lista2F);
 end.
