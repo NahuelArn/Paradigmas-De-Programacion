@@ -119,12 +119,15 @@ end;
 
 procedure imprimirInOrder(a: arbol);
 begin
-	Writeln('---4--');
-	imprimirInOrder(a^.hi);
-	Writeln('Imprimiendo el cod In order: ',a^.dato.codProducto);
-	Writeln('---5--');
-	imprimirInOrder(a^.hd);
-	Writeln('---6--');
+	if(a <> nil)then
+		begin
+			Writeln('---4--');
+			imprimirInOrder(a^.hi);
+			Writeln('Imprimiendo el cod In order: ',a^.dato.codProducto);
+			Writeln('---5--');
+			imprimirInOrder(a^.hd);
+			Writeln('---6--');
+		end;
 end;
 
 {c. Contenga un módulo que reciba la estructura generada en el punto a y retorne el

@@ -364,7 +364,7 @@ que se prestó.}
 
 procedure generarNuevaEstructuraDesdeArbol1();
 begin
-	
+	3:17
 end.
 
 {h. Un módulo recursivo que reciba la estructura generada en h. y muestre su contenido.
