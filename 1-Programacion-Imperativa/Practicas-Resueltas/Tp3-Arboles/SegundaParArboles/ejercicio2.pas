@@ -362,6 +362,10 @@ end;
 ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de veces
 que se prestó.}
 
+procedure generarNuevaEstructuraDesdeArbol1();
+begin
+	
+end.
 
 {h. Un módulo recursivo que reciba la estructura generada en h. y muestre su contenido.
 i. Un módulo recursivo que reciba la estructura generada en i. y dos valores de ISBN. El
@@ -377,6 +381,7 @@ var
 	a1: arbol1;{<--este es de listas} a0: arbol0;	{<--- este normalito}
 	numSocioBuscado: integer;
 	lista2F: listaNuevaParaElF;
+	lista2G: lista2F;	//mismo registro pra los 2
 begin
 	randomize;
 	inicializarPuntero(a0,a1);
@@ -394,5 +399,8 @@ begin
 	
 	//
 	lista2F:= nil;
-	generarNuevaEstructuraDesdeArbol0(a0,lista2F);
+	generarNuevaEstructuraDesdeArbol0(a0,lista2F);	//despues recorrerla y testearla
+	//
+	lista2G:= nil;
+	generarNuevaEstructuraDesdeArbol1(a1,lista2G);
 end.
