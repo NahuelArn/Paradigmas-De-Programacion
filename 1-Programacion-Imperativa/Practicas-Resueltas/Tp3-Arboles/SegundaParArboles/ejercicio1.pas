@@ -26,7 +26,7 @@ entre los dos valores recibidos (sin incluir).
 * la quede > 1:30 error en tiempo de ejecucion
 * }
 program ejercicio1;
-
+  
 type
 	producto = record	//criterio de orden cod producto
 		codProducto: integer;
