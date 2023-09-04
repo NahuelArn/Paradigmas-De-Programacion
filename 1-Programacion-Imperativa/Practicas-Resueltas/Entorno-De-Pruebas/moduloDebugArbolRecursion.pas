@@ -33,32 +33,46 @@ begin
 		end;
 end;
 
-procedure cuantosEntreRango(a: arbol;izquierda,derecha: integer;var cantCumplen: integer);
-begin
-	// if(a^.dato.numSocio = derecha)then //termina cuando llego al limite superior
-	if(a <> nil)then
-begin     
-  if( a^.dato> izquierda ) and (a^.dato < derecha) then  //el actual no es menor al limite inferior
-    begin
-			cuantosEntreRango(a^.hi,izquierda,derecha,cantCumplen);
-			cuantosEntreRango(a^.hd,izquierda,derecha,cantCumplen);
-			// if( a^.dato.numSocio > izquierda ) and (a^.dato.numSocio < derecha) then
-			//if( a^.dato > izquierda ) and (a^.dato < derecha) then
-			cantCumplen:= cantCumplen+1;
-				//en teoria cuando este aca, voy a estar parado en la pos q queria         
-		end;
-end
 
+procedure imprimirPreOrden(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      Writeln('PreOrden: full izquierda, full Derecha(extremos) ',a^.dato);
+      imprimirPreOrden(a^.hi);
+      imprimirPreOrden(a^.hd);
+    end;
 end;
 
-procedure imprimirArbolInOrder(a: arbol);
+procedure imprimirInOrder(a: arbol);
 begin
-	if(a <> nil)then
-		begin
-			imprimirArbolInOrder(a^.hi);
-			Writeln('In order: ',a^.dato);
-			imprimirArbolInOrder(a^.hd);
-		end;
+  if(a <> nil)then
+    begin
+      imprimirInOrder(a^.hi);
+      Writeln('In Order: de menor a mayor ',a^.dato);
+      imprimirInOrder(a^.hd);
+    end;
+end;
+//espejo
+procedure imprimirInOrder2(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirInOrder(a^.hd);
+      Writeln('In Order: de mayor a menor ',a^.dato);
+      imprimirInOrder(a^.hi);
+    end;
+end;
+
+
+procedure imprimirPosOrder(a: arbol);
+begin
+  if(a <> nil)then
+    begin
+      imprimirPosOrder(a^.hi);
+      imprimirPosOrder(a^.hd);
+      Writeln('PosOrder: full derecha, full izquierda(extremos) ',a^.dato);
+    end;
 end;
 
 var 
@@ -69,20 +83,25 @@ var
 begin
   randomize;
   inicializarLista(L);
-  Writeln('Ingresa un numero');
+  Writeln('Ingresa un numero (0 PARA PARAR)');
   readln(num);
   While(num <> 0)do
 		begin
 			cargarArbol(L,num);
-			Writeln('Ingresa un numero');
+			Writeln('Ingresa un numero (0 PARA PARAR) ');
 			readln(num);
 		end;
-	imprimirArbolInOrder(L);
-	Writeln('ingrese a: ');
-	readln(a);
-	Writeln('Ingrese b: ');
-	readln(b);
-	cantCumplen:= 0;
-	cuantosEntreRango(L,a,b,cantCumplen);
-	Writeln('cantidad q cumplen: ',cantCumplen);
+	imprimirPreOrden(L);
+	Writeln();Writeln();
+	Writeln('----------------------------------------');
+	Writeln();Writeln();
+	imprimirInOrder(L);
+	Writeln();Writeln();
+	Writeln('----------------------------------------');
+	Writeln();Writeln();
+	imprimirInOrder2(L);
+	Writeln();Writeln();
+	Writeln('----------------------------------------');
+	Writeln();Writeln();
+	imprimirPosOrder(L);
 end.
