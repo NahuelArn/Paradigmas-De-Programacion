@@ -508,7 +508,9 @@ end.
 
 
 <h1 align="center">Arbol de Listas </h1>
+
 ```pas
+
 {Una biblioteca nos ha encargado procesar la información de los préstamos realizados
 durante el año 2021. De cada préstamo se conoce el ISBN del libro, el número de socio, día
 y mes del préstamo y cantidad de días prestados. Implementar un programa con:
