@@ -322,6 +322,27 @@ end;
 {e. Un módulo recursivo que reciba la estructura generada en ii. y un número de socio. El
 módulo debe retornar la cantidad de préstamos realizados a dicho socio.
 }
+//con prodimiento necesito una var +1 pasada por parametro, entonces solo uso la funcion para este caso
+{procedure sacarCantPrestamosSocio(L: listaRepetidos;numSocio: integer; var cantPrestamos: integer);
+begin
+	if(L <> nil)then
+		begin
+			if(L^.dato.numSocio = numSocio)then
+				cantPrestamos:= cantPrestamos+1;
+			sacarCantPrestamosSocio	(L^.sig,numSocio,cantPrestamos);
+		end
+end;
+
+procedure cuantosPrestamosTieneElSocioA2(a2: arbol2; numSocio: integer; var cantPrestamos: integer);
+begin
+	if(a2 <> nil)then
+		begin
+			cuantosPrestamosTieneElSocioA2(a2^.hi,numSocio,cantPrestamos);		
+			sacarCantPrestamosSocio(a2^.dato,numSocio,cantPrestamos);
+			cuantosPrestamosTieneElSocioA2(a2^.hd,numSocio,cantPrestamos);
+		end
+end;}
+
 function cuantasVecesEstaElSocioEnLista(L: listaRepetidos; numSocio: integer): integer;
 begin
 	if(L = nil)then
@@ -343,7 +364,6 @@ begin
 		begin
 			//cuantosPrestamosTieneElSocioA2:= cuantosPrestamosTieneElSocioA2(a2^.hi,numSocio)+ cuantosPrestamosTieneElSocioA2(a2^.hd,numSocio)+ cuantasVecesEstaElSocioEnLista(L^.dato,numSocio);
 			cuantosPrestamosTieneElSocioA2:= cuantosPrestamosTieneElSocioA2(a2^.hi,numSocio)+ cuantasVecesEstaElSocioEnLista(a2^.dato,numSocio) + cuantosPrestamosTieneElSocioA2(a2^.hd,numSocio);
-
 		end;
 end;
 
@@ -398,5 +418,7 @@ begin
 	módulo debe retornar la cantidad de préstamos realizados a dicho socio.
 	}
 	//reutilizo el numero de socio
+	//cuantosPrestamosTieneElSocioA2(ar2,numSocio,cantPrestamos);
+	//Writeln('tiene con el prcoedimiento :',cantPrestamos);
 	Writeln('El socio :',numSocio,' en el arbol2, tiene: ',cuantosPrestamosTieneElSocioA2(ar2,numSocio));
 end.
