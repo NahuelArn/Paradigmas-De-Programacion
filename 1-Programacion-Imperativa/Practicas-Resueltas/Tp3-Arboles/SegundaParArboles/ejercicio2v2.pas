@@ -67,7 +67,19 @@ type
     hd: arbol2;
     hi: arbol2;
   end;
+  //--------------------
+  prestamosTotales = record
+		isbn: integer;
+		cantPrestamos: integer;
+	end;
+	
+  listaF = ^nodoLista;
   
+  nodoLista = record
+		dato: prestamosTotales;
+		sig: listaF;
+	end;
+	
 procedure inicializarPunterosArbol(var a0: arbol0; var a2: arbol2);
 begin
 	a0:= nil;
@@ -370,11 +382,92 @@ end;
 {f. Un módulo que reciba la estructura generada en i. y retorne una nueva estructura
 ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de veces
 que se prestó.}
+//Se podria ir recorriendo el arbol2 y enganchando punteros, seria mas eficiente en tiempo de ejecucion
+
+// function	generarNuevaEstructuraOrdenadaPorIsbn(a0: arbol0): listaF;
+// var
+// 	L: listaF;
+// begin
+// 	if(a0 = nil)then
+// 		generarNuevaEstructuraOrdenadaPorIsbn:= nil;
+// 	else
+// 		begin
+// 			//generarNuevaEstructuraOrdenadaPorIsbn:= generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi) +insertarOrdenadoIneficiente(L,a0^.dato)+generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd);
+// 			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi);
+// 			insertarOrdenadoIneficiente(L,a0^.dato);
+// 		end;
+// end;
+procedure cargarDataCompartida(var nE: prestamosTotales; p: prestamo );
+begin
+	nE.isbn:= p.isbn;
+	nE.cantPrestamos:= nE.cantPrestamos+1;
+end;
+
+// procedure agregarAtrasIneficiente(var L: listaF; p: prestamo);
+// var	
+// 	nue: listaF;
+// begin
+// 	new(nue);
+	
+// 	cargarDataCompartida(nue^.dato,p);
+// //	nue^.dato:= nE;
+// 	nue^.sig:= L;
+// 	L:= nue;
+// end;
+
+// function generarNuevaEstructuraOrdenadaPorIsbn(a0: arbol0): listaF;
+// var	
+// 	L: listaF;
+// begin	
+// 	if(a <> nil)then
+// 		begin
+// 			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi);
+// 			//insertarOrdenadoIneficiente(L,a0^.dato);
+// 			agregarAtrasIneficiente(L,a0^.dato);
+// 			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd);
+// 		end
+// 	else
+// 		begin
+// 			L:= nil;
+// 		end;
+// end;
+procedure agregarAtrasIneficiente(var L: listaF; p: prestamo);
+var
+	nE: prestamosTotales;
+	ant,act,nue: listaF;
+begin
+	ant: L;
+	act:= L;
+	new(nue);
+	cargarDataCompartida(nE,p);
+	nue^.dato:= nE;
+	while (act <> nil) do
+		begin
+			ant:= act;
+			act:= act^.sig;
+		end;
+	if(act = ant)then
+		L:= nue
+	else
+		nue^.sig:= nue;
+	nue^.sig:= act;
+end;
+
+procedure generarNuevaEstructuraOrdenadaPorIsbn(a0: arbol0;var L: listaF);
+begin
+	if(a0 <> nil)then
+		begin
+			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi,L);
+			agregarAtrasIneficiente(L,a0^.dato);	//aprovecho q ya esta ordenado el arbol
+			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd,L);
+		end;
+end;
 
 var 
 	ar0: arbol0; ar2: arbol2;
 	puntoB: integer; puntoC: integer;
 	numSocio: integer; //cantPrestamos: integer;
+	//ListaNueva: listaF;
 begin
 	randomize;
   inicializarPunterosArbol(ar0,ar2);
@@ -421,4 +514,7 @@ begin
 	//cuantosPrestamosTieneElSocioA2(ar2,numSocio,cantPrestamos);
 	//Writeln('tiene con el prcoedimiento :',cantPrestamos);
 	Writeln('El socio :',numSocio,' en el arbol2, tiene: ',cuantosPrestamosTieneElSocioA2(ar2,numSocio));
+	//
+	//ListaNueva:= generarNuevaEstructuraOrdenadaPorIsbn(ar0);
+	generarNuevaEstructuraOrdenadaPorIsbn(a0,L);
 end.
