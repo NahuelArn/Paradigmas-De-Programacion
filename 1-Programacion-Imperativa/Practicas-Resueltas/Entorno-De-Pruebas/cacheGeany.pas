@@ -186,9 +186,7 @@ procedure cargarPrestamoii(var a1: arbol1; p: prestamo);
 begin
 	if(a1 = nil)then
 		begin
-      new(a1);
 			a1^.dato:= nil;
-      
 			agregarAtrasIneficiente(a1^.dato,p);
 			a1^.hi:= nil;
 			a1^.hd:= nil;
@@ -200,7 +198,7 @@ begin
 					if(p.isbn = a1^.dato^.dato.isbn)then
 						agregarAtrasIneficiente(a1^.dato,p);// en teoria estoy parado en el mismo si caigo y paso el filtro
 					cargarPrestamoii(a1^.hi,p)
-				end			
+				end				
 			else
 				cargarPrestamoii(a1^.hd,p);
 		end;
@@ -366,7 +364,7 @@ que se prestó.}
 
 procedure generarNuevaEstructuraDesdeArbol1();
 begin
-	3:17
+	
 end.
 
 {h. Un módulo recursivo que reciba la estructura generada en h. y muestre su contenido.

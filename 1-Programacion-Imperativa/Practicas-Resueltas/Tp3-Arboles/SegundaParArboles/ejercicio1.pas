@@ -223,5 +223,5 @@ begin
   codDerecha:= codDerecha-1;
   montoTotal:= 0;
   Writeln('El monto total entre el rango A y B es: ',cuantoGana(a,montoTotal,codIzquierda,codDerecha):2:2);
-  
+  	
 end.
