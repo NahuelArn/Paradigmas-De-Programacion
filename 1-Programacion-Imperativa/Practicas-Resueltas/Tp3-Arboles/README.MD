@@ -210,125 +210,125 @@ end;
 
 ```pas
 
-program moduloDebugArbolRecursion;
+  program moduloDebugArbolRecursion;
 
-type
-  cliente = record
-    cod: integer;
-    monto: integer;
+  type
+    cliente = record
+      cod: integer;
+      monto: integer;
+    end;
+
+    arbol = ^nodo;
+
+    nodo = record
+      dato: cliente;
+      hi: arbol;
+      hd: arbol
+    end;
+
+  procedure leerCliente(var c: cliente);
+  begin
+    Writeln('Ingrese el codigo del cliente: ');
+    readln(c.cod);
+    if(c.cod <> 0then
+      begin
+        Writeln('Ingrese el monto del cliente: ');
+        readln(c.monto);
+      end;
   end;
 
-	arbol = ^nodo;
+  procedure inicializarLista(var L: arbol);
+  begin
+    L:= nil;
+  end;
 
-	nodo = record
-		dato: cliente;
-		hi: arbol;
-		hd: arbol
-	end;
+  procedure cargarArbol(var a: arbol; n: cliente);
+  begin
+    if(a = nil)then
+      begin
+        new(a);
+        a^.dato:= n;
+        a^.hi:= nil;
+        a^.hd:= nil;
+      end
+    else
+      begin
+        if(n.cod < a^.dato.cod) then
+          cargarArbol(a^.hi,n)
+        else  //se permiten los repetidos
+          cargarArbol(a^.hd,n);
+      end;
+  end;
 
-procedure leerCliente(var c: cliente);
-begin
-  Writeln('Ingrese el codigo del cliente: ');
-  readln(c.cod);
-  if(c.cod <> 0then
-		begin
-			Writeln('Ingrese el monto del cliente: ');
-			readln(c.monto);
-		end;
-end;
+  procedure imprimirArbolInOrder(a: arbol);
+  begin
+    if(a <> nil)then
+      begin
+        imprimirArbolInOrder(a^.hi);
+        Writeln('----------------');
+        Writeln('codigoCliente: ',a^.dato.cod);
+        Writeln('montoCliente: ',a^.dato.monto);
+        Writeln('----------------');
+        imprimirArbolInOrder(a^.hd);
+      end;
+  end;
 
-procedure inicializarLista(var L: arbol);
-begin
-	L:= nil;
-end;
+  //--------
 
-procedure cargarArbol(var a: arbol; n: cliente);
-begin
-	if(a = nil)then
-		begin
-			new(a);
-			a^.dato:= n;
-			a^.hi:= nil;
-			a^.hd:= nil;
-		end
-	else
-		begin
-			if(n.cod < a^.dato.cod) then
-				cargarArbol(a^.hi,n)
-			else  //se permiten los repetidos
-		  	cargarArbol(a^.hd,n);
-		end;
-end;
-
-procedure imprimirArbolInOrder(a: arbol);
-begin
-	if(a <> nil)then
-		begin
-			imprimirArbolInOrder(a^.hi);
-			Writeln('----------------');
-			Writeln('codigoCliente: ',a^.dato.cod);
-			Writeln('montoCliente: ',a^.dato.monto);
-			Writeln('----------------');
-			imprimirArbolInOrder(a^.hd);
-		end;
-end;
-
-//--------
-
-//puede ser q este seria la unica manera de sumar el total usando un procedimiento? con el  <>
-procedure montoTotalDecliente(a0: arbol; codBuscado: integer; var monto: integer);
-begin
-	if(a0 <> nil)then
-		begin
-			montoTotalDecliente(a0^.hi,codBuscado,monto);
-			if(a0^.dato.cod = codBuscado)then
-				monto:= monto+ a0^.dato.monto;
-			montoTotalDecliente(a0^.hd,codBuscado,monto);
-		end;
-end;
+  //puede ser q este seria la unica manera de sumar el total usando un procedimiento? con el  <>
+  procedure montoTotalDecliente(a0: arbol; codBuscado: integer; var monto: integer);
+  begin
+    if(a0 <> nil)then
+      begin
+        montoTotalDecliente(a0^.hi,codBuscado,monto);
+        if(a0^.dato.cod = codBuscado)then
+          monto:= monto+ a0^.dato.monto;
+        montoTotalDecliente(a0^.hd,codBuscado,monto);
+      end;
+  end;
 
 
-function montoTotalDeclienteFunc(a0: arbol; codBuscado,monto: integer): integer;
-begin
-	if(a0 = nil)then  //va iterar todas las veces q se encuentre el mismo cod'
-		montoTotalDeclienteFunc	:= monto
-	else
-		begin
-			if(a0^.dato.cod = codBuscado)then
-				monto:= monto + a0^.dato.monto;
-			if(codBuscado < a0^.dato.cod)then
-				montoTotalDeclienteFunc	:= montoTotalDeclienteFunc(a0^.hi,codBuscado,monto)
-			else
-				montoTotalDeclienteFunc	:= montoTotalDeclienteFunc(a0^.hd,codBuscado,monto);
-		end;
-end;
-//--------
+  function montoTotalDeclienteFunc(a0: arbol; codBuscado,monto: integer): integer;
+  begin
+    if(a0 = nil)then  //va iterar todas las veces q se encuentre el mismo cod'
+      montoTotalDeclienteFunc	:= monto
+    else
+      begin
+        if(a0^.dato.cod = codBuscado)then
+          monto:= monto + a0^.dato.monto;
+        if(codBuscado < a0^.dato.cod)then
+          montoTotalDeclienteFunc	:= montoTotalDeclienteFunc(a0^.hi,codBuscado,monto)
+        else
+          montoTotalDeclienteFunc	:= montoTotalDeclienteFunc(a0^.hd,codBuscado,monto);
+      end;
+  end;
+  //--------
 
-var
-  L: arbol;
-  customer: cliente;
-  a,b: integer;
-  cantCumplen: integer;
-  montoTotal: integer;
-begin
-  randomize;
-  inicializarLista(L);
-  leerCliente(customer);
-  While(customer.cod <> 0)do  //clientes de bancos, codCliente 0 se para la carga, el arbol esta ordenado por cliente
-		begin
-			cargarArbol(L,customer);
-			leerCliente(customer);
-		end;
-	imprimirArbolInOrder(L);
-	Writeln('cod a buscas de cliente: ');
-	readln(a);
-	montoTotal:= 0;
-	montoTotalDecliente(L,a,montoTotal);
-	Writeln('monto del cliente: ',a,' con un monto: ',montoTotal);
-	Writeln('');
-	montoTotal:= 0;
-	Writeln('funcion de igual monto',montoTotalDeclienteFunc(L,a,montoTotal));
-end.
+  var
+    L: arbol;
+    customer: cliente;
+    a,b: integer;
+    cantCumplen: integer;
+    montoTotal: integer;
+  begin
+    randomize;
+    inicializarLista(L);
+    leerCliente(customer);
+    While(customer.cod <> 0)do  //clientes de bancos, codCliente 0 se para la carga, el arbol esta ordenado por cliente
+      begin
+        cargarArbol(L,customer);
+        leerCliente(customer);
+      end;
+    imprimirArbolInOrder(L);
+    Writeln('cod a buscas de cliente: ');
+    readln(a);
+    montoTotal:= 0;
+    montoTotalDecliente(L,a,montoTotal);
+    Writeln('monto del cliente: ',a,' con un monto: ',montoTotal);
+    Writeln('');
+    montoTotal:= 0;
+    Writeln('funcion de igual monto',montoTotalDeclienteFunc(L,a,montoTotal));
+  end.
 
 ```
 
