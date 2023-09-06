@@ -378,6 +378,7 @@ begin
 			cuantosPrestamosTieneElSocioA2:= cuantosPrestamosTieneElSocioA2(a2^.hi,numSocio)+ cuantasVecesEstaElSocioEnLista(a2^.dato,numSocio) + cuantosPrestamosTieneElSocioA2(a2^.hd,numSocio);
 		end;
 end;
+//------------------------------------------------------------------------
 
 {f. Un módulo que reciba la estructura generada en i. y retorne una nueva estructura
 ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de veces
@@ -403,43 +404,17 @@ begin
 	nE.cantPrestamos:= nE.cantPrestamos+1;
 end;
 
-// procedure agregarAtrasIneficiente(var L: listaF; p: prestamo);
-// var	
-// 	nue: listaF;
-// begin
-// 	new(nue);
-	
-// 	cargarDataCompartida(nue^.dato,p);
-// //	nue^.dato:= nE;
-// 	nue^.sig:= L;
-// 	L:= nue;
-// end;
-
-// function generarNuevaEstructuraOrdenadaPorIsbn(a0: arbol0): listaF;
-// var	
-// 	L: listaF;
-// begin	
-// 	if(a <> nil)then
-// 		begin
-// 			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi);
-// 			//insertarOrdenadoIneficiente(L,a0^.dato);
-// 			agregarAtrasIneficiente(L,a0^.dato);
-// 			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd);
-// 		end
-// 	else
-// 		begin
-// 			L:= nil;
-// 		end;
-// end;
 procedure agregarAtrasIneficiente(var L: listaF; p: prestamo);
 var
 	nE: prestamosTotales;
 	ant,act,nue: listaF;
 begin
-	ant: L;
+	ant:= L;
 	act:= L;
 	new(nue);
+	nE.cantPrestamos:= 0;	//si estoy aca es por q cambio el isbn y estoy creando un nuevo nodo para otro isbn
 	cargarDataCompartida(nE,p);
+	//nE.cantPrestamos:= 0;	//si estoy aca es por q cambio el isbn y estoy creando un nuevo nodo para otro isbn
 	nue^.dato:= nE;
 	while (act <> nil) do
 		begin
@@ -449,25 +424,53 @@ begin
 	if(act = ant)then
 		L:= nue
 	else
-		nue^.sig:= nue;
+		ant^.sig:= nue;
 	nue^.sig:= act;
 end;
 
 procedure generarNuevaEstructuraOrdenadaPorIsbn(a0: arbol0;var L: listaF);
+var
+	isbnActual: integer;
+	//nE: prestamosTotales;
 begin
 	if(a0 <> nil)then
-		begin
+		begin		
 			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi,L);
-			agregarAtrasIneficiente(L,a0^.dato);	//aprovecho q ya esta ordenado el arbol
+			isbnActual:= a0^.dato.isbn; //para hacerlo mas legible
+			if(L = nil)then
+				agregarAtrasIneficiente(L,a0^.dato)	//aprovecho q ya esta ordenado el arbol
+			else
+				begin
+					if(isbnActual = L^.dato.isbn)then
+						cargarDataCompartida(L^.dato,a0^.dato)
+					else
+						agregarAtrasIneficiente(L,a0^.dato)
+				end;
+			//corteDeControl(a0,isbnActual);
 			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd,L);
 		end;
 end;
+
+procedure imprimirListaNormal(L: listaF);
+begin
+	if(L <> nil)then
+		begin
+			Writeln();
+			Writeln('-------------------------------------');Writeln();
+			Writeln('El isbn en la lista normal es: ',L^.dato.isbn );
+			Writeln('La cantidad total de prestamos del isbn es: ',L^.dato.cantPrestamos);
+			imprimirListaNormal(L^.sig);
+		end;
+end;
+
+//------------------------------------------------------------------------
 
 var 
 	ar0: arbol0; ar2: arbol2;
 	puntoB: integer; puntoC: integer;
 	numSocio: integer; //cantPrestamos: integer;
 	//ListaNueva: listaF;
+	L: listaF;
 begin
 	randomize;
   inicializarPunterosArbol(ar0,ar2);
@@ -516,5 +519,7 @@ begin
 	Writeln('El socio :',numSocio,' en el arbol2, tiene: ',cuantosPrestamosTieneElSocioA2(ar2,numSocio));
 	//
 	//ListaNueva:= generarNuevaEstructuraOrdenadaPorIsbn(ar0);
-	generarNuevaEstructuraOrdenadaPorIsbn(a0,L);
+	L:= nil;
+	generarNuevaEstructuraOrdenadaPorIsbn(ar0,L);
+	imprimirListaNormal(L);
 end.
