@@ -385,7 +385,7 @@ ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de vec
 que se prestó.}
 //Se podria ir recorriendo el arbol2 y enganchando punteros, seria mas eficiente en tiempo de ejecucion
 
-// function	generarNuevaEstructuraOrdenadaPorIsbn(a0: arbol0): listaF;
+// function	generarNuevaEstructuraOrdenladaPorIsbn(a0: arbol0): listaF;
 // var
 // 	L: listaF;
 // begin
@@ -444,10 +444,10 @@ begin
 					if(isbnActual = L^.dato.isbn)then
 						cargarDataCompartida(L^.dato,a0^.dato)
 					else
-						agregarAtrasIneficiente(L,a0^.dato)
+						agregarAtrasIneficiente(L,a0^.dato);
+					generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd,L);
 				end;
 			//corteDeControl(a0,isbnActual);
-			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd,L);
 		end;
 end;
 
