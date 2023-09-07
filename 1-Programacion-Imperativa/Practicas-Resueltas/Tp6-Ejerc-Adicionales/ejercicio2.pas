@@ -30,12 +30,11 @@ modelo del auto con dicha patente.}
 //1:33 sin testear
 {a[V]
 *b [V]
-*c [] // no me la cant correcta cuando recorro la lista
+*c []
 * 
 * 
 * }
-
-program arancibia;
+program ejercicio2;
 const
 	izq = 1; der = 20;
 type
@@ -374,11 +373,9 @@ end;
 
 procedure controlarCarga2Arboles(a1: arbolI; a2: arbolII);
 begin	
-		Writeln('aNTES1 me rompi aca1?');
-
+	Writeln('aNTES1 me rompi aca1?');
 	imprimirArbol1(a1);
-			Writeln('aNTES2 me rompi aca1?');
-
+	Writeln('aNTES2 me rompi aca1?');
 	imprimirArbol2(a2);
 end;
 
@@ -405,8 +402,8 @@ begin
 	readln(patenteBuscada);
 	Writeln('El modelo de la pantente: ',patenteBuscada,' es: ',modeloDePatenteBuscada(a1,patenteBuscada));
 	//
-	
 end.
+
 
 
 
