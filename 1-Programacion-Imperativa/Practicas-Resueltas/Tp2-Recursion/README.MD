@@ -243,6 +243,64 @@
      ```
 </details>
 
+<h1 align="center"> RETORNAR EL MAX EN UNA LISTA</h1>
+```pas
+
+  program moduloDebugListaRecursion;
+
+  type
+    lista = ^nodo;
+    
+    nodo = record
+      dato: integer;
+      sig: lista;
+    end;
+    
+  procedure agregarAdelante(var L: lista; n: integer);
+  var
+    nue: lista;
+  begin
+    new(nue);
+    nue^.dato:= n;
+    nue^.sig:= L;
+    L:= nue;
+  end;
+
+  function numMaximoDeLaLista(L: lista): integer;
+  var
+    max: integer;
+  begin
+    if(L = nil)then
+      max:= -1 //llego al final de la lista, ok, toma tu minimo para comparar durante el backtracking
+    else
+      begin
+        max:= numMaximoDeLaLista(L^.sig); //recorro
+        Writeln('estas viendo un numero en otro espacio tiempo: ',max);
+        if (L^.dato > max) then
+          numMaximoDeLaLista := L^.dato   // Si es el mayor se actualiza
+        else
+          numMaximoDeLaLista := max;   // si no es el maximo le asigno a mi funcion el ultimo valor de max
+      end;
+  end; 
+
+  var
+    L: lista;
+    num : integer;
+  begin
+    L:= nil;
+    Writeln('Ingrese un numero: ');
+    readln(num);
+    While(num <> -1)do
+      begin
+        agregarAdelante(L,num);
+        Writeln('Ingrese un numero: ');
+        readln(num);
+      end;
+    Writeln('El numero maximo es : ',numMaximoDeLaLista(l));
+  end.
+
+
+```
 
 <!--
 <h1 align="center"> busqueda binaria recursiva / busqueda dicotomica</h1>
