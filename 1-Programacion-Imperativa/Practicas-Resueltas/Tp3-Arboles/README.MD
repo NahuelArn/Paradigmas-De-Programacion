@@ -734,3 +734,139 @@ end.
   end.
 
 ```
+
+<h1 align="center">vector De Arboles </h1>
+
+```pas
+
+  {Un supermercado requiere el procesamiento de sus productos. De cada producto se
+  conoce código, rubro (1..10), stock y precio unitario. Se pide:
+
+  a) Generar una estructura adecuada que permita agrupar los productos por rubro. A su
+  vez, para cada rubro, se requiere que la búsqueda de un producto por código sea lo
+  más eficiente posible. La lectura finaliza con el código de producto igual a -1.
+
+  * }
+  program ejercicio3;
+  const
+    dimF = 10;
+  type
+    
+    rango10 = 1..dimF;
+    
+    producto = record
+      cod: integer;
+      rubro: rango10;
+      stock: integer;
+      precioUnitario: real;
+    end;
+    
+    arbol = ^nodo;
+    
+    nodo = record
+      dato: producto;
+      hi: arbol;
+      hd: arbol;
+    end;
+    
+    vectorRubros = array[rango10]of arbol;
+
+  procedure inicializarPuntero(var a: arbol);
+  begin
+    a:= nil;
+  end;
+
+  procedure inicializarArboles(var v: vectorRubros);
+  var
+    i: integer;
+  begin
+    for i:= 1 to dimF do
+      inicializarPuntero(v[i]);
+  end;
+
+  procedure leerProducto(var p: producto);
+  begin
+    Writeln('Ingrese cod (-1 para cortar)');
+    readln(p.cod);
+    if(p.cod <> -1)then
+      begin
+        Writeln('Ingrese rubro ');
+        readln(p.rubro);
+        Writeln('Ingrese stock');
+        readln(p.stock);
+        Writeln('Ingrese precioUnitario');
+        readln(p.precioUnitario);
+      end;
+  end;
+
+  procedure agregarProductos(var a: arbol;p: producto);
+  begin
+    if(a = nil)then
+      begin
+        new(a);
+        a^.dato:= p;
+        a^.hi:= nil;
+        a^.hd:= nil;
+      end
+    else
+      begin
+        if(p.cod <= a^.dato.cod)then
+          agregarProductos(a^.hi,p)
+        else
+          agregarProductos(a^.hd,p);
+      end;
+  end;
+
+  procedure cargarProductosEnRubros(var v: vectorRubros);
+  var p: producto;
+  begin
+    leerProducto(p);
+    While(p.cod <> -1)do
+      begin
+        agregarProductos(v[p.rubro],p);
+        leerProducto(p);
+      end;
+  end;
+
+  procedure imprimirNodo(p: producto);
+  begin
+    Writeln('El cod es: ',p.cod);
+    Writeln('El rubro es: ',p.rubro);
+    Writeln('Ingrese stock',p.stock);
+    Writeln('Ingrese precioUnitario',p.precioUnitario);
+  end;
+
+  procedure imprimirArbol(a: arbol);
+  begin
+    if(a <> nil)then
+      begin
+        imprimirArbol(a^.hi);
+        imprimirNodo(a^.dato);
+        imprimirArbol(a^.hd);
+      end;
+  end;
+
+  procedure imprimirVector(v: vectorRubros);
+  var i: integer;
+  begin
+    for i:= 1 to dimF do
+      begin
+        if(v[i] <> nil)then
+          begin
+            Writeln(); Writeln();
+            Writeln('estas parado en el rubro ',i);
+            imprimirArbol(v[i]); //rubro
+            Writeln(); Writeln();
+          end;
+      end;
+  end;
+
+  var
+    v: vectorRubros;
+  begin
+    inicializarArboles(v);
+    cargarProductosEnRubros(v);
+    imprimirVector(v);
+  end.
+
+```
