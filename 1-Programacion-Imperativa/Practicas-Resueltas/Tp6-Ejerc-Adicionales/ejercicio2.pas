@@ -1,10 +1,10 @@
 {Una agencia dedicada a la venta de autos ha organizado su stock y, dispone en papel de la
 información de los autos en venta. Implementar un programa que:
 a) Lea la información de los autos (patente, año de fabricación (2010..2018), marca y
-modelo) y los almacene en dos estructuras de datos:
-i. Una estructura eficiente para la búsqueda por patente.
+modelo) y los almacene en dos estructuras de datos:				
+i. Una estructura eficiente para la búsqueda por patente.	
 ii. Una estructura eficiente para la búsqueda por marca. Para cada marca se deben
-almacenar todos juntos los autos pertenecientes a ella.
+almacenar todos juntos los autos pertenecientes a ella.		
 b) Invoque a un módulo que reciba la estructura generado en a) i y una marca y retorne la
 cantidad de autos de dicha marca que posee la agencia.
 c) Invoque a un módulo que reciba la estructura generado en a) ii y una marca y retorne
@@ -28,15 +28,22 @@ modelo del auto con dicha patente.}
 * 0:12 
 * }
 //1:33 sin testear
+{a[V]
+*b [V]
+*c []
+* 
+* 
+* }
 program arancibia;
-
+const
+	izq = 1; der = 20;
 type
-	rango2010And2018 = 2010..2018;
+	rango2010And2018 = izq..der;
 	str20 = string[20];
 	
 	auto = record
 		patente: integer;
-		anhoFabricacion: rango2010And2018;
+		anhoFabricacion: integer;
 		marca: str20;
 		modelo: integer;
 	end;
@@ -87,14 +94,15 @@ procedure leerAuto(var a: auto);
 begin
 	Writeln('Ingrese el anho de fabricacion: ');
 	readln(a.anhoFabricacion);
-	if((a.anhoFabricacion >= 2010) and (a.anhoFabricacion <= 2018))then
+	if((a.anhoFabricacion >= izq) and (a.anhoFabricacion <= der))then
 		begin
 			Writeln('Ingrese la patente del auto ');
 			readln(a.patente);
 			Writeln('Ingrese la marca: ');
 			readln(a.marca);
 			Writeln('Ingrese el modelo: ');
-			readln(a.modelo);
+			a.modelo:= random(20);
+			//readln(a.modelo);
 		end;
 end;
 
@@ -181,13 +189,18 @@ var
 	mismMarc: mismaMarca;
 begin
 	leerAuto(a);
-	While(a.anhoFabricacion >= 2010) and (a.anhoFabricacion <= 2018)do
+	While(a.anhoFabricacion >= izq) and (a.anhoFabricacion <= der)do
 		begin
+			Writeln('--1--');
 			cargarArbolI(a1,a);	//eficiente por patente
+			Writeln('--2--');
 			asigarCampos(a,mismMarc);
+			Writeln('--3--');
 			cargarArbolII(a2,a,mismMarc);	//eficiente por marca
+			Writeln('--4--');
 			leerAuto(a);
 		end;
+		Writeln('--5--');
 end;
 
 {* B: UN MODULO QUE RECORRA TODO EL ARBOL NORMAL Y RETORNE LA CANTIDAD DE AUTOS DE DICHA MARCA, RECIBE EL ARBOL I Y UNA MARCA, RETORNA LA CANT DE AUTOS Q POSEE ESA MARCA
@@ -209,6 +222,7 @@ end;
 }
 
 function cuantosAutosTieneEsteNodoDeListas(L: lista): integer;
+
 begin
 	if(L = nil)then
 		cuantosAutosTieneEsteNodoDeListas:= 0
@@ -226,16 +240,18 @@ begin
 		begin
 			if(a2^.marca = marca)then
 				cantAutosMarcaII:= cuantosAutosTieneEsteNodoDeListas(a2^.dato)
+				//Writeln('cuantos autos tiene en la fucnion: ',cuantosAutosTieneEsteNodoDeListas(a2^.dato))
 				//cantAutosMarcaII:= cantAutosMarcaII(a2^.hi,marca) + cantAutosMarcaII(a2^.hd,marca)+1
 			else
 				begin
 					if(marca < a2^.marca)then
-						cantAutosMarcaII(a2^.hi,marca)
+						cantAutosMarcaII:= cantAutosMarcaII(a2^.hi,marca)
 					else
-						cantAutosMarcaII(a2^.hd,marca)
+						cantAutosMarcaII := cantAutosMarcaII(a2^.hd,marca);
 				end;
 		end;
 end;
+
 
 procedure insertarOrdenadoD(a: auto; var L2: listaD);
 var
@@ -268,6 +284,7 @@ procedure recorrerArbolEirGenerandoListaD(a1: arbolI;var L2: listaD);
 begin
 	if(a1<>nil)then
 		begin
+			
 			recorrerArbolEirGenerandoListaD(a1^.hi,L2);
 			insertarOrdenadoD(a1^.dato,L2);
 			recorrerArbolEirGenerandoListaD(a1^.hd,L2);
@@ -332,23 +349,57 @@ begin
 		end;
 end;
 
+procedure imprimirArbol1(a1: arbolI);
+begin
+	if(a1 <> nil)then
+		begin
+			imprimirArbol1(a1^.hi);
+			Writeln('arbol ordenado por patente: ',a1^.dato.patente);
+			Writeln('me rompi aca1?');
+			imprimirArbol1(a1^.hd);
+		end;
+end;
 
+procedure imprimirArbol2(a2: arbolII);
+begin
+	if(a2 <> nil)then
+		begin
+			imprimirArbol2(a2^.hi);
+			Writeln('arbolOrdenado por marca: ',a2^.marca);
+			Writeln('me rompi aca2?');
+			imprimirArbol2(a2^.hd);
+		end;
+end;
+
+procedure controlarCarga2Arboles(a1: arbolI; a2: arbolII);
+begin	
+		Writeln('aNTES1 me rompi aca1?');
+
+	imprimirArbol1(a1);
+			Writeln('aNTES2 me rompi aca1?');
+
+	imprimirArbol2(a2);
+end;
 
 var	
 	a1: arbolI; a2: arbolII;
 	marcaBuscadaB: str20;
 	L2: listaD; patenteBuscada: integer;
 begin
+	randomize;
 	inicializarPunteros(a1,a2);
 	cargarEstructura(a1,a2);
+	Writeln('--llegue aca retorne--');
+	controlarCarga2Arboles(a1,a2);
+	
 	Writeln('Ingrese una marca a abuscar en la estructara A ');
 	readln(marcaBuscadaB);
 	Writeln('La cantidad de autos de la marca: ',marcaBuscadaB, ' es: ',cantAutosMarcaI(a1,marcaBuscadaB));
 	//reutilizo la marca
-	Writeln('La cantidad de atos de la marca:',marcaBuscadaB, 'es:',cantAutosMarcaII(a2,marcaBuscadaB));
+	Writeln('La cantidad de autos de la marca: ',marcaBuscadaB, ' es: ',cantAutosMarcaII(a2,marcaBuscadaB));
 	//
 	recorrerArbolEirGenerandoListaD(a1,L2);
-	//
+	// 
 	Writeln('Ingrese una patente para buscar que modelo es: (en la estructura I)');
 	readln(patenteBuscada);
 	Writeln('El modelo de la pantente: ',patenteBuscada,' es: ',modeloDePatenteBuscada(a1,patenteBuscada));
