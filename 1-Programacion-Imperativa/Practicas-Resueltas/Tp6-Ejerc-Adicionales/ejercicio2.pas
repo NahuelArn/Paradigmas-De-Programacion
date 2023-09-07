@@ -30,10 +30,11 @@ modelo del auto con dicha patente.}
 //1:33 sin testear
 {a[V]
 *b [V]
-*c []
+*c [] // no me la cant correcta cuando recorro la lista
 * 
 * 
 * }
+
 program arancibia;
 const
 	izq = 1; der = 20;
