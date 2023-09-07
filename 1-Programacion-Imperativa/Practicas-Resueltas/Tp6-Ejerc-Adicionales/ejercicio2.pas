@@ -98,7 +98,7 @@ begin
 		begin
 			Writeln('Ingrese la patente del auto ');
 			readln(a.patente);
-			Writeln('Ingrese la marca: ');
+			Writeln('Ingrese la marca: (es un string)');
 			readln(a.marca);
 			Writeln('Ingrese el modelo: ');
 			a.modelo:= random(20);
