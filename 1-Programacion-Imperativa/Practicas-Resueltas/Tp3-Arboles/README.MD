@@ -65,6 +65,32 @@ end.
 
 ```
 
+<h1 align="center"> cant entre rangos </h1>
+<p> izquierda = valor limite inferior y derecha = valor max superior </p>
+
+```pas
+  function cantEntreRangos(a: arbol0; izquierda,derecha: integer): integer;
+  begin
+    if(a = nil)then
+      cantEntreRangos:= 0
+    else
+      begin
+        if(a^.dato.isbn >= izquierda) and (a^.dato.isbn <= derecha)then
+          cantEntreRangos:= cantEntreRangos(a^.hi,izquierda,derecha) + cantEntreRangos(a^.hd,izquierda,derecha)+1
+        else
+          begin
+            if(a^.dato.isbn > izquierda)then
+              cantEntreRangos:= cantEntreRangos(a^.hi,izquierda,derecha)
+            else	
+              begin
+                if(a^.dato.isbn < derecha)then
+                  cantEntreRangos:= cantEntreRangos(a^.hd,izquierda,derecha)
+              end;
+          end;
+      end;
+  end;
+```
+
 <h1 align="center"> sacarPromedioArbolRecursivo </h1>
 
 ```pas
