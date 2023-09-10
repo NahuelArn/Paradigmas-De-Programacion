@@ -236,17 +236,65 @@ end;
 retorne, para cada rubro, la cantidad de productos con códigos entre los dos valores
 ingresados}
 
-procedure inicializarVpuntoD(var vD: vectorPuntoD);
+procedure inicializarVpuntoD(var vD: vPuntoD);
 var	i: integer;
 begin
-			
+	for i:= 1 to dimF do
+		vD[i]:= 0;
+end;
+
+function cuantosEntreRangos(a: arbol; izquierda,derecha: integer): integer;
+begin
+	if(a = nil)then
+		cuantosEntreRangos:= 0
+	else
+		begin
+			if(a^.dato.cod > izquierda) and (a^.dato.cod < derecha)then
+				begin
+					cuantosEntreRangos:= cuantosEntreRangos(a^.hi,izquierda,derecha) + cuantosEntreRangos(a^.hd,izquierda,derecha)+1;
+				end
+			else
+				begin
+					if(a^.dato.cod > izquierda)then
+						cuantosEntreRangos:= cuantosEntreRangos(a^.hi,izquierda,derecha)
+					else
+						begin
+							if(a^.dato.cod < derecha)then
+								cuantosEntreRangos:= cuantosEntreRangos(a^.hd,izquierda,derecha)
+						end;
+				end;
+		end;
+end;
+
+procedure recorrerRecorrerRubros(v: vectorRubros; var vD: vPuntoD; izquierda,derecha:integer);
+var
+	i: integer;
+begin
+	for i:=  1 to dimF do
+		begin
+			if(v[i] <> nil)then
+				begin
+					vD[i]:= cuantosEntreRangos(v[i],izquierda,derecha);
+				end;
+		end;
+end;
+
+procedure imprimirVectorD(vD: vPuntoD);
+var i : integer;
+begin
+	for i:= 1 to dimF do
+		begin
+			if(vD[i] <> 0)then
+				Writeln('En el rubro ',i,' hay ',vD[i], ' que cumplen entre los rangos');
+		end;
 end;
 
 var
 	v: vectorRubros;
 	codRubroBuscado: integer; codProducto: integer;
 	vC: vPuntoc;
-	vS: vPuntoD;
+	vD: vPuntoD;
+	izquierda,derecha: integer;
 begin
 	inicializarArboles(v);
 	cargarProductosEnRubros(v);
@@ -262,6 +310,15 @@ begin
 	inicializarCampos(vC);
 	generarNuevaEstructura(v,vC);
 	imprimirNuevaEstructura(vC);
+	//
+	inicializarVpuntoD(vD); Writeln(); Writeln();
+	Writeln('entre rangos ');
+	Writeln('Ingrese el codigo de mas a la izquierda: ');
+	readln(izquierda);
+	Writeln('Ingrese el codigo de mas a la derecha: ');
+	readln(derecha);
+	recorrerRecorrerRubros(v,vD,izquierda,derecha);
+	imprimirVectorD(vD);
 end.
 		
 		
