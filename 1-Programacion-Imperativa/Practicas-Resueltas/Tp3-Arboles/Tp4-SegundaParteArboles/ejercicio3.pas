@@ -97,12 +97,17 @@ end;
 	
 procedure leerFinal(var f: finalRendido);
 begin
-	Writeln('Ingrese el codigo del alumno: ');
-	readln(f.codAlumno);
-	Writeln('Ingrese el cod de la materia: ');
-	f.codMateria:= random(31)+1;
 	Writeln('Ingrese la nota la materia (1..10)- (con -1 corta )');
-	f.nota:= random(11)-1;
+	//f.nota:= random(11)-1;
+	readln(f.nota);
+	if(f.nota <> -1 )then
+		begin
+			Writeln('Ingrese el codigo del alumno: ');
+			readln(f.codAlumno);
+			Writeln('Ingrese el cod de la materia: ');
+			//f.codMateria:= random(31)+1;
+			readln(f.codMateria);
+		end;
 end;
 
 //filtra la data de la informacion del final rendido, si estas aca el alumno aprobo el final de la materia
@@ -203,15 +208,18 @@ begin
 			act:= act^.sig;
 		end;
 	if(ant = act)then	//si es el primer elemento de la lista o es vacio
-		L:= nue
+		begin
+			nue^.dato.promedio:= 0;
+			L:= nue;
+		end
 	else
 		begin
 	  	if(act^.dato.codAlumno = nE.codAlumno)then	//si se encontro que ya existia ese codigo de alumno en la estructura
 				act^.dato.promedio:= act^.dato.promedio + nE.promedio
 			else
 				begin	//si no es el primer elemento y no se encontro ese codigo en toda la estructura, lo inserto ordenado
-					new(nue);
-					nue^.dato:= nE;
+					//new(nue);
+					//nue^.dato:= nE;
 					ant^.sig:= nue;
 				end;
 			nue^.sig:= act;
@@ -234,8 +242,10 @@ begin
 				begin
 					obtenerAlumnosMayores(a^.hi,L,codAlumnoBase);
 					reasignarData(a^.dato,nE);
+					Writeln('--entre aca 3 -');
 					insertarOrdenadoVariacion(L,nE);
 					obtenerAlumnosMayores(a^.hd,L,codAlumnoBase);
+					Writeln('--entre aca 4 -');
 				end
 			else
 				obtenerAlumnosMayores(a^.hd,L,codAlumnoBase);
@@ -246,6 +256,7 @@ procedure recorrerAprobados(vM: vectorMaterias; var L: lista2; codAlumnoBase: in
 var
 	i: integer;
 begin
+	Writeln('--entre aca 1 -');
 	for i:= 1 to dimF30 do
 		begin
 			if(vM[i] <> nil)then
@@ -253,6 +264,7 @@ begin
 					obtenerAlumnosMayores(vM[i],L,codAlumnoBase);
 				end;
 		end;
+	Writeln('--entre aca 2 -');
 end;
 
 procedure imprimirListaNormal(L: lista2);
@@ -261,6 +273,18 @@ begin
 		begin
 			Writeln('codigo de alumno ',L^.dato.codAlumno);
 			Writeln('promedio de alumno ',L^.dato.promedio);
+			imprimirListaNormal(L^.sig);
+		end;
+end;
+
+
+procedure imprimirArbol(a: arbol);
+begin
+	if(a <> nil)then
+		begin
+			imprimirArbol (a^.hi);
+			Writeln('nota: ',a^.dato.nota);
+			imprimirArbol(a^.hd);
 		end;
 end;
 
@@ -273,11 +297,14 @@ begin
   randomize;
 	inicializarEstructuras(vM,vT);
 	cargarFinales(vM,vT);
+	imprimirArbol(vM[1]);
+	imprimirArbol(vM[2]);
 	//
 	L2:= nil;
-	Writeln('sarasa ingrese ');
+	Writeln('punto b, ingrese un numero para sacar el promedio de todos los almns aprbdos con cod mayor q ese ');
 	readln(codAlumnoBase);
 	recorrerAprobados(vM,L2,codAlumnoBase);
+	Writeln('--entre aca 1 -');
 	imprimirListaNormal(L2);
-	
+
 end.
