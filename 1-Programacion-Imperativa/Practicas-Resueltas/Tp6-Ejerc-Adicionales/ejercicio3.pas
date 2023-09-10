@@ -19,6 +19,7 @@ ingresados
 * c: generar un vector, recorriendo cada arbol del vector, y la lista nueva va tener el mayor de ese arbol
 * d: retornar otro vector, pero este de enteros
 * }
+
 program ejercicio3;
 const
 	dimF = 10;
