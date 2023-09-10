@@ -65,7 +65,7 @@ end.
 
 ```
 
-<h1 align="center"> cant entre rangos </h1>
+<h1 align="center"> cant entre rangos Con los limites Incluidos</h1>
 <p> izquierda = valor limite inferior y derecha = valor max superior </p>
 
 ```pas
@@ -76,6 +76,7 @@ end.
     else
       begin
         if(a^.dato.isbn >= izquierda) and (a^.dato.isbn <= derecha)then
+        //if(a^.dato.isbn > izquierda) and (a^.dato.isbn < derecha)then //sin los limites incluidos
           cantEntreRangos:= cantEntreRangos(a^.hi,izquierda,derecha) + cantEntreRangos(a^.hd,izquierda,derecha)+1
         else
           begin
@@ -90,6 +91,86 @@ end.
       end;
   end;
 ```
+
+<h1 align="center"> cant mayor que X, procedimiento </h1>
+<p> izquierda = valor limite inferior y derecha = valor max superior </p>
+
+```pas
+  procedure mayoresQue(a: arbol;x: integer; var cant: integer);
+  begin
+    if(a <> nil)then
+      begin
+        if(a^.dato > x)then 
+          begin
+            cant:= cant+1;
+            mayoresQue(a^.hi,x,cant);
+           mayoresQue(a^.hd,x,cant);
+          end
+        else
+          mayoresQue(a^.hd,x,cant);
+      end
+  end;
+```
+
+
+* <details>
+  <summary> Funcion  </summary>
+        
+  ```pas
+    function mayoresQue (A: arbol; valor: integer) : integer;
+    begin
+      if(a = nil)then
+        mayoresQue:= 0
+      else
+        begin
+          if (A^.dato.numero > valor) then
+            mayoresQue := mayoresQue(A^.HI, valor) + 1 + mayoresQue(A^.HD, valor)
+          else
+            mayoresQue := mayoresQue(A^.HD, valor);
+        end;
+    end;
+  ```
+</details>
+
+<h2 align="center"> cant menores que X, procedimiento </h2>
+<p> izquierda = valor limite inferior y derecha = valor max superior </p>
+
+```pas
+  procedure menoresQue(a: arbol;x: integer; var cant: integer);
+  begin
+    if(a <> nil)then
+      begin
+        if(a^.dato < x)then 
+          begin
+            cant:= cant+1;
+            menoresQue(a^.hi,x,cant);
+            menoresQue(a^.hd,x,cant);
+          end
+        else
+          menoresQue(a^.hi,x,cant);
+      end
+  end;
+```
+
+* <details>
+  <summary> Funcion  </summary>
+        
+  ```pas
+    function menoresQue (A: arbol; valor: integer) : integer;
+    begin
+      if(a = nil)then
+        menoresQue:= 0
+      else
+        begin
+          if (A^.dato.numero < valor) then
+            menoresQue := menoresQue(A^.HI, valor) + 1 + menoresQue(A^.HD, valor)
+          else
+            menoresQue := menoresQue(A^.HI, valor);
+        end;
+    end;
+  ```
+
+</details>
 
 <h1 align="center"> sacarPromedioArbolRecursivo </h1>
 
