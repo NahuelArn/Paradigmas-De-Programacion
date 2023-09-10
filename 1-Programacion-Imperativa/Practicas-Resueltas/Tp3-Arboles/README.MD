@@ -93,7 +93,6 @@ end.
 ```
 
 <h1 align="center"> cant mayor que X, procedimiento </h1>
-<p> izquierda = valor limite inferior y derecha = valor max superior </p>
 
 ```pas
   procedure mayoresQue(a: arbol;x: integer; var cant: integer);
@@ -133,7 +132,6 @@ end.
 </details>
 
 <h2 align="center"> cant menores que X, procedimiento </h2>
-<p> izquierda = valor limite inferior y derecha = valor max superior </p>
 
 ```pas
   procedure menoresQue(a: arbol;x: integer; var cant: integer);
