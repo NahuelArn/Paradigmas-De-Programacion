@@ -50,7 +50,9 @@ type
 	end;
 	
 	vPuntoc = array[rango10]of nuevaEstructura;
-	 
+	
+	vPuntoD = array[rango10] of integer;
+	
 procedure inicializarPuntero(var a: arbol);
 begin
 	a:= nil;
@@ -230,10 +232,21 @@ begin
 		end;
 end;
 
+{d) Implementar un módulo que reciba la estructura generada en a), dos códigos y
+retorne, para cada rubro, la cantidad de productos con códigos entre los dos valores
+ingresados}
+
+procedure inicializarVpuntoD(var vD: vectorPuntoD);
+var	i: integer;
+begin
+			
+end;
+
 var
 	v: vectorRubros;
 	codRubroBuscado: integer; codProducto: integer;
 	vC: vPuntoc;
+	vS: vPuntoD;
 begin
 	inicializarArboles(v);
 	cargarProductosEnRubros(v);
@@ -254,14 +267,7 @@ end.
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		
 		
