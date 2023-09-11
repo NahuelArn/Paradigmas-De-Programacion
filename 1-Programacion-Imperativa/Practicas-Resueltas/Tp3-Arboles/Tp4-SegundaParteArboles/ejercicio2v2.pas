@@ -21,14 +21,18 @@ que se prestó.
 g. Un módulo que reciba la estructura generada en ii. y retorne una nueva estructura
 ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de veces
 que se prestó.
-h. Un módulo recursivo que reciba la estructura generada en h. y muestre su contenido.
+h. Un módulo recursivo que reciba la estructura generada en g. y muestre su contenido.
 i. Un módulo recursivo que reciba la estructura generada en i. y dos valores de ISBN. El
 módulo debe retornar la cantidad total de préstamos realizados a los ISBN
 comprendidos entre los dos valores recibidos (incluidos).
 j. Un módulo recursivo que reciba la estructura generada en ii. y dos valores de ISBN. El
 módulo debe retornar la cantidad total de préstamos realizados a los ISBN
 comprendidos entre los dos valores recibidos (incluidos)
+
 }
+{contexto
+}
+
 program ejercicio2v2;
 
 type
@@ -88,7 +92,7 @@ end;
 
 procedure leerPrestamo(var p: prestamo);
 begin
-	Writeln('Ingrese el isb: ');
+	Writeln('Ingrese el isb: (corta con -1 )');
 	readln(p.isbn);
 	if(p.isbn <> -1)then
 		begin
@@ -379,31 +383,24 @@ begin
 		end;
 end;
 //------------------------------------------------------------------------
+procedure inicializarListaPuntoFyG(var L,L2G: listaF);
+begin
+	L:= nil;
+	L2G:= nil;
+end;
 
 {f. Un módulo que reciba la estructura generada en i. y retorne una nueva estructura
 ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de veces
 que se prestó.}
 //Se podria ir recorriendo el arbol2 y enganchando punteros, seria mas eficiente en tiempo de ejecucion
 
-// function	generarNuevaEstructuraOrdenladaPorIsbn(a0: arbol0): listaF;
-// var
-// 	L: listaF;
-// begin
-// 	if(a0 = nil)then
-// 		generarNuevaEstructuraOrdenadaPorIsbn:= nil;
-// 	else
-// 		begin
-// 			//generarNuevaEstructuraOrdenadaPorIsbn:= generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi) +insertarOrdenadoIneficiente(L,a0^.dato)+generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd);
-// 			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi);
-// 			insertarOrdenadoIneficiente(L,a0^.dato);
-// 		end;
-// end;
+//carga data filtrada
 procedure cargarDataCompartida(var nE: prestamosTotales; p: prestamo );
 begin
 	nE.isbn:= p.isbn;
 	nE.cantPrestamos:= nE.cantPrestamos+1;
 end;
-
+//agrega atras recorriendo toda la lista
 procedure agregarAtrasIneficiente(var L: listaF; p: prestamo);
 var
 	nE: prestamosTotales;
@@ -428,29 +425,68 @@ begin
 	nue^.sig:= act;
 end;
 
+
+
+// function buscarUltimoIsb(L: listaF): integer;
+// begin
+// 	if(L^.sig = nil)then
+// 		buscarUltimoIsb:= L^.dato.isbn
+// 	else	
+// 		buscarUltimoIsb(L^.sig);
+// end;
+// function buscarUltimoIsb(L: listaF;isbnActual: integer): integer;
+// begin
+// 	if(L = nil)then	
+// 		buscarUltimoIsb:= -1
+// 	else
+// 		begin
+// 			if(L^.dato.isbn = isbnActual)then
+// 				buscarUltimoIsb:= isbnActual
+// 			else
+// 				buscarUltimoIsb:= buscarUltimoIsb(L^.sig,isbnActual);
+// 		end;
+// end;
+//buca en la lista si hay alguno nodo con el isbn actual, y si hay lo agrego
+function buscarUltimoIsb(L: listaF;isbnActual: integer): listaF;
+begin
+	if(L = nil)then	
+		buscarUltimoIsb:= nil
+	else
+		begin
+			if(L^.dato.isbn = isbnActual)then
+				buscarUltimoIsb:= L
+			else
+				buscarUltimoIsb:= buscarUltimoIsb(L^.sig,isbnActual);
+		end;
+end;
+//hago una especie de corte de control, tengo que generar una lista con la cant total de cada ocurrencia en isbns
 procedure generarNuevaEstructuraOrdenadaPorIsbn(a0: arbol0;var L: listaF);
 var
 	isbnActual: integer;
 	//nE: prestamosTotales;
+	aux: listaF;
 begin
 	if(a0 <> nil)then
 		begin		
-			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi,L);
+			generarNuevaEstructuraOrdenadaPorIsbn(a0^.hi,L); 	///me voy full izquierda
 			isbnActual:= a0^.dato.isbn; //para hacerlo mas legible
-			if(L = nil)then
+			if(L = nil)then	//signfica que es el primer elememento
 				agregarAtrasIneficiente(L,a0^.dato)	//aprovecho q ya esta ordenado el arbol
 			else
 				begin
-					if(isbnActual = L^.dato.isbn)then
-						cargarDataCompartida(L^.dato,a0^.dato)
+					//if(isbnActual = L^.dato.isbn)then	//si el nodo esta con el mismo isbn, no creo nada, solo sumo
+					//if(isbnActual = buscarUltimoIsb(L,isbnActual))then	//si el nodo esta con el mismo isbn, no creo nada, solo sumo
+					aux:= buscarUltimoIsb(L,isbnActual);
+					if(aux <> nil)then	//si el nodo esta con el mismo isbn, no creo nada, solo sumo
+						cargarDataCompartida(aux^.dato,a0^.dato)
 					else
-						agregarAtrasIneficiente(L,a0^.dato);
+						agregarAtrasIneficiente(L,a0^.dato);	//si no es un nuevo isbn
 					generarNuevaEstructuraOrdenadaPorIsbn(a0^.hd,L);
 				end;
 			//corteDeControl(a0,isbnActual);
 		end;
 end;
-
+//imprime la lista normal de manera recursiva
 procedure imprimirListaNormal(L: listaF);
 begin
 	if(L <> nil)then
@@ -464,13 +500,135 @@ begin
 end;
 
 //------------------------------------------------------------------------
+{g. Un módulo que reciba la estructura generada en ii. y retorne una nueva estructura
+ordenada ISBN, donde cada ISBN aparezca una vez junto a la cantidad total de veces
+que se prestó.}
+{g: Hago una lista con 2 campos[ISB y cantTotalPrestamosDeEseISBN] a esa lista la cargo con un agregarAtras, aprovecho el criterio de orden ISBN}
+//en este caso podria pasarle el nodo y que agrege atras de maneraIneficiente pero ya tengo todo ese nodo del arbol ordenado por isbn
+// podria hacer un enganche entre nodos
+// vos tenes un nodo del arbol que es una lista, esa lista va ser todos los prestamos de ese isbn, entonces llevando un puntero al ultimo
+// y como es una sola lista puedo recorrer la primera vez 
+
+//cuenta la cant de nodos de la lista
+function cantVecesSePresto(L: listaRepetidos): integer;
+begin
+	if(L = nil)then
+		cantVecesSePresto:= 0
+	else
+		cantVecesSePresto:= cantVecesSePresto(L^.sig)+1;
+end;
+
+//encargador de reasignar campos
+procedure asignarCampos(var nE: prestamosTotales; L2: listaRepetidos);
+begin
+	nE.isbn:= L2^.dato.isbn;
+	nE.cantPrestamos:= cantVecesSePresto(L2);
+end;
+//el agregarAdelante de toda la vida
+procedure agregarAdelante(var L: listaF; p:prestamosTotales);
+var nue: listaF;
+begin
+	new(nue);
+	nue^.dato:= p;
+	nue^.sig:= L;
+	L:= nue;
+end;
+//recorre el arbol y por cada nodo q es una lista cuanta la cant de nodos de la lista y los devuelve en una lista nueva q cada nodo representa a un prestamo su isbn y total
+procedure generarEstructuraG(a2: arbol2; var L2G: listaF);
+var	
+	nE: prestamosTotales;
+begin
+	if(a2 <> nil)then
+		begin
+			generarEstructuraG(a2^.hi,L2G);
+			asignarCampos(nE,a2^.dato);
+			//nE.isb:= A2^.dato.dato.isbn;
+			//nE.cantPrestamos:= cantVecesSePresto(a2^.dato);
+			agregarAdelante(L2G,nE);
+			generarEstructuraG(a2^.hd,L2G);
+		end;
+end;
+
+//------------------------------------------------------------------------
+{h. Un módulo recursivo que reciba la estructura generada en g. y muestre su contenido.
+}
+//reutilice un modulo Listo
+
+//------------------------------------------------------------------------
+
+{i. Un módulo recursivo que reciba la estructura generada en i. y dos valores de ISBN. El
+módulo debe retornar la cantidad total de préstamos realizados a los ISBN
+comprendidos entre los dos valores recibidos (incluidos).}
+
+function cantEntreRangos(a: arbol0; izquierda,derecha: integer): integer;
+begin
+	if(a = nil)then
+		cantEntreRangos:= 0
+	else
+		begin
+			if(a^.dato.isbn >= izquierda) and (a^.dato.isbn <= derecha)then
+				cantEntreRangos:= cantEntreRangos(a^.hi,izquierda,derecha) + cantEntreRangos(a^.hd,izquierda,derecha)+1
+			else
+				begin
+					if(a^.dato.isbn > izquierda)then
+						cantEntreRangos:= cantEntreRangos(a^.hi,izquierda,derecha)
+					else	
+						begin
+							if(a^.dato.isbn < derecha)then
+								cantEntreRangos:= cantEntreRangos(a^.hd,izquierda,derecha)
+						end;
+				end;
+		end;
+end;
+
+{j. Un módulo recursivo que reciba la estructura generada en ii. y dos valores de ISBN. El
+módulo debe retornar la cantidad total de préstamos realizados a los ISBN
+comprendidos entre los dos valores recibidos (incluidos)}
+
+function contar(L: listaRepetidos): integer;
+begin
+	if (L = nil) then
+		contar:= 0
+	else
+		contar:= contar(L^.sig)+1;	
+end;
+
+function cantEntreRangosJ(a2: arbol2; izquierda,derecha: integer):integer;
+var	aux: listaRepetidos;
+begin
+	if(a2 = nil)then
+		cantEntreRangosJ:= 0
+	else
+		begin
+			aux:= a2^.dato;
+			if((aux^.dato.isbn >= izquierda) and (aux^.dato.isbn  <= derecha))then
+				cantEntreRangosJ:= cantEntreRangosJ(a2^.hi,izquierda,derecha) + contar(a2^.dato) + cantEntreRangosJ(a2^.hd,izquierda,derecha)
+			else
+				begin
+					if(aux^.dato.isbn > izquierda)then
+						cantEntreRangosJ:= cantEntreRangosJ(a2^.hi,izquierda,derecha)
+					else
+						begin
+							if(aux^.dato.isbn < derecha)then
+								cantEntreRangosJ:= cantEntreRangosJ(a2^.hd,izquierda,derecha);
+						end;
+				end;
+		end;
+end;
+// procedure cantEntreRangosJ(a2: arbol2; izquierda,derecha: integer);
+// begin
+// 	if(a2 <> nil)then
+// 		begin
+			
+// 		end;
+// end;
 
 var 
 	ar0: arbol0; ar2: arbol2;
 	puntoB: integer; puntoC: integer;
 	numSocio: integer; //cantPrestamos: integer;
 	//ListaNueva: listaF;
-	L: listaF;
+	L,L2G: listaF; izquierda,derecha: integer;
 begin
 	randomize;
   inicializarPunterosArbol(ar0,ar2);
@@ -519,7 +677,28 @@ begin
 	Writeln('El socio :',numSocio,' en el arbol2, tiene: ',cuantosPrestamosTieneElSocioA2(ar2,numSocio));
 	//
 	//ListaNueva:= generarNuevaEstructuraOrdenadaPorIsbn(ar0);
-	L:= nil;
+	inicializarListaPuntoFyG(L,L2G);
 	generarNuevaEstructuraOrdenadaPorIsbn(ar0,L);
+	Writeln();Writeln();
+	Writeln('sarasaaaaa ');
 	imprimirListaNormal(L);
+	//
+	generarEstructuraG(ar2,L2G);
+	{h. Un módulo recursivo que reciba la estructura generada en g. y muestre su contenido.}
+	Writeln('Punto gggggggggggggggggggg ');
+	imprimirListaNormal(L2G);
+	//
+	{i. Un módulo recursivo que reciba la estructura generada en i. y dos valores de ISBN. El
+módulo debe retornar la cantidad total de préstamos realizados a los ISBN
+comprendidos entre los dos valores recibidos (incluidos).}
+	
+
+	izquierda:= 2;	// "Hardcodear"
+	derecha:= 12;
+	Writeln('hay entre rangos en el arbol 1: ',cantEntreRangos(ar0,izquierda,derecha));
+	//
+	izquierda:= 2;
+	derecha:= 12;
+	Writeln('hay entre rangos en el arbol 2: ',cantEntreRangosJ(ar2,izquierda,derecha));
+
 end.

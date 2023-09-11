@@ -30,7 +30,7 @@ modelo del auto con dicha patente.}
 //1:33 sin testear
 {a[V]
 *b [V]
-*c []
+*c [v]
 * 
 * 
 * }
@@ -101,8 +101,8 @@ begin
 			Writeln('Ingrese la marca: (es un string)');
 			readln(a.marca);
 			Writeln('Ingrese el modelo: ');
-			a.modelo:= random(20);
-			//readln(a.modelo);
+			//a.modelo:= random(20);
+			readln(a.modelo);
 		end;
 end;
 
@@ -135,44 +135,48 @@ begin
 	b.modelo:= a.modelo;
 end;
 
-procedure insertarOrdenado(var L: lista; b: mismaMarca);
-var
-	ant,act,nue: lista;
+
+procedure agregarAdelante(var L: lista; b: mismaMarca);
+var nue: lista;
 begin
 	new(nue);
 	nue^.dato:= b;
-	ant:= L;
-	act:= L;
-	While(act <> nil) and (b.patente > L^.dato.patente)do
-		begin
-			ant:= act;
-			act:= act^.sig;
-		end;
-	if(act <> nil)then
-		begin
-			if(act = ant)then
-				L:= nue
-			else
-				ant^.sig:= nue;
-			nue^.sig:= act;
-		end;
+	nue^.sig:= L;
+	L:= nue;
 end;
-//por marca
+
+//por marca\
+procedure imprimirLista(l:lista);
+begin
+	if(l<>nil) then begin
+		writeln('nodolista:',l^.dato.patente);
+		imprimirLista(l^.sig);
+	end;
+end;
+
 procedure cargarArbolII(var a2: arbolII; a: auto; b: mismaMarca);
 begin
 	if(a2 = nil)then
 		begin
 			new(a2);
 			a2^.marca:= a.marca;
-			insertarOrdenado(a2^.dato,b);
+			a2^.dato:= nil;
+			agregarAdelante(a2^.dato,b);
+			//insertarOrdenado(a2^.dato,b);
+			imprimirLista(a2^.dato);
+
 			//a2^.dato:= b;
 			a2^.hi:= nil;
 			a2^.hd:= nil;
 		end
 	else
 		begin
+						imprimirLista(a2^.dato);
+
 			if(a2^.marca = a.marca)then
-				insertarOrdenado(a2^.dato,b)
+				//insertarOrdenado(a2^.dato,b)			
+				agregarAdelante(a2^.dato,b)
+
 			else
 				begin
 					if(a.marca < a2^.marca)then
@@ -232,16 +236,22 @@ begin
 		end;
 end;
 
+
+
 function cantAutosMarcaII(a2: arbolII; marca: str20): integer;
 begin
 	if(a2 = nil)then
 		cantAutosMarcaII:= 0
 	else
 		begin
-			if(a2^.marca = marca)then
-				cantAutosMarcaII:= cuantosAutosTieneEsteNodoDeListas(a2^.dato)
+			if(a2^.marca = marca)then begin
+				cantAutosMarcaII:= cuantosAutosTieneEsteNodoDeListas(a2^.dato);
 				//Writeln('cuantos autos tiene en la fucnion: ',cuantosAutosTieneEsteNodoDeListas(a2^.dato))
+				//writeln('imprimo arbol');
+				//imprimirLista(a2^.dato);
+				
 				//cantAutosMarcaII:= cantAutosMarcaII(a2^.hi,marca) + cantAutosMarcaII(a2^.hd,marca)+1
+			end
 			else
 				begin
 					if(marca < a2^.marca)then
@@ -306,9 +316,9 @@ begin
 			else
 				begin
 					if(patente < a1^.dato.patente)then
-						modeloDePatenteBuscada(a1^.hi,patente)
+						modeloDePatenteBuscada:= modeloDePatenteBuscada(a1^.hi,patente)
 					else
-						modeloDePatenteBuscada(a1^.hd,patente)
+						modeloDePatenteBuscada := modeloDePatenteBuscada(a1^.hd,patente);
 				end;				
 		end;
 end;
