@@ -33,7 +33,7 @@ modelo del auto con dicha patente.}
 *c [v]
 * 
 * 
-* }
+* }//cheaqueadisimo
 program ejercicio2;
 const
 	izq = 1; der = 20;
