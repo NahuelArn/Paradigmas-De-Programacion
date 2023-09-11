@@ -21,7 +21,7 @@ d: buscar en todo el arbol e ir generando una lista una lista de codigos de recl
  0: 55 no testeado
 ]
 }
-program sasara;
+program ejercicio4;
 	
 type
 	reclamo = record
