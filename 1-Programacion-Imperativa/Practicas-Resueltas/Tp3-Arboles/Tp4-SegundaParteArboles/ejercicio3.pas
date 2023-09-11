@@ -23,7 +23,7 @@ códigos de alumnos ingresados.
 * b: sacar el promedio de un rango superior en el arbol
 * c: entre valores y cantidad de alumnos q tengan 
 * }
-		
+	//esta maldito el codigo, falla en mi corte de control todo meado
 program ejercicio3;
 
 const
@@ -201,29 +201,31 @@ begin
 	act:= L;
 	ant:= L;
 	new(nue);
+	Writeln('te llega la nota flaquito? ',nE.promedio);
+	Writeln('te llega la codALumno flaquito? ',nE.codAlumno);
 	nue^.dato:= nE;
 	While(act <> nil) and (nE.codAlumno > L^.dato.codAlumno) and (act^.dato.codAlumno <> nE.codAlumno)do
 		begin
 			ant:= act;
 			act:= act^.sig;
 		end;
-	if(ant = act)then	//si es el primer elemento de la lista o es vacio
-		begin
-			nue^.dato.promedio:= 0;
-			L:= nue;
-		end
-	else
-		begin
-	  	if(act^.dato.codAlumno = nE.codAlumno)then	//si se encontro que ya existia ese codigo de alumno en la estructura
-				act^.dato.promedio:= act^.dato.promedio + nE.promedio
-			else
-				begin	//si no es el primer elemento y no se encontro ese codigo en toda la estructura, lo inserto ordenado
-					//new(nue);
-					//nue^.dato:= nE;
-					ant^.sig:= nue;
-				end;
-			nue^.sig:= act;
-		end;
+		if(ant = act)then	//si es el primer elemento de la lista o es vacio
+			begin
+				//nue^.dato.promedio:= 0;
+				L:= nue;
+			end
+		else
+			begin
+				if(act^.dato.codAlumno = nE.codAlumno)then	//si se encontro que ya existia ese codigo de alumno en la estructura
+					act^.dato.promedio:= act^.dato.promedio + nE.promedio
+				else
+					begin	//si no es el primer elemento y no se encontro ese codigo en toda la estructura, lo inserto ordenado
+						//new(nue);
+						//nue^.dato:= nE;
+						ant^.sig:= nue;
+					end;
+				nue^.sig:= act;
+			end;
 end;
 
 procedure reasignarData(f: finalAprobado; var nE: puntoB);
@@ -306,5 +308,4 @@ begin
 	recorrerAprobados(vM,L2,codAlumnoBase);
 	Writeln('--entre aca 1 -');
 	imprimirListaNormal(L2);
-
 end.
