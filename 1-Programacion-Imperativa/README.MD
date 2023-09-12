@@ -1,7 +1,8 @@
 <h1 align="center"> PROGRAMACION IMPERATIVA </h1>
 
-<p align="center">Algoritmos que se repiten</p>
-
+<p align="center">Algoritmos que se repiten</p> <br>
+<p align="center">Pascal nuestro que estás en las computadoras, santificado sean tus lenguajes de programación, venga a nosotros tu compilador, hágase su ejecución tanto en dell como en hp
+Danos hoy nuestro error de cada dia</p>
 
 <h1 align="center"> Ordenacion-Seleccion </h1>
 
