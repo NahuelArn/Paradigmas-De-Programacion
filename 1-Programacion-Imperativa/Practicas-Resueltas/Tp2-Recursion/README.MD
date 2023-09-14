@@ -244,6 +244,7 @@
 </details>
 
 <h1 align="center"> RETORNAR EL MAX EN UNA LISTA</h1>
+
 ```pas
 
   program moduloDebugListaRecursion;
