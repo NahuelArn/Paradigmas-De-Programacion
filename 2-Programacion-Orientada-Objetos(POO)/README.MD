@@ -5,7 +5,7 @@
 <h1 align="center"> sarasaTitulo </h1>
 
 <p align="center">
-  <img src="https://github.com/NahuelArn/Taller-De-Programacion/assets/100500003/ee4545c3-780c-45b7-a6ef-56029ccfe8a7" alt="cat">
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/100500003/268323762-7a016ddf-14cc-4946-84c6-c8a254a18b31.png" alt="cat">
 </p>
 
   
