@@ -68,7 +68,8 @@
 <h3 align = "center"> Arrays </h3>
 
 <p> Unidimensional </p> 
-  ```java
+
+```java
   
     // Declaración
     tipo[] nombre = new tipo[tamaño];
@@ -77,7 +78,8 @@
     // Acceso
     nombre[posición];
   
-  ```
+```
+
 <p> Multidimensional </p>
 
 ```java
