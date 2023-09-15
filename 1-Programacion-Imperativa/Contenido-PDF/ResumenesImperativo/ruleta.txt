@@ -1,0 +1,16 @@
+insertarOrdenado
+agregarAtrasIneficiente
+busquedaDicotomicaRecursiva
+busquedaDicotomicaIterativa
+ordenacionSeleccion
+ordenacionPorInsercion
+eliminarDeUnaListaDeManeraEficiente
+encontrarUnNumeroEnUnArbolEficiente
+imprimirTodosLosValoresEntre2Valores
+imprimirTodoNumeroMaxyorQueX
+imprimirTodoNumeroMaxyorQueX
+eliminarEnListas
+eliminarEnPosEnVector
+eliminarPosEnVectorDeManeraEficiente
+
+https://es.piliapp.com/random/wheel/

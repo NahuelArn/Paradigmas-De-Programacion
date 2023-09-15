@@ -12,7 +12,7 @@ b: recorrer arbol encontrar cliente y retornar todas sus compras  que realizo en
 c: ordenar vector de mayor a menor >
 }
 
-program arancibiaNahuel;
+program nahuelArn;
 
 type
 	
@@ -241,3 +241,4 @@ begin
 	Writeln('ya ordenado '); Writeln(); Writeln();
 	
 end.
+
