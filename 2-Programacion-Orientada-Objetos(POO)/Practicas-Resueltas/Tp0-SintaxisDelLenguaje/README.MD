@@ -65,10 +65,9 @@
 
 <h2 align="center"> Estructuras de datos </h2>
 
-<p> Unidimensional </p>
-
 <h3 align = "center"> Arrays </h3>
-    
+
+<p> Unidimensional </p> 
   ```java
   
     // Declaración
@@ -95,6 +94,7 @@
 <h3 align = "center"> ArrayList / Listas </h3>
 
 ```java
+
   import java.util.ArrayList;
 
   // Declaración
