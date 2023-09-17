@@ -1,5 +1,18 @@
 <h1 align="center"> Estructuras a mano </h1>
 
+```pas
+  //uso del randomize
+  programa principal
+
+  randomize;
+
+
+  variable:= random(10) = genera numeros random del 0 al 9
+  variable:= random(10)+1 = genera numeros random del 0 al 10
+  variable:= random(11)-1 = genera numeros random del -1 al 10
+  
+```
+
 <h2 align="center">moduloDebugArbolRecursiono</h2>
 
 ```pas
