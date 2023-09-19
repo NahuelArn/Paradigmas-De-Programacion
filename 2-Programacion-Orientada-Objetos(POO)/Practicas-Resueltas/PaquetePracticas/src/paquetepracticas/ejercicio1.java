@@ -14,8 +14,8 @@ tabla del 2. Luego escriba las instrucciones necesarias para:  - generar  entero
 muestre el resultado de multiplicarlo por 2 (accediendo al vector).
 
  */
-import PaqueteLectura.GeneradorAleatorio; no anda
-//import java.util.Random;
+//import PaqueteLectura.GeneradorAleatorio; no anda
+import java.util.Random;
 
 public class ejercicio1 {
 
