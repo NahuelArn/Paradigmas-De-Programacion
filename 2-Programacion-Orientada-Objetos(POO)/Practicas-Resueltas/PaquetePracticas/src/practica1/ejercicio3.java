@@ -24,7 +24,7 @@ import PaqueteLectura.GeneradorAleatorio;
 public class ejercicio3 {
 
     public static void main(String[] args) {
-        GeneradorAleatorio.iniciar();
+            GeneradorAleatorio.iniciar();
 
         int dimF = 5;
 
