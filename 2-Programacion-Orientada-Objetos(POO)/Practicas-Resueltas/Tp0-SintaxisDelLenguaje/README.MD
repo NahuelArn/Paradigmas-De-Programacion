@@ -2,6 +2,39 @@
 
 <p align="center">En donde ? en todoo codeee</p>
 
+<h2 align="center"> Variables </h2>
+
+```java
+
+  int entero = 1;
+  double decimal = 1.5;
+  char caracter = 'a';
+  String cadena = "Hola";
+  boolean booleano = true;
+
+
+```
+
+
+<h2 align="center"> Operadores </h2>
+
+```java
+  
+    // Aritméticos
+    + - * / % ++ --
+  
+    // Relacionales
+    == != < > <= >=
+  
+    // Lógicos
+    && || !
+  
+    // Asignación
+    = += -= *= /= %=
+  
+```
+
+
 <h2 align="center"> Estructuras de control </h2>
 
 <h3 align = "center"> If/Else </h3>
@@ -198,6 +231,29 @@
           System.out.println(GeneradorAleatorio.generarDouble(10)); //genera un double entre 0 y 9
           System.out.println(GeneradorAleatorio.generarBoolean());  //genera un boolean
           System.out.println(GeneradorAleatorio.generarString(4));  //genera un string de 4 letras
+      }
+      
+  }
+
+```
+
+<h2 align="center"> lectura </h2>
+
+```java
+
+  import PaqueteLectura.Lector; //scanner
+
+  public class Demo05Generador {
+
+      public static void main(String[] args) {
+          System.out.println("Ingrese un numero: ");
+          int num1 = Lector.leerInt();
+          System.out.println("Ingrese un nombre : ");
+          String nombre = Lector.leerString();
+
+           Lector.leerBoolean();
+           Lector.leerDouble();
+
       }
       
   }

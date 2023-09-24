@@ -17,12 +17,28 @@ public class personaMain {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+    public String getNombre(){
+        return this.nombre;
+    }
+    
     public void setDni(int dni) {
         this.dni = dni;
     }
-
+    public int getDni(){
+        return this.dni;
+    }
+    
     public void setEdad(int edad) {
         this.edad = edad;
     }
+    public int getEdad(){
+        return this.edad;
+    }
+    
+    public void setGuardarSusDatos(String nombre, int dni, int edad){
+        this.nombre = nombre;
+        this.dni = dni;
+        this.edad = edad;
+    }
+    
 }

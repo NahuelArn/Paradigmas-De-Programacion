@@ -23,7 +23,7 @@ public class Ejercicio1 {
         int num1 = Lector.leerInt();
         System.out.println("Ingrese el segundo numero: ");
         int num2 = Lector.leerInt();
-        
+       
         if (num1 == num2) {
             System.out.println("Los números son iguales");
         } else if (num1 > num2) {

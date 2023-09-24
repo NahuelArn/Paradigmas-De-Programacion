@@ -7,6 +7,8 @@ package practica2;
 /**
  *
  * @author nahuelarn
+ * 
+ *  UTILIZAR LA MISMA CLASE PERSONAMAIN DEL EJERCICIO 2,1
  */
 public class ejercicio3 {
 
@@ -34,6 +36,8 @@ public class ejercicio3 {
 
     }
      */
+
+
     public static void main(String[] args) {
         personaMain p1;
         personaMain p2;
