@@ -45,7 +45,7 @@ public class crearPersonaEjercicio2 {
             edad = GeneradorAleatorio.generarInt(5);
         }
 
-        for (int k = 0; k < 15; k++) {
+        for (int k = 0; k < 15; k++) {  //comprueba que cada campo no este en null
             if (vector[k] != null) {
                 System.out.println("esta ocupado el campo" + k);
             }
