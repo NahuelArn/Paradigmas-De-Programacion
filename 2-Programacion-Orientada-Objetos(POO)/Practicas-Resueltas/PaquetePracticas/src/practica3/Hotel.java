@@ -65,14 +65,45 @@ public class Hotel {
         this.cantHabitaciones = cantHabitaciones;
     }
 
-    public Habitacion[] getHabitaciones() {
-        return Habitaciones;
+    //devuelve una habitacion que esta entre los rangos correctos
+    private Habitacion getHabitacion(int num) {
+        if ((num > -1) && (num < 20)) {
+            return this.Habitaciones[num];
+        } else {
+            return null;
+        }
     }
 
-    public void setHabitaciones(Habitacion[] Habitaciones) {
-        this.Habitaciones = Habitaciones;
+    public void setHabitacion(int num, Cliente cli) {
+        Habitacion aux;
+        aux = getHabitacion(num-1);
+        if ((aux != null) && (aux.getEstado() != true)) {
+            aux.setEstado(true);
+            aux.setHuesped(cli);
+        } else {
+            System.out.println("Fuera de rango o Habitacion ocupada");
+        }
     }
 
+    // en este caso no me interesa si esta ocupada o no, aumento el precio igual
+    public void setInflacion(double aumento) {
+        for (int i = 0; i < this.getCantHabitaciones(); i++) {
+            //this.getHabitacion(i).setCostoPorNoche(getCostoPorNoche() += aumento);
+            this.getHabitacion(i).setCostoPorNoche(aumento);
+
+        }
+    }
+
+    @Override
+    public String toString() {
+        String s = " ";
+        for (int i = 0; i < getCantHabitaciones(); i++) {
+            s += this.getHabitacion(i).toString() + "\n";
+        }
+        return s;
+    }
+
+    //metodos de prueba 
     public boolean getHabitacionBuscada(int numHabitacion) {
 
         if (Habitaciones[numHabitacion].getEstado() != false) {

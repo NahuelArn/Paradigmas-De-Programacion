@@ -19,7 +19,12 @@ public class Cliente {
         this.dni = 0;
         this.edad = 0;
     }
-
+    
+    public Cliente(String n, int d, int e){
+        this.nombre = n;
+        this.dni = d;
+        this.edad = e;
+    }
     //getters and setters
     
     public String getNombre() {
@@ -46,5 +51,8 @@ public class Cliente {
         this.edad = edad;
     }
     
-    
+    @Override
+    public String toString(){
+        return "nombre: "+this.nombre+" dni: "+this.dni + " edad: "+this.edad;
+    }
 }

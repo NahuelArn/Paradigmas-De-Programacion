@@ -8,6 +8,7 @@ package practica3;
  *
  * @author nahuelarn
  */
+import PaqueteLectura.GeneradorAleatorio;
 
 public class Habitacion {
     private double costoPorNoche;
@@ -47,7 +48,7 @@ public class Habitacion {
     }
 
     public void setCostoPorNoche(double costoPorNoche) {
-        this.costoPorNoche = costoPorNoche;
+        this.costoPorNoche += costoPorNoche;
     }
 
     public boolean isEstado() {
@@ -70,5 +71,15 @@ public class Habitacion {
     public void setHuesped(Cliente huesped) {
         this.huesped = huesped;
     }
+
     
+    @Override
+    public String toString(){
+        if(this.estado){
+           return this.costoPorNoche +", "+this.estado+ ", "+ getHuesped().toString();
+        }else{
+            return this.costoPorNoche +", "+this.estado;
+        }
+    }
+        
 }
