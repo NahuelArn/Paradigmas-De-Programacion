@@ -8,7 +8,6 @@ package practica3;
  *
  * @author nahuelarn
  */
-import PaqueteLectura.GeneradorAleatorio;
 
 public class Habitacion {
     private double costoPorNoche;
