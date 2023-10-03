@@ -35,7 +35,6 @@ public class Entrenador extends Empleado {
     
     //cumple la funcion de un case/switch 
     private double getBonusEfectividad() {
-
         int auxCant = this.getCantCampeonatosGanados();
         if ((auxCant >= 1) && (auxCant <= 4)) {
             return 5000;
@@ -50,22 +49,6 @@ public class Entrenador extends Empleado {
 
     @Override
     public double calcularSueldoAcobrar() {
-        //double bonusAntiguedad = this.getAntiguedad() * 0.10;
-        
-//        double bonusEfectividad;
-//        int auxCant = this.getCantCampeonatosGanados();
-//        if ((auxCant >= 1) && (auxCant <= 4)) {
-//            bonusEfectividad = 5000;
-//        } else if ((auxCant >= 5) && (auxCant <= 10)) {
-//            bonusEfectividad = 30000;
-//        } else if (auxCant > 10) {
-//            return bonusEfectividad = 50000;
-//        }
-        return this.getBonusAntiguedad() + this.getSueldoBasico() + this.getBonusEfectividad();
-    }
-    
-    @Override
-    public String toString(){
-        return super.toString() + this.calcularSueldoAcobrar() + " efectividad: "+ this.calcularEfectividad();
+        return super.calcularSueldoAcobrar() + this.getBonusEfectividad();
     }
 }

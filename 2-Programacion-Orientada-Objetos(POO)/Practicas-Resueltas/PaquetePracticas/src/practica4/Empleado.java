@@ -57,10 +57,14 @@ public abstract class Empleado {
     
     public abstract double calcularEfectividad();
     
-    public abstract double calcularSueldoAcobrar();
+    public double calcularSueldoAcobrar(){
+        double plus = this.getAntiguedad() * 0.1;
+        
+        return this.getSueldoBasico() + (this.getSueldoBasico() * plus);
+    };
     
     @Override
     public String toString(){
-        return "Nombre: "+ this.getNombre()+ " sueldo a cobrar: ";
+        return "Nombre: "+ this.getNombre() + " sueldo a cobrar: "  + this.calcularSueldoAcobrar() + " efectividad: "+ this.calcularEfectividad();
     }
 }

@@ -45,15 +45,11 @@ public class Jugador extends Empleado {
     
     @Override
     public double calcularSueldoAcobrar() {
-        if(this.calcularEfectividad() > 0.5){
-           return (this.getSueldoBasico() *2)+ this.getBonusAntiguedad();
-        } else {
-            return this.getBonusAntiguedad()+this.getSueldoBasico();
+        double sueldo = super.calcularSueldoAcobrar();
+    if(this.calcularEfectividad() > 0.5){
+            sueldo = sueldo + this.getSueldoBasico();
         }
-    }
-    
-    @Override
-    public String toString(){
-        return super.toString() + this.calcularSueldoAcobrar()+ " efectividad: "+ this.calcularEfectividad();
+        
+        return sueldo;
     }
 }
