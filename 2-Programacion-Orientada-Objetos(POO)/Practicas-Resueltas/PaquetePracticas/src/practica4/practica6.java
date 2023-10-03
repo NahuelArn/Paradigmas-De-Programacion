@@ -25,9 +25,15 @@ import PaqueteLectura.Lector;
 /*
 Clases = Estacion (tempMensual[20], desdeAnho, dimFAnhos, nombre, latitud y longitud)
 */
+
+import PaqueteLectura.GeneradorAleatorio;
+import PaqueteLectura.Lector;
+
 public class practica6 {
     public static void main(String[] args) {
-        Estacion estacion = new Estacion();
+        Anho estacionLaPlata = new Anho(2000);
+        System.out.println("Ingrese desde que anho: ");
         
+        estacionLaPlata.setDesdeANho(Lector.leerInt());
     }
 }
