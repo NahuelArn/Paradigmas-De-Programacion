@@ -27,6 +27,7 @@ Clases = Estacion (tempMensual[20], desdeAnho, dimFAnhos, nombre, latitud y long
 */
 public class practica6 {
     public static void main(String[] args) {
+        Estacion estacion = new Estacion();
         
     }
 }

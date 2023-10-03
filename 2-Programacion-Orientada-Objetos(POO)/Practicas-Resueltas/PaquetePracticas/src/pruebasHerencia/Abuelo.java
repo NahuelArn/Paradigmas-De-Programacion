@@ -12,7 +12,10 @@ public class Abuelo {
     String apellido;
     String nombre;
     int edad;
- 
+    
+    public Abuelo(){
+        
+    }
     
     //constructor 
     public Abuelo(String a, String b){
