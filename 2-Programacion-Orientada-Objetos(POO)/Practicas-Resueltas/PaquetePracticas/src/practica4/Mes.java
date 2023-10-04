@@ -10,26 +10,26 @@ package practica4;
  */
 public class Mes extends Estacion{
     
-    public Mes(int desdeAnho,int dimFAnho, String nombre, double latitud, double longitud){
-        super(desdeAnho,dimFAnho,nombre,latitud,longitud);
+    public Mes(int desdeAnho,int hastaAnho, String nombre, double latitud, double longitud){
+        super(desdeAnho,hastaAnho,nombre,latitud,longitud);
     }
     @Override
     public String promedio(){
-        double aux = 0;
-        double auxaux;
-        int cant = 0;
+        double sumaTemp = 0;
         String n = " ";
-//        for (int i = super.getDesdeANho(); i < this.getDimFAnho(); i++)
-        for (int j = 0; j < 12; j++){
-            for (int i = super.getDesdeANho(); i < this.getDimFAnho(); i++){
-                auxaux = super.getTemperaturas()[j][i];
-                if(auxaux != 9999){
+        double temperaturaActual;
+        int cant = 0;
+        for (int j = 1; j < 13; j++){
+            for (int i = super.getDesdeANho(); i < this.getHastaAnho()+1; i++){
+//                temperaturaActual = super.getTemperaturas()[j][i];
+                temperaturaActual = super.getTemperatura(i,j);
+                if(temperaturaActual != 9999){
                     cant++;
-                    aux += auxaux;
+                    sumaTemp += temperaturaActual;
                 }
-//                aux += super.getTemperaturas()[j][i];
             }
-            n += "\n Mes: "+(j+1)+": "+(aux/cant)+" C";;
+            n += "\n Mes: "+(j)+": "+(sumaTemp/cant)+" C";;
+            sumaTemp = 0;
             cant = 0;
         }
         return n;

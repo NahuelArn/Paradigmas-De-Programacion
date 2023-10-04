@@ -9,39 +9,53 @@ package practica4;
  * @author nahuelarn
  */
 public class Anho extends Estacion {
-    
-    
-    //private double [] dataTemp;
-    
-            
-    public Anho(int desdeAnho,int dimFAnho, String nombre, double latitud, double longitud) {
-        super(desdeAnho,dimFAnho,nombre,latitud,longitud);
-        //dataTemp = new double[dimFAnho];
+              
+    public Anho(int desdeAnho,int hastaAnho, String nombre, double latitud, double longitud) {
+        super(desdeAnho,hastaAnho,nombre,latitud,longitud);
     }
 
     @Override
     public String promedio() {
-        double aux = 0;
+        double sumaTemp = 0;
         String n = " ";
-        double auxaux;
+        double temperaturaActual;
         int cant = 0;
-        for (int i = super.getDesdeANho(); i < this.getDimFAnho(); i++) { //columnas = anhos
-            for (int j = 0; j < 12; j++) {  //filas
-                auxaux = super.getTemperaturas()[j][i];
-                if(auxaux != 9999){
+        for (int i = super.getDesdeANho(); i < this.getHastaAnho()+1; i++) { //columnas = anhos
+            for (int j = 1; j < 13; j++) {  //filas
+                temperaturaActual = super.getTemperatura(i,j);
+                if(temperaturaActual != 9999){
                     cant++;
-                    aux += super.getTemperaturas()[j][i]; //filas = meses
-                }
-                //aux += super.getTemperaturas()[i][j]; //filas = meses
-                
+                    sumaTemp += temperaturaActual; //filas = meses
+                }                
             }
-            //tengo la suma de los prom de meses
-            //this.dataTemp[i] = aux / super.getDimFAnho();
-            //CONCATENO EL STR
-            n += "\n Anho: "+i+": "+(aux/cant)+" C";
+            n += "\n Anho: "+i+": "+(sumaTemp/cant)+" C";
+            sumaTemp= 0;
             cant = 0;
         }
         return n;
-        //return aux / 12;
     }
 }
+
+/*
+Logica del promedio con el getTemperatura
+
+public class Main
+{
+	public static void main(String[] args) {
+	  for (int i = 200; i < 205; i++){
+	      System.out.println("cant anhos"+i);
+	  }
+	  System.out.println("");
+	  for (int i = 200; i < 206; i++){
+	      System.out.println("cant anhos"+i);
+	  }
+
+	  System.out.println("");
+	  for (int i = 0; i < 5; i++){
+	      System.out.println("cant anhos"+i);
+	  }
+		System.out.println("Hello World");
+	}
+}
+
+*/

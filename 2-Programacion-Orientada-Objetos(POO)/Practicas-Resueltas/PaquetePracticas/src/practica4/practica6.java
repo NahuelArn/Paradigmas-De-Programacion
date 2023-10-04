@@ -19,9 +19,6 @@ package practica4;
     Implemente las clases, constructores y métodos que considere necesarios para:
  */
 
-import PaqueteLectura.GeneradorAleatorio;
-import PaqueteLectura.Lector;
-
 /*
 Clases = Estacion (tempMensual[20], desdeAnho, dimFAnhos, nombre, latitud y longitud)
 */
@@ -35,29 +32,43 @@ public class practica6 {
         //---------------ANHO---------------
         //Anho estacionLaPlata = new Anho(2000);
         System.out.println("Ingrese desde que anho: ");
-        int anho = Lector.leerInt();
-        System.out.println("Ingrese desde hasta que anho: ");
-        int anho2 = Lector.leerInt();
+        //int desdeAnho = Lector.leerInt();
+        int desdeAnho = 200;
+        System.out.println("Ingrese hasta que anho: ");
+        //int hastaAnho = Lector.leerInt();
+        int hastaAnho = 205;
         
         System.out.println("Ingrese el nombre de la estacion: ");
-        String nombre = Lector.leerString();   
+        //String nombre = Lector.leerString();   
+        String nombre = "LaPlata";
         System.out.println("Ingrese la latitud: ");
-        double latitud = Lector.leerDouble();
+        //double latitud = Lector.leerDouble();
+        double latitud = 100;
         System.out.println("Ingrese la longitud: ");
-        double longitud = Lector.leerDouble();
+        //double longitud = Lector.leerDouble();
+        double longitud = 150;
+        Anho estacionLaPlata = new Anho(desdeAnho,hastaAnho,nombre,latitud,longitud);
         
-        Anho estacionLaPlata = new Anho(anho,anho2,nombre,latitud,longitud);
-        
+        estacionLaPlata.setTemperatura(205, 1, 100);
+        estacionLaPlata.setTemperatura(205, 2, 50);
+        estacionLaPlata.getTemperatura(205, 1);
         System.out.println(estacionLaPlata.toString());
-        //estacionLaPlata.toString();
-       // estacionLaPlata.setDesdeANho(Lector.leerInt());
+
        
-       
-       //-----------------------MESS-------------------------------------
-        System.out.println("Ingrese desde que anho: ");
-        anho = Lector.leerInt();
-        System.out.println("Ingrese desde hasta que anho: ");
-        anho2 = Lector.leerInt();
+//        estacionLaPlata.setTemperatura(203, 2, 100);
+//        System.out.println(estacionLaPlata.toString());
+        System.out.println("");
+        System.out.println("EMPIZAN LOS MESES"); System.out.println("");
+        
+        
+//       //-----------------------MESES-------------------------------------
+
+
+
+        System.out.println("Ingrese desde anho: ");
+        int anho = Lector.leerInt();
+        System.out.println("Ingrese hasta que anho: ");
+        int anho2 = Lector.leerInt();
         
         System.out.println("Ingrese el nombre de la estacion: ");
         nombre = Lector.leerString();   
