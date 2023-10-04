@@ -14,7 +14,7 @@ public abstract class Estacion {
     private int dimFAnho;
     private double temperaturas[][]; //meses anhos
 
-    private String nombre;
+    private String nombre;  //nombre estacion
     private double latidud;
     private double longitud;
 
@@ -28,11 +28,24 @@ public abstract class Estacion {
     }
 
     //constructor
-    public Estacion(int dimFAnho) {
+//     public Estacion(int dimFAnho) {
+//
+//        this.dimFAnho = dimFAnho;
+//        temperaturas = new double[12][this.getDimFAnho()];
+//        inicializarMatriz();
+//    }
+    
+    public Estacion(int desdeAnho,int dimFAnho, String nombre, double latitud, double longitud) {
 
         this.dimFAnho = dimFAnho;
+        this.desdeANho = desdeAnho;
+        this.nombre = nombre;
+        this.latidud = latitud;
+        this.longitud = longitud;
+        
         temperaturas = new double[12][this.getDimFAnho()];
         inicializarMatriz();
+        
     }
 
     //gettrs and setts
@@ -84,7 +97,7 @@ public abstract class Estacion {
     }
 
     public void setTemperatura(int anho, int mes, double temp) {
-        if (this.getTemperaturas()[mes - 1][anho - 1] != 9999) {
+        if (this.getTemperaturas()[mes - 1][anho - 1] == 9999) {
             this.temperaturas[mes - 1][anho - 1] = temp;
         } else {
             System.out.println("El lugar ya esta ocupado.");
@@ -101,7 +114,7 @@ public abstract class Estacion {
         }
     }
 
-    public String getMesAnho() {
+    public String getMesAnhoMaxTemp() {
         int mes = -1;
         int anho = -1;
         double maxTemp = -999;
@@ -117,9 +130,13 @@ public abstract class Estacion {
         if (mes != mes) {
             return "mes: " + mes + " anho: " + anho;
         } else {
-            return "no hubo mes max, error404";
+            return "no hubo mes max, error";
         }
 
+    }
+    @Override
+    public String toString(){
+        return "Estacion: "+ this.getNombre() + " Latitud: "+this.getLatidud()+ " Longitud "+this.getLongitud() +this.promedio(); //binding dinamico
     }
 //    public double[][] getDataTemperaturas() {
 //        return dataTemperaturas;
