@@ -28,7 +28,7 @@ public class ejercicio1 {
         
         Investigador investigador;
         String especialidad;
-        double montoPedido;
+        double montoPedido; 
         int categoria;
         String motivo;
         Subsidio subsidio;
