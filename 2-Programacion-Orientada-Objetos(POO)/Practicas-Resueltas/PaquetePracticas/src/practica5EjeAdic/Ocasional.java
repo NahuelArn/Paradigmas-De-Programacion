@@ -48,7 +48,7 @@ public class Ocasional extends Recital {
     
     @Override
     public double calcularCosto(){
-        if(motivo.equals("beneficio")){
+        if(motivo.equals("a beneficio")){
             return 0;
         }else if(motivo.equals("show de tv")){
             return 50000;

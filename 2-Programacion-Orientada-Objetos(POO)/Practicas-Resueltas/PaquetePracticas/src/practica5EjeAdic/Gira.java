@@ -50,6 +50,7 @@ public class Gira extends Recital{
     
     @Override
     public String getActuar(){
+        System.out.println("Diml "+dimL);
         this.fechas[dimL].setDia(this.fechas[dimL].getNumFechaSiguiente());
         return "Buenas noches.."+" Ciudad: "+this.fechas[dimL].getCiudad()+super.getTemasQvaAtocar();
     }
