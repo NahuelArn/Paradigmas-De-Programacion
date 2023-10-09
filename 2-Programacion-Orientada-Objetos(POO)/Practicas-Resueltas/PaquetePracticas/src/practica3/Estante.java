@@ -69,6 +69,23 @@ public class Estante {
             }
         }
         return null;
+        
+        int i = 0;
+        while (i < this.cantLibros && !this.vLibros[i].getTitulo(equals(titulo))) i++;
+        
+        if (i < this.cantLibros) {
+            return this.vLibros[i];
+        } else {
+            return null;
+        }
+        
+        /*if (i < this.cantLibros) return this.vLibros[i];
+        return null;
+        
+        return (i < this.cantLibros) ? this.vLibros[i] : null;*/
+
+        
+        
     }
 //    public Autor getLibro(String titulo) {
 //        int i = 0;

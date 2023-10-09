@@ -17,7 +17,8 @@ public abstract class Coro {
     }
     
     
-    abstract public void agregarCorista(Corista corista); //esto lo vimos? tener un metodo abstracto para setterar
+    //abstract public void agregarCorista(Corista corista); //esto lo vimos? tener un metodo abstracto para setterar
+    public abstract void agregarCorista(Corista corista);
     public abstract boolean estaLleno();
     public abstract boolean estaBienFormado();
     
