@@ -55,5 +55,4 @@ public class subsidios {
         bienes.agregarBien(bien);
         System.out.println("bien: "+ bien.toString());
     }
-    
 }
