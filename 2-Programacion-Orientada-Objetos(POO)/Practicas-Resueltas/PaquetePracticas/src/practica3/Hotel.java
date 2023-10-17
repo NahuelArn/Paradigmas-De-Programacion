@@ -10,40 +10,52 @@ package practica3;
  */
 
 /*
-4-A- Un hotel posee N habitaciones. De cada habitación conoce costo por noche, si está
-ocupada y, en caso de estarlo, guarda el cliente que la reservó (nombre, DNI y edad).
-(i) Genere las clases necesarias. Para cada una provea métodos getters/setters adecuados.
-(ii) Implemente los constructores necesarios para iniciar: los clientes a partir de nombre,
-DNI, edad; el hotel para N habitaciones, cada una desocupada y con costo aleatorio e/
-2000 y 8000.
-(iii) Implemente en las clases que corresponda todos los métodos necesarios para:
--Ingresar un cliente C en la habitación número X. Asuma que X es válido (es decir, está
-en el rango 1..N) y que la habitación está libre.
--Aumentar el precio de todas las habitaciones en un monto recibido.
--Obtener la representación String del hotel, siguiendo el formato:
-{Habitación 1: costo, libre u ocupada, información del cliente si está ocupada}
-…
-{Habitación N: costo, libre u ocupada, información del cliente si está ocupada}
-B- Realice un programa que instancie un hotel, ingrese clientes en distintas habitaciones,
-muestre el hotel, aumente el precio de las habitaciones y vuelva a mostrar el hotel.
-NOTAS: Reúse la clase Persona. Para cada método solicitado piense a qué clase debe
-delegar la responsabilidad de la operación.+
+ * 4-A- Un hotel posee N habitaciones. De cada habitación conoce costo por
+ * noche, si está
+ * ocupada y, en caso de estarlo, guarda el cliente que la reservó (nombre, DNI
+ * y edad).
+ * (i) Genere las clases necesarias. Para cada una provea métodos
+ * getters/setters adecuados.
+ * (ii) Implemente los constructores necesarios para iniciar: los clientes a
+ * partir de nombre,
+ * DNI, edad; el hotel para N habitaciones, cada una desocupada y con costo
+ * aleatorio e/
+ * 2000 y 8000.
+ * (iii) Implemente en las clases que corresponda todos los métodos necesarios
+ * para:
+ * -Ingresar un cliente C en la habitación número X. Asuma que X es válido (es
+ * decir, está
+ * en el rango 1..N) y que la habitación está libre.
+ * -Aumentar el precio de todas las habitaciones en un monto recibido.
+ * -Obtener la representación String del hotel, siguiendo el formato:
+ * {Habitación 1: costo, libre u ocupada, información del cliente si está
+ * ocupada}
+ * …
+ * {Habitación N: costo, libre u ocupada, información del cliente si está
+ * ocupada}
+ * B- Realice un programa que instancie un hotel, ingrese clientes en distintas
+ * habitaciones,
+ * muestre el hotel, aumente el precio de las habitaciones y vuelva a mostrar el
+ * hotel.
+ * NOTAS: Reúse la clase Persona. Para cada método solicitado piense a qué clase
+ * debe
+ * delegar la responsabilidad de la operación.+
  */
- /*
-
-Objetos: hotel, habitaciones(costoPorNoche,ocupada?),Cliente(nombre,dni,edad)
+/*
+ * 
+ * Objetos: hotel, habitaciones(costoPorNoche,ocupada?),Cliente(nombre,dni,edad)
  */
 public class Hotel {
 
     private int cantHabitaciones;
-    //private Habitacion[] Habitaciones = new Habitacion[cantHabitaciones];
+    // private Habitacion[] Habitaciones = new Habitacion[cantHabitaciones];
     private Habitacion[] Habitaciones;
 
-    //constructor
+    // constructor
     private void setInicializarVector() {
         for (int i = 0; i < this.cantHabitaciones; i++) {
             this.Habitaciones[i] = new Habitacion();
-            //this.Habitaciones = new Habitacion[cantHabitaciones];
+            // this.Habitaciones = new Habitacion[cantHabitaciones];
         }
     }
 
@@ -53,10 +65,10 @@ public class Hotel {
         Habitaciones = new Habitacion[cantHabitaciones];
         setInicializarVector();
 
-        //setInicializarVector();
+        // setInicializarVector();
     }
 
-    //getters and setters
+    // getters and setters
     public int getCantHabitaciones() {
         return cantHabitaciones;
     }
@@ -65,14 +77,45 @@ public class Hotel {
         this.cantHabitaciones = cantHabitaciones;
     }
 
-    public Habitacion[] getHabitaciones() {
-        return Habitaciones;
+    // devuelve una habitacion que esta entre los rangos correctos
+    private Habitacion getHabitacion(int num) {
+        if ((num > -1) && (num < 20)) {
+            return this.Habitaciones[num];
+        } else {
+            return null;
+        }
     }
 
-    public void setHabitaciones(Habitacion[] Habitaciones) {
-        this.Habitaciones = Habitaciones;
+    public void setHabitacion(int num, Cliente cli) {
+        Habitacion aux;
+        aux = getHabitacion(num - 1);
+        if ((aux != null) && (aux.getEstado() != true)) {
+            aux.setEstado(true);
+            aux.setHuesped(cli);
+        } else {
+            System.out.println("Fuera de rango o Habitacion ocupada");
+        }
     }
 
+    // en este caso no me interesa si esta ocupada o no, aumento el precio igual
+    public void setInflacion(double aumento) {
+        for (int i = 0; i < this.getCantHabitaciones(); i++) {
+            // this.getHabitacion(i).setCostoPorNoche(getCostoPorNoche() += aumento);
+            this.getHabitacion(i).setCostoPorNoche(aumento);
+
+        }
+    }
+
+    @Override
+    public String toString() {
+        String s = " ";
+        for (int i = 0; i < getCantHabitaciones(); i++) {
+            s += this.getHabitacion(i).toString() + "\n";
+        }
+        return s;
+    }
+
+    // metodos de prueba
     public boolean getHabitacionBuscada(int numHabitacion) {
 
         if (Habitaciones[numHabitacion].getEstado() != false) {
@@ -99,7 +142,7 @@ public class Hotel {
             if (Habitaciones[i].getEstado() != false) {
                 if (dni == (Habitaciones[i].getHuesped().getDni())) {
                     ok = true;
-                    //return Habitaciones[i];
+                    // return Habitaciones[i];
                 }
 
             }
