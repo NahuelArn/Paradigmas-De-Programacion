@@ -1,0 +1,38 @@
+programa eje1
+procesos
+  proceso juntarFlores(ES cantEnEsquina: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantEnEsquina:= cantEnEsquina+1
+  fin
+areas
+  primeraAv: AreaP(1,1,1,10)
+  segundaAv: AreaP(2,11,2,20)   
+robots
+  robot  tipo1  
+  variables 
+    suma: numero
+    sumDelOtro: numero
+    diferenciaDeSuma: numero
+  comenzar             
+    suma:= 0 
+    repetir 9
+      juntarFlores(suma)
+      mover
+    juntarFlores (suma)               
+    EnviarMensaje(suma, botAv2) 
+    RecibirMensaje(sumDelOtro, botAv2)
+    diferenciaDeSuma:= suma - sumDelOtro
+    si(suma > sumDelOtro)
+      Informar(diferenciaDeSuma)      
+  fin
+variables
+  botAv1: tipo1
+  botAv2: tipo1
+comenzar
+  AsignarArea(botAv1, primeraAv)
+  AsignarArea(botAv2, segundaAv)
+  Iniciar(botAv1,1,1)
+  Iniciar(botAv2,2,11)
+fin
