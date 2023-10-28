@@ -1,0 +1,65 @@
+programa eje1
+procesos
+  proceso juntarFlores  (cantEnEsquina)
+  comenzar
+    cantEnEsquina:= 0
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantEnEsquina:= cantEnEsquina+1
+  fin
+  proceso movermeJuntandoFlores (ES semisumador: numero)
+  variables 
+    cantEnEsquina: numero
+  comenzar
+    juntarFlores(cantEnEsquina)
+    mover
+    semisumador:= semisumador + cantEnEsquina
+  fin
+areas
+  primeraAv: AreaP(1,1,1,10)
+  segundaAv: AreaP(2,11,2,20)   {ambos son de 10 unidades}
+robots
+  robot  tipo1  {Logica innecesaria Sumadores}
+  variables 
+    semisumador: numero
+    cantEnEsquina: numero
+    quienSoy: numero
+  comenzar
+    semisumador:= 0
+    recibirMensaje(quienSoy, jefaso)  {recibe el numero q le fue asignado}  
+    repetir 9
+      movermeJuntandoFlores(semisumador)
+    juntarFlores (cantEnEsquina)
+    semisumador:= semisumador + cantEnEsquina
+    enviarMensaje(quienSoy, jefaso)
+    enviarMensaje(semisumador, jefaso)
+  fin
+  robot jefaso
+  variables
+    quienSos: numero
+    valor1: numero
+    valor2: numero
+  comenzar
+    quienSos:= quienSos+1
+    mandarMensaje(quienSos, botAv1) {le manda el numero de robot}
+    quienSos:= quienSos+1
+    mandarMensaje(quienSos, botAv2)
+
+    recibirMensaje(quienSos, *)
+    si(quienSos = 1)
+      recibirMensaje(valor1,botAv1)  {recibe la cantidad de flores q recibio}
+      Informar('elBot1Junto',valor1, 'flores')
+    sino
+      si(quienSos = 2)
+        recibirMensaje(valor2,botAv2) {recibe la cant juntada del robot 2}
+        Informar('elBot2Junto',valor2, 'flores')
+  fin
+variables
+  botAv1: tipo1
+  botAv2: tipo1
+comenzar
+  AsignarArea(botAv1, primeraAv)
+  AsignarArea(botAv2, segundaAv)
+  Iniciar(botAv1,1,11)
+  Iniciar(botAv2,11,20)
+fin

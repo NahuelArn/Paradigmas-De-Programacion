@@ -7,6 +7,13 @@ procesos
       depositarFlor
   fin
   
+  proceso juntarFlores(Es floresTomadas: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+        tomarFlor
+        floresTomadas:= floresTomadas+1
+  fin
+
   proceso juntarFlores
   variables 
     floresTomadas: numero
@@ -17,10 +24,9 @@ procesos
     repetir 99
       si ~(HayFlorEnLaEsquina)
         esquinasVacias:= esquinasVacias+1
-      mientras(HayFlorEnLaEsquina)
-        tomarFlor
-        floresTomadas:= floresTomadas+1
+      juntarFlores(floresTomadas)
       mover
+    juntarFlores(floresTomadas)
     depositarEnPos
     Informar(floresTomadas,esquinasVacias)    
   fin

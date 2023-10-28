@@ -1,0 +1,69 @@
+programa eje1
+procesos
+  proceso juntarFlores(ES cantEnEsquina: numero)
+  comenzar
+    cantEnEsquina:= 0
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantEnEsquina:= cantEnEsquina+1
+  fin
+  proceso movermeJuntandoFlores (ES semisumador: numero)
+  variables 
+    cantEnEsquina: numero
+  comenzar
+    juntarFlores(cantEnEsquina)
+    mover
+    semisumador:= semisumador + cantEnEsquina
+  fin
+areas
+  primeraAv: AreaP(1,1,1,10)
+  segundaAv: AreaP(2,11,2,20)   {ambos son de 10 unidades}
+  PosJefaso: AreaP(1,100,1,100) {area de 1x1 para el jefaso, esta parado dirigiendo}
+robots
+  robot  tipo1  {Logica innecesaria Sumadores}
+  variables 
+    semisumador: numero
+    cantEnEsquina: numero
+    quienSoy: numero
+  comenzar
+    recibirMensaje(quienSoy, jefaso)               {Quien carajo soy?}   {recibe el numero q le fue asignado} 
+    semisumador:= 0 
+    repetir 9
+      movermeJuntandoFlores(semisumador)
+    juntarFlores (cantEnEsquina)
+    semisumador:= semisumador + cantEnEsquina
+    enviarMensaje(quienSoy, jefaso)               {Soy este, y ya termine} {le manda el numero de robot}
+    enviarMensaje(semisumador, jefaso)    {toma flaco te mando mi resultado}
+  fin
+  robot jefaso
+  variables
+    quienSos: numero
+    valor1: numero
+    valor2: numero
+    quienSoy: numero
+  comenzar
+    quienSos:= quienSos+1
+    mandarMensaje(quienSos, botAv1) {le manda el numero de robot}
+    quienSos:= quienSos+1
+    mandarMensaje(quienSos, botAv2)
+    recibirMensaje(quienSoy, *) {se queda plantando hasta q alguno le diga q termino}
+    si(quienSoy = 1)
+      recibirMensaje(valor1,botAv1)  {recibe la cantidad de flores q recibio}
+      Informar('elBot1Junto',valor1, 'flores')
+    sino
+      si(quienSoy = 2)
+        recibirMensaje(valor2,botAv2) {recibe la cant juntada del robot 2}
+        Informar('elBot2Junto',valor2, 'flores')
+  fin
+variables
+  botAv1: tipo1
+  botAv2: tipo1
+  bot3: jefaso
+comenzar
+  AsignarArea(botAv1, primeraAv)
+  AsignarArea(botAv2, segundaAv)
+  AsignarArea(bot3, PosJefaso)
+  Iniciar(botAv1,1,11)
+  Iniciar(botAv2,11,20)
+  Iniciar(bot3,1,100)
+fin

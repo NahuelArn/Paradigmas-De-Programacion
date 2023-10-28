@@ -1,0 +1,95 @@
+programa eje2
+procesos
+  proceso horizontal
+  comenzar
+    mover
+  fin
+  proceso vertical(E cant: numero; ES cantFlores: numero; ES cantPapeles: numero)
+  comenzar
+    repetir cant
+      mover  {en la primera iteracion ya estoy mirando para arriba y ya conte las flrs y papls de esa Pos}
+      {cantFlores:= cantFlores+1 }
+      juntarFlores(cantFlores)
+      juntarPapeles(cantPapeles)
+  fin
+  proceso paraDondeMiro(E gps: numero)
+  comenzar
+    repetir  gps
+      derecha
+  fin
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores+1
+  fin
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles+1
+  fin
+  proceso recolector(ES cantFlores: numero;ES cantPapeles: numero)
+  comenzar
+    juntarFlores(cantFlores)
+    juntarPapeles(cantFlores)
+  fin
+  proceso validador(E cantFlores: numero; E cantPapeles: numero; ES cantCumplen: numero)
+  comenzar
+    si(cantFlores > cantPapeles)
+      cantCumplen:= cantCumplen +1
+  fin
+areas
+  areaJefe: AreaP(1,1,1,1) {Se planta en su esquina}  
+  areaBot1: AreaP(2,1,6,20)  {el peor caso, los 4 en 5 de alto}
+  areaBot2: AreaP(7,1,11,20)
+  areaBot3: AreaP(12,1,16,20)
+robots
+  robot escalera
+  variables
+    altoVariable: numero
+    cantPapeles: numero
+    cantFlores: numero
+    cantCumplen: numero 
+  comenzar
+    cantCumplen:= 0
+    recolector(cantFlores,cantPapeles)
+    repetir 4
+      cantFlores:= 0
+      cantPapeles:= 0
+      Random(altoVariable,1,5) {(dondeSeGuardaElRandom)(rangoMinimo)(rangoMax)} {incluye los extremos}
+      paraDondeMiro(1)  {derecha}
+      {recolector(cantFlores,cantPapeles)}
+      horizontal 
+      recolector(cantFlores,cantPapeles)
+      paraDondeMiro(3)  {top}
+      vertical(altoVariable,cantFlores,cantPapeles)
+      validador(cantFlores,cantPapeles,cantCumplen)
+    EnviarMensaje(cantCumplen, jefazo)
+  fin
+  robot jefe
+  variables
+    suma: numero
+    cantCumplen: numero
+  comenzar
+    suma:= 0
+    repetir (3)  {3*4} {Por q no podria ser? preguntar se podria decir q para cada robot, se reserva 3 repeticiones}
+      RecibirMensaje(cantCumplen, *)
+      suma:= suma + cantCumplen
+    Informar('sumaCantRecibidas',suma)
+  fin
+variables
+  botEscalera1: escalera
+  botEscalera2: escalera
+  botEscalera3: escalera
+  jefazo: jefe
+comenzar
+  AsignarArea(botEscalera1, areaBot1)
+  AsignarArea(botEscalera2, areaBot2)
+  AsignarArea(botEscalera3, areaBot3)
+  AsignarArea(jefazo, areaJefe)
+  Iniciar(botEscalera1,2,1)
+  Iniciar(botEscalera2,7,1)
+  Iniciar(botEscalera3,12,1)
+  Iniciar(jefazo,1,1)
+fin

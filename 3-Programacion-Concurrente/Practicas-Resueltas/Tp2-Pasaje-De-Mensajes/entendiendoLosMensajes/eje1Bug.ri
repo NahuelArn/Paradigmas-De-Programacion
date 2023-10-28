@@ -1,0 +1,59 @@
+programa eje1
+procesos
+  proceso juntarFlores(ES cantEnEsquina: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantEnEsquina:= cantEnEsquina+1
+  fin
+areas
+  primeraAv: AreaP(1,1,1,10)
+  segundaAv: AreaP(2,11,2,20)   
+  ciudad7: AreaP(2, 1, 2, 1)
+robots
+  robot  tipo1  
+  variables 
+    suma: numero
+    quienSoy: numero
+  comenzar
+    RecibirMensaje(quienSoy, jefaso)               
+    suma:= 0 
+    repetir 9
+      juntarFlores(suma)
+      mover
+    juntarFlores (cantEnEsquina)
+    EnviarMensaje(quienSoy, jefaso)               
+    EnviarMensaje(suma, jefaso)   
+  fin
+  robot jefaso
+  variables
+    quienSos: numero
+    valor1: numero
+    valor2: numero
+    quienSoy: numero
+  comenzar
+    quienSos:= quienSos+1
+    EnviarMensaje(quienSos, botAv1)
+    quienSos:= quienSos+1
+    EnviarMensaje(quienSos, botAv2)
+    RecibirMensaje(quienSoy, *) 
+    si(quienSoy = 1)
+      RecibirMensaje(valor1,botAv1)  
+      Informar('elBot1Junto',valor1)
+    sino
+      si(quienSoy = 2)
+        RecibirMensaje(valor2,botAv2) 
+        Informar('elBot2Junto',valor2)
+  fin
+variables
+  botAv1: tipo1
+  botAv2: tipo1
+  bott3: jefaso
+comenzar
+  AsignarArea(botAv1, primeraAv)
+  AsignarArea(botAv2, segundaAv)
+  AsignarArea(bott3, ciudad7)
+  Iniciar(botAv1,1,1)
+  Iniciar(botAv2,2,11)
+  Iniciar(bott3, 2, 1)
+fin

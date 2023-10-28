@@ -25,6 +25,7 @@
   Negacion: " ~ "
 
   Imprimir: " Informar() "
+  Random(VariableDondeSeGuarda,limiteInferior,limiteSuperior)
 
   " Palabras Clave "
   HayFlorEnLaBolsa
@@ -38,6 +39,18 @@
   Posicionarme en X,Y: " Pos(X,Y) "
   Mover : una pos para arriba
   derecha : gira 90 grados a la derecha
+```
+
+<h1 align="center"> Comunicacion </h1>
+
+```go
+    EnviarMensaje(Valor, robotDestinatario)
+    RecibirMensaje(valorRecibido, robotEmisor)
+
+    Para enviar mensajes o Recibir Mensajes de cualquier robot, se usa *
+
+    EnviarMensaje(Valor, *)
+    RecibirMensaje(valorRecibido, *)
 ```
 
 <h1 align="center"> Estructuras de control </h1>
@@ -59,10 +72,9 @@
 
   mientras((x = 2) & (3<>2))
     bloqueCodigo
-  
 ```
 
-<h1 align="center"> Modulos </h1>\
+<h1 align="center"> Modulos </h1>
 
 ```go
 

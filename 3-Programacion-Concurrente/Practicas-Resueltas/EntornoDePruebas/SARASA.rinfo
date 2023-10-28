@@ -1,0 +1,64 @@
+programa eje4
+procesos
+  proceso  limpiezaDeFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso recorridoAreasImpares(E cantAiterar: numero)
+  comenzar
+    repetir cantAiterar-1
+      repetir 99
+        limpiezaDeFlores
+      limpiezaDeFlores
+  fin
+  {son iguales pero si se quisiera modularizar los 2, es medio rebuscado, logica de mas}
+  proceso  limpiezaDePapeles
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso recorridoAreasPares(E cantAiterar: numero)
+  comenzar
+    repetir cantAiterar-1
+      repetir 99
+        limpiezaDePapeles
+      limpiezaDePapeles
+  fin
+areas
+  ciudad1: AreaP(1,1,25,100)
+  ciudad2: AreaP(26,1,50,100)
+  ciudad3: AreaP(51,1,75,100)
+  ciudad4: AreaP(76,1,100,100)
+robots
+  robot BotImpares
+  variables
+    cantAiterar: numero
+  comenzar
+    cantAiterar:= (25-1)+1
+    recorridoAreasImpares(cantAiterar)
+    Pos(51,1)
+    cantAiterar:= (75-51)+1
+    recorridoAreasImpares(cantAiterar)
+  fin
+  robot BotPares
+  variables
+    cantAiterar: numero    
+  comenzar
+    cantAiterar:= (50-26)+1
+    recorridoAreasPares(cantAiterar)  
+    Pos(76,1)
+    cantAiterar:= (100-76)+1
+    recorridoAreasPares(cantAiterar)
+  fin
+variables
+  robotImpares: BotImpares
+  robotPares: BotPares
+comenzar
+  AsignarArea(robotPares,ciudad2)
+  AsignarArea(robotPares,ciudad4)
+  AsignarArea(robotImpares,ciudad1)
+  AsignarArea(robotImpares,ciudad3)
+  Iniciar(robotImpares,1,1)
+  Iniciar(robotPares,6,1)
+fin
