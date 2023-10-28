@@ -67,6 +67,12 @@
   sino
     bloqueCodigo
 
+    Algo como un switch
+  si(condicion) 
+    bloqueCodigo
+  sino
+    si(condicion)
+      bloqueCodigo
 
   Con mas condiciones
 
