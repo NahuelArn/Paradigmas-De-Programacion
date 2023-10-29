@@ -1,0 +1,13 @@
+ Analizar (no es necesario implementar): ¿cómo se puede implementar el inciso 1.c.
+ sin robot fiscalizador?
+ → ¿quécantidad de robots participarán del juego?
+ → ¿quécantidad de mensajes deben enviarse?
+
+ Se necesitarian la misma cantidad de robots.
+ La cantidad de mensajes q se enviarian, serian cantRobots * (6 envios de mensajes + 6 recepciones de mensajes)
+ 
+ Cada robot, va saber quien gano,
+ todos los robots va tener q mandar, su cant sumada a los N robots y va tener q recibir las N sumas de los otros robots e ir comparando contra su variable local de su suma
+{en cada recepcion de mensaje ir calculando el max, contra su variable "sumaLocal"}
+ si (sumaLocal > max)
+  informar(sumaLocal)
