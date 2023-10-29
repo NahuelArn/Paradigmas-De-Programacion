@@ -99,5 +99,9 @@
   comenzar
     bloqueCodigo
   fin
-
+  "Modulo con varios parametros" //ES
+  Proceso nombreModulo(ES sarasa: numero; E sarasa2: numer; E sarasa3: numer)  
+  comenzar
+    bloqueCodigo
+  fin
 ```
