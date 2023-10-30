@@ -23,9 +23,9 @@
   Y: " & "
   O: " | "
   Negacion: " ~ "
-  True: "verdad"
-  False: "falso"
-  Ok:= verdad 
+  True: " V "
+  False: " F "
+  Ok:= V 
   Imprimir: " Informar() "
   Random(VariableDondeSeGuarda,limiteInferior,limiteSuperior)
 
