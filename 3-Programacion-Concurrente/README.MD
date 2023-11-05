@@ -55,6 +55,20 @@
     RecibirMensaje(valorRecibido, *)
 ```
 
+<h1 align="center"> Bloqueos de memoria </h1>
+
+```go
+    BloquearEsquina(x,y)
+    LiberarEsquina(x,y)
+
+    ejemplo
+    BloqueoEsquina(2,1) {bloqueo antes de posicionarme}
+    Pos(2,1)  {me posiciono}
+    logica  {hago lo q tenga q hacer}
+    Pos(3,1)  {lo muevo a un lugar seguro}
+    LiberarEsquina(2,1) {libero el recurso para q otro bot pueda accederlo}
+```
+
 <h1 align="center"> Estructuras de control </h1>
 
 ```go
