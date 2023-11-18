@@ -1,0 +1,91 @@
+programa e4
+procesos
+  proceso iradejar(E posav:numero; E posca:numero)
+  comenzar
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    depositarFlor
+    Pos(posav,posca)
+    LiberarEsquina(10,10)
+  fin
+  proceso juntar(ES cant:numero;E posav:numero; E posca:numero; E av:numero; E ca:numero)
+  comenzar
+    BloquearEsquina(av,ca)
+    Pos(av,ca)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cant:=cant+1
+    Pos(posav,posca)
+    LiberarEsquina(av,ca)  
+  fin
+areas
+  c1: AreaP(1,1,1,1)
+  c2: AreaP(2,1,2,1)
+  c3: AreaP(3,1,3,1)
+  cr: AreaPC(40,40,60,60)
+  cf: AreaP(4,1,4,1)
+  cd: AreaPC(10,10,10,10)
+robots
+  robot t1
+  variables
+    av,ca,cant,posav,posca:numero
+  comenzar
+    posav:=PosAv
+    posca:=PosCa
+    RecibirMensaje(av,fis)
+    mientras(av<>5)
+      RecibirMensaje(ca,fis)
+      juntar(cant,posav,posca,av,ca)
+      RecibirMensaje(av,fis)
+    repetir cant
+      iradejar(posav,posca)
+    EnviarMensaje(cant,fis)  
+  fin
+  robot fiscal
+  variables
+    total,cant,id,av,ca:numero
+  comenzar
+    repetir 8
+      {Random(id,1,3)}
+      id:= 1
+      Random(av,40,60)
+      Random(ca,40,60)
+      si id=1
+        EnviarMensaje(av,r1)
+        EnviarMensaje(ca,r1)
+      sino
+        si id=2
+          EnviarMensaje(av,r2)
+          EnviarMensaje(ca,r2)
+        sino
+          EnviarMensaje(av,r3)
+          EnviarMensaje(ca,r3)  
+    EnviarMensaje(5,r1)
+    EnviarMensaje(5,r2)
+    EnviarMensaje(5,r3)
+    repetir 3
+      RecibirMensaje(cant,*)
+      total:=total+cant
+    Informar(total)       
+  fin
+variables
+  r1,r2,r3:t1    
+  fis:fiscal
+comenzar
+  AsignarArea(r1,c1)  {setea areas default}
+  AsignarArea(r2,c2)
+  AsignarArea(r3,c3)
+  AsignarArea(fis,cf)
+  AsignarArea(r1,cr)  {area de recoleccion }
+  AsignarArea(r1,cd)  {area deposito}
+  AsignarArea(r2,cr)
+  AsignarArea(r2,cd)
+  AsignarArea(r3,cr)
+  AsignarArea(r3,cd)
+  Iniciar(r1,1,1)
+  Iniciar(r2,2,1)
+  Iniciar(r3,3,1)
+  Iniciar(fis,4,1)
+fin
+
+  

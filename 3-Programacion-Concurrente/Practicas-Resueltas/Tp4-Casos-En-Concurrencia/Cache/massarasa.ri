@@ -1,0 +1,125 @@
+programa arn
+procesos 
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1, bot1)
+    EnviarMensaje(2, bot2)
+    EnviarMensaje(3, bot3)
+  fin
+  proceso juntarFlores(ES cantF: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantF:= cantF +1
+  fin
+  proceso hacerLado(ES cantF: numero)
+  variables
+    ok: boolean
+  comenzar
+    repetir 5
+      juntarFlores(cantF)
+      mover
+    juntarFlores(cantF)
+    EnviarMensaje(ok, jefe)
+    RecibirMensaje(ok, jefe)
+  fin
+  proceso sacarMax(E id: numero;E totalF: numero;ES idMax: numero;ES maxF: numero)
+  comenzar
+    si(totalF > maxF)
+      maxF:= totalF
+      idMax:= id
+  fin
+  proceso avisarAlosQnoganaron(ES id: numero)
+  comenzar
+    si(id = 1)
+      EnviarMensaje(1, bot1)  {0 perdi, 1 gane}
+      EnviarMensaje(0, bot2)
+      EnviarMensaje(0, bot3)
+    sino
+      si(id = 2)
+        EnviarMensaje(1, bot2)
+        EnviarMensaje(0, bot1)
+        EnviarMensaje(0, bot3)
+      sino
+        si(id = 3)
+          EnviarMensaje(1, bot3)
+          EnviarMensaje(0, bot2)
+          EnviarMensaje(0, bot1)
+  fin
+areas
+  perimetroBot1: AreaP(1,1,6,6)
+  perimetroBot2: AreaP(7,1,12,6)
+  perimetroBot3: AreaP(13,1,18,6)
+  areaCoordinador: AreaP(20,1,20,1)
+  areaNoGanador: AreaPC(10,10,10,10)
+robots
+  robot  perimetro
+  variables
+    id, cantF: numero
+    ok: boolean
+    ganeOperdi: numero
+    caIni, avIni: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    cantF:= 0
+    caIni:= PosCa
+    avIni:= PosAv
+    repetir 4
+      hacerLado(cantF)
+      derecha
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(cantF, jefe)
+    RecibirMensaje(ganeOperdi, jefe)  {si es 0 perdiste}
+    si(ganeOperdi = 0)
+      mientras (cantF > 0)
+        BloquearEsquina(10,10)
+        Pos(10,10)
+        depositarFlor
+        Pos(avIni,caIni)
+        LiberarEsquina(10,10)
+        cantF:= cantF -1
+  fin
+  robot  coordinador
+  variables
+    id, totalF, idMax, maxF: numero
+    ok: boolean
+  comenzar
+    asignarIds
+    maxF:= -99
+    repetir 4
+      repetir 3
+        RecibirMensaje(ok, *)
+      EnviarMensaje(ok, bot1)
+      EnviarMensaje(ok, bot2)
+      EnviarMensaje(ok, bot3)
+    repetir 3
+      RecibirMensaje(id, *)
+      si(id = 1)
+        RecibirMensaje(totalF, bot1)
+      sino
+        si(id = 2)
+          RecibirMensaje(totalF, bot2)
+        sino
+          si(id = 3)
+            RecibirMensaje(totalF, bot3)
+      sacarMax(id, totalF, idMax, maxF)
+    Informar('GANOelBot',idMax)
+    Informar('conUnAcANTIDAD',maxF)
+    avisarAlosQnoganaron(idMax)
+  fin
+variables
+  bot1,bot2,bot3: perimetro
+  jefe: coordinador
+comenzar
+  AsignarArea(bot1, perimetroBot1)  {areas default}
+  AsignarArea(bot2, perimetroBot2)
+  AsignarArea(bot3, perimetroBot3)
+  AsignarArea(jefe, areaCoordinador)  
+  AsignarArea(bot1, areaNoGanador)  {area deposito, si perdio}
+  AsignarArea(bot2, areaNoGanador)
+  AsignarArea(bot3, areaNoGanador)
+  Iniciar(bot1, 1,1)
+  Iniciar(bot2, 7,1)
+  Iniciar(bot3, 13,1)
+  Iniciar(jefe, 20,1)
+fin

@@ -1,0 +1,24 @@
+ 
+ {Concurrencia maximisada, DEPOSITAR DE A UNA}
+ proceso bloquearDepositarLiberar(E avIni: numero;E caIni: numero; ES cantF: numero)
+  comenzar
+    repetir cantF
+      BloquearEsquina(35,50)  {lugar posible colision}
+      Pos(35,50)  
+      depositarFlor
+      Pos(avIni, caIni) {vuelvo safe}
+      LiberarEsquina(35,50)
+    cant:= 0
+  fin
+
+{Variacion, solo depoista una y vuelve safe}
+ proceso bloquearDepositarLiberar(E avIni: numero;E caIni: numero; ES cantF: numero)
+  comenzar
+    BloquearEsquina(35,50)
+    Pos(35,50)
+    depositarFlor
+    cantF:= cantF-1
+    verificarSigano(id,cantF)
+    Pos(avIni, caIni)
+    LiberarEsquina(35,50)
+  fin

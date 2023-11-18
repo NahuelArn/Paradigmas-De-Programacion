@@ -1,0 +1,28 @@
+programa arn
+areas
+  areaEquipoAzul: AreaPC(10,19,19,21)
+  areaEquiVerde: AreaPC(21,19,30,21)
+  centrardo: AreaPC(20,20,20,20)
+  lateralAzul1: AreaP(9,19,9,19)  {azul}
+  centralAzul: AreaP(9,20,9,20)
+  lateralAzul2: AreaP(9,21,9,21)
+  lateralVerde1: AreaP(31,19,31,19)  {azul}
+  centralVerde: AreaP(31,20,31,20)
+  lateralVerde2: AreaP(31,21,31,21)
+  areaFiscalizador: AreaP(20,18,20,18)
+robots
+  robot  lateral
+  comenzar
+  
+  fin
+  robot  central
+  comenzar
+  
+  fin
+  
+variables
+
+comenzar
+
+fin
+
