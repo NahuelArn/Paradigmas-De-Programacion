@@ -38,7 +38,7 @@
   HayFlorEnLaEsquina
   TomarPapel
 
-  Posicionarme en X,Y: " Pos(X,Y) "
+  Posicionarme en X,Y: " Pos(X,Y) " / "Pos(Avenida,Calle)"
   Mover : una pos para arriba
   derecha : gira 90 grados a la derecha
 ```
