@@ -1,0 +1,55 @@
+procesos 
+  proceso hacerLado
+  comenzar
+    repetir 2
+      repetir 4
+        mover
+      derecha
+  fin
+  proceso hacerLado2
+  comenzar
+    repetir 7
+      mover
+    derecha
+    repetir 4
+      mover
+    derecha
+  fin
+  proceso  girar(E cant: numero)
+  comenzar
+    repetir cant
+      derecha
+  fin
+  proceso hacerEscalon
+  comenzar
+    girar(1)
+    mover
+    girar(3)
+    mover
+  fin
+
+
+
+
+robots
+  robot jeje
+  comenzar
+    {cuadrado}
+    repetir 2
+      hacerLado
+    {rectangulo}
+    Pos(8,1)
+    repetir 2
+      hacerLado2
+    {triangulo}
+    Pos(14,1)
+    repetir  5
+      hacerEscalon
+    derecha
+    mover
+    repetir 5
+      hacerEscalon
+    girar(2)
+    repetir (25-14)
+      mover
+  fin
