@@ -52,6 +52,9 @@
           System.out.println(GeneradorAleatorio.generarDouble(10)); //genera un double entre 0 y 9
           System.out.println(GeneradorAleatorio.generarBoolean());  //genera un boolean
           System.out.println(GeneradorAleatorio.generarString(4));  //genera un string de 4 letras
+          //Entre rangos
+          System.out.println(GeneradorAleatorio.generarInt(1000)+7000);    //genera entre rangos 7000-8000
+          System.out.println(GeneradorAleatorio.generarInt(loQueFaltaParaLlegarAlLimSuperior)+limiteInferior)
       }
       
   }
