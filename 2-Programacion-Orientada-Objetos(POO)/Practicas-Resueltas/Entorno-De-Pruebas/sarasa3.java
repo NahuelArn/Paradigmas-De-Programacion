@@ -1,29 +1,22 @@
-public class PruebaConMatrices {
+   public static void main(String[] args) {
+        Padre padre = new Padre(4, 3);
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        Padre padre = new Padre(4,3);
-        Hijo hijo = new Hijo();
-
-        //  Primera Columna
-        padre.agregarHijo(hijo);
-        padre.agregarHijo(hijo);
-        padre.agregarHijo(hijo);
-        padre.agregarHijo(hijo);
-        //  Segunda
-        padre.agregarHijo(hijo);
-        padre.agregarHijo(hijo);
-        padre.agregarHijo(hijo);
-        padre.agregarHijo(hijo);
-        // TERCERA
-        padre.agregarHijo(hijo);
-        padre.agregarHijo(hijo);
-        
+        padre.agregarNombre("Pepe1");
+        padre.agregarNombre("Pepe2");
+        padre.agregarNombre("Pepe3");
+        padre.agregarNombre("Pepe4");
         //
+        padre.agregarNombre("Pepe4");
+        padre.agregarNombre("Pepe2");
+        padre.agregarNombre("Pepe3");
+        padre.agregarNombre("Pepe4");
+//        //
+        padre.agregarNombre("Pepe2");
+        padre.agregarNombre("Pepe2");
+        padre.agregarNombre("Pepe2");
+        padre.agregarNombre("Pepe2");
+        
+        padre.agregarNombre("Pepe2");
+        
         System.out.println(padre.toString());
     }
-    
-}
