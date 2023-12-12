@@ -2,5 +2,6 @@
 
 
 <p align="center">
-  <img src="">
+  <img src="https://github.com/NahuelArn/Paradigmas-De-Programacion/assets/100500003/13b76988-4165-4e1c-a33f-123f98a9fe4f
+">
 </p>
