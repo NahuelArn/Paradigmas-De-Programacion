@@ -1,5 +1,5 @@
 <h1 align="center">Taller-De-Programación</h1>
-<h2 align="center">Imperativo, modulariacion</h2>
+<h2 align="center">Imperativo, modularizacion</h2>
 <h2 align="center">Poo, reutilizacion de codigo</h2>
 <h2 align="center">Concurrencia, manejo paralelo de codigo</h2> 
 
