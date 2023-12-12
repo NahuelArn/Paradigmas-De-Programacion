@@ -1,0 +1,151 @@
+programa nahuelArancibia
+procesos
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1, botVertical)
+    EnviarMensaje(2, botHorizontal)
+  fin
+  proceso juntarFlores(ES cantF: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantF:= cantF+1
+  fin
+  proceso bloquearJuntarLiberarHorizontal(ES cantF: numero; E id: numero)
+  variables
+    ok: boolean
+  comenzar
+    BloquearEsquina(PosAv+1, PosCa)
+    mover
+    juntarFlores(cantF)
+    mover
+    {Informar('sarasaaaa',PosAv)}
+    EnviarMensaje(id, jefe) {avisoQsoyElPrimero}
+    RecibirMensaje(ok, jefe)
+    LiberarEsquina(PosAv-1,PosCa)
+  fin
+  proceso bloquearAvisaLiberarVertical(ES cantF: numero; E id: numero)
+  variables
+    ok: boolean
+  comenzar
+    BloquearEsquina(PosAv,PosCa+1)
+    mover
+    juntarFlores(cantF)
+    mover
+    {AvisoQsoyElPrimero}
+    EnviarMensaje(id, jefe)
+    RecibirMensaje(ok, jefe)
+    LiberarEsquina(PosAv,PosCa-1)
+  fin
+areas
+  {areaBot1: AreaPC(6,1,6,100)
+  areaBot2: AreaPC(1,1,100,100)}
+  areaBots: AreaPC(1,1,60,60)
+  areaJefe: AreaP(100,100,100,100)
+robots
+
+
+
+  robot  vertical
+  variables
+    xColision: numero
+    cantMoverme,cantF: numero
+    meFalta,id: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    RecibirMensaje(xColision, jefe)
+    cantF:= 0  
+    repetir xColision-2
+      juntarFlores(cantF)
+      mover
+    juntarFlores(cantF) {3}
+    {entro en conflicto}
+    bloquearAvisaLiberarVertical(cantF,id) {5}
+    meFalta:= 60 - (xColision+1)
+    repetir meFalta-1
+      juntarFlores(cantF)
+      mover
+    juntarFlores(cantF)
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(cantF, jefe)
+  fin
+
+
+
+
+  robot horizontal
+  variables
+    xRandom,cantF,id: numero
+    ok: boolean
+  comenzar
+    derecha
+    cantF:= 0
+    RecibirMensaje(id, jefe)
+    RecibirMensaje(xRandom, jefe)
+    Pos(1,xRandom)
+    repetir 4
+      juntarFlores(cantF)
+      mover
+    juntarFlores(cantF)
+    {Informar('hola',PosAv)}
+    bloquearJuntarLiberarHorizontal(cantF,id)  {se que en 6, voy a tener una posible colision}
+    repetir 52 {57+3=60 Nose por que es 53...}
+      juntarFlores(cantF)
+      mover
+    juntarFlores(cantF)
+    RecibirMensaje(ok,jefe)
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(cantF, jefe)
+  fin
+
+
+
+
+  robot coordinador
+  variables
+    xRandom: numero
+    ganador: numero
+    idGanador,id,cantBot1,cantBot2: numero
+  comenzar
+    asignarIds
+    {Random(xRandom,2,50)}
+    xRandom:= 4
+    ganador:= 0
+    EnviarMensaje(xRandom,botVertical)
+    EnviarMensaje(xRandom,botHorizontal)
+    repetir 2
+      RecibirMensaje(id, *)
+      si (id = 1)
+        ganador:= ganador+1
+        EnviarMensaje(V, botVertical)
+      sino
+        ganador:= ganador+1
+        EnviarMensaje(V, botHorizontal)
+      si(ganador < 2)
+        idGanador:= id
+    EnviarMensaje(V,botVertical)
+    EnviarMensaje(V,botHorizontal)
+    repetir 2
+      RecibirMensaje(id, *)
+      si(id = 1)
+        RecibirMensaje(cantBot1, botVertical)
+      sino
+        RecibirMensaje(cantBot2, botHorizontal)
+    Informar('ElganadorEs',idGanador)
+    si(idGanador = 1)
+      Informar('Yjunto',cantBot1)
+    sino
+      Informar('Yjunto',cantBot2)
+  fin
+variables
+  botVertical: vertical
+  botHorizontal: horizontal
+  jefe: coordinador
+comenzar
+  AsignarArea(botVertical, areaBots)
+  AsignarArea(botHorizontal, areaBots)
+  AsignarArea(jefe, areaJefe)
+  Iniciar(botVertical, 6,1)
+  Iniciar(botHorizontal, 1,2)
+  Iniciar(jefe, 100,100)
+fin

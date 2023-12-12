@@ -38,7 +38,7 @@
   HayFlorEnLaEsquina
   TomarPapel
 
-  Posicionarme en X,Y: " Pos(X,Y) "
+  Posicionarme en X,Y: " Pos(X,Y) " / "Pos(Avenida,Calle)"
   Mover : una pos para arriba
   derecha : gira 90 grados a la derecha
 ```
@@ -120,4 +120,24 @@
   comenzar
     bloqueCodigo
   fin
+```
+
+<h1 align="center"> Areas </h1>
+
+```go
+    Areas
+      unaArea: AreaP(1,1,5,5)
+      otraArea: AreaPC(1,1,5,5)
+      otraAreaMas: AreaC(1,1,5,5)
+      "
+      - Area Compartida (C): cuando todos los robots comparten el mismo area y ninguna puede ser privada    porque las usan TODOS los demas.
+
+      - Area Parcialmente compartida (PC): cuando ingresan 2 o mas a un mismo lugar pero por lo menos 1 del resto no ingresa, por ejemplo si tengo 3 robots, 1 jefe (que se queda quieto lejos, es decir en su AreaP), 1 recolector de flores y 1 de papeles, los cuales ambos entran en un cuadrante en comun declaro asi por ej: area1:AreaP(10,1,10,1)
+      area2:AreaPC (1,1,6,10)
+      Despues le asigno area1 al jefe y area2 a los otros 2.
+      
+      -Area privada (P): cuando el robot usa un area y nadie mas, si necesita estar en la esquina 2,2, solo declaro 2,2, es decir: "area1:AreaP(2,2,2,2)". Asi como si necesito las primeras 10 avenidas de la calle uno SOLO declaro eso, es decir:
+      area1:AreaP(1,1,10,1).
+
+      "
 ```
