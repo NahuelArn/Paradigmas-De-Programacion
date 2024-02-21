@@ -8,11 +8,12 @@
 ```go
   Calles = -----
   Avenidas = |
-
+  
   Identacion: importante
   
   No van los " ; " al final de las lineas
-  
+  comentarios: { comentario }
+
   Asignacion:  " := "
   Igualdad:   " = "
   Desigualdad: " <> "
